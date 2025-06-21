@@ -6,18 +6,38 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->id()->from(1001);
+            $table->string('telegram_id')->unique();
+            $table->string('username')->unique()->comment('Telegram username');
+
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('avatar')->nullable();
+            $table->text('bio')->nullable();
+
+            $table->decimal('balance', 10, 2)->default(0);
+            $table->float('rating')->default(0);
+
+            $table->unsignedBigInteger('orders_count')->default(0);
+            $table->unsignedBigInteger('completed_orders_count')->default(0);
+            $table->unsignedBigInteger('canceled_orders_count')->default(0);
+            $table->unsignedBigInteger('disputes_count')->default(0);
+            $table->unsignedBigInteger('win_disputes_count')->default(0);
+            $table->unsignedBigInteger('lose_disputes_count')->default(0);
+            $table->unsignedBigInteger('referrals_count')->default(0);
+
+            $table->longText('seed_phrase')->nullable();
+            $table->string('pin_code')->nullable();
+            $table->unsignedBigInteger('pin_code_attempts')->default(0);
+            $table->timestamp('pin_code_blocked_until')->nullable();
+
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
+
             $table->timestamps();
         });
 
@@ -37,9 +57,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
