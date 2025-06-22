@@ -12,10 +12,13 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
+    Route::get('register', [AuthController::class, 'create'])
         ->name('register');
 
     Route::post('register', [AuthController::class, 'register']);
+
+    Route::get('register-confirm', [AuthController::class, 'confirm'])
+        ->name('register.confirm');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
