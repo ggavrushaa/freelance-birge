@@ -1,0 +1,31 @@
+@layer utilities {
+    .text-muted {
+        @apply text-center text-lg font-semibold;
+        letter-spacing: -0.04em;
+        color: rgba(60, 60, 67, 0.6);
+    }
+    .text-accent {
+        @apply font-semibold text-primary;
+        font-size: 17px;
+    }
+    .password-num {
+        @apply text-center text-2xl font-semibold;
+        letter-spacing: -0.04em;
+        color: #000;
+    }
+    .password-star {
+        @apply text-primary;
+        font-weight: 500;
+        font-size: 32px;
+    }
+
+    .btn-press {
+        &:active {
+            opacity: 0.8;
+            transition:
+                opacity 0.2s ease,
+                transform 0.1s ease;
+            transform: scale(0.98);
+        }
+    }
+}

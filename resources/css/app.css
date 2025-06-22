@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
@@ -59,7 +63,9 @@
     --color-sidebar-ring: var(--sidebar-ring);
 } */
 @theme {
-    --font-sans: 'SF Pro Display', sans-serif ,'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        'SF Pro Display', sans-serif, 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -142,7 +148,7 @@
     --card-foreground: oklch(0.141 0.005 285.823);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.141 0.005 285.823);
-    --primary: #007AFF;
+    --primary: #007aff;
     --primary-foreground: oklch(0.97 0.014 254.604);
     --secondary: oklch(0.967 0.001 286.375);
     --secondary-foreground: oklch(0.21 0.006 285.885);
@@ -217,3 +223,14 @@
 #app {
     min-height: 100vh;
 }
+html {
+    background-color: rgb(255, 255, 255) !important;
+    font-family: var(--font-family);
+}
+
+input {
+    width: -webkit-fill-available;
+}
+
+
+@import './typography.css';
