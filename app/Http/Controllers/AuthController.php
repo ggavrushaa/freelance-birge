@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Services\Auth\UserRegistrationService;
 use App\Http\Requests\Auth\RegisterUserRequest;
 
@@ -15,14 +16,8 @@ class AuthController extends Controller
     {
         $user = $this->registrationService->register($request->validated());
 
-        return response()->json([
-            'success' => true,
-            'user' => [
-                'id' => $user->id,
-                'telegram_id' => $user->telegram_id,
-                'username' => $user->username,  
-            ],
-            'seed_phrase' => $user->seed_phrase,
-        ], 201);
+        return Inertia::render('confirm-seed.page', [
+            'seed' => $user->seed_phrase,
+        ]);
     }
 }
