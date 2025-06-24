@@ -20,6 +20,24 @@ Route::middleware('guest')->group(function () {
     Route::get('register-confirm', [AuthController::class, 'confirm'])
         ->name('register.confirm');
 
+    Route::post('register-confirm', [AuthController::class, 'confirmRegister'])
+        ->name('register.confirm.store');
+
+    Route::get('register-success', [RegisteredUserController::class, 'success'])
+        ->name('register.success');
+
+    Route::get('create-password', [AuthController::class, 'createPassword'])
+        ->name('password.create');
+
+    Route::post('create-password', [AuthController::class, 'storePassword'])
+        ->name('password.store');
+
+    Route::get('confirm-password', [AuthController::class, 'confirmPasswordShow'])
+        ->name('confirm.password.show');
+
+    Route::post('confirm-password', [AuthController::class, 'confirmPassword'])
+        ->name('confirm.password.store');
+
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
@@ -50,10 +68,10 @@ Route::middleware('auth')->group(function () {
         ->middleware('throttle:6,1')
         ->name('verification.send');
 
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-        ->name('password.confirm');
+    // Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
+    //     ->name('password.confirm');
 
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
+    // Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
