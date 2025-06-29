@@ -16,8 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Route::resource('customer-job', CustomerJobController::class)->name('customer.job');
-
+Route::resource('customer-job', CustomerJobController::class);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
