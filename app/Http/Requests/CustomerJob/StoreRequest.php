@@ -25,6 +25,7 @@ class StoreRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'sub_category_id' => 'required|exists:sub_categories,id',
             'user_id' => 'required|exists:users,id',
+            'author_id' => 'nullable|exists:users,id', // Optional, if the job is created by a different user
         ];
     }
 }
