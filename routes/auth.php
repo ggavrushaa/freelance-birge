@@ -45,6 +45,14 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [LoginController::class, 'store']);
 
+    Route::get('login-verification', [LoginController::class, 'verification'])
+        ->name('login.verification');
+
+    Route::post('login-verification', [LoginController::class, 'verificationStore']);
+
+    Route::get('login-success', [LoginController::class, 'success'])
+        ->name('login.success');
+
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
 
