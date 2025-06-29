@@ -14,9 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->validateCsrfTokens(except: [
-            'register',
-        ]);
+        // $middleware->validateCsrfTokens(except: [
+        //     'register', 'register-confirm', 'create-password', 'confirm-password',
+        // ]);
 
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
