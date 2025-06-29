@@ -1,4 +1,4 @@
-git merge feature/customer-job<?php
+<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -8,18 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('user_badges', function (Blueprint $table) {
+        Schema::create('sub_categories', function (Blueprint $table) {
             $table->id()->from(1001);
 
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('badge_id')->constrained('badges')->onDelete('cascade');
-
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('user_badges');
+        Schema::dropIfExists('sub_categories');
     }
 };
