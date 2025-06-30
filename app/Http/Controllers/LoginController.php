@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use LoginService;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Login;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\VerifySeedPhraseRequest;
 
 class LoginController extends Controller
 {
+    public function __construct(protected LoginService $loginService)
+    {
+    }
+
     public function create()
     {
         return Inertia::render('auth/login.page');
@@ -16,14 +22,29 @@ class LoginController extends Controller
 
     public function store(LoginRequest $request)
     {
-        $credentials = $request->only('telegram_id', 'pin_code');
+        $this->loginService->login($request->validated());
+        return redirect()->route('home');
+    }
 
-        if (auth()->attempt($credentials)) {
-            return redirect()->intended('/')->with('success', 'Вы успешно вошли в систему.');
-        }
+    public function destroy()
+    {
+        $this->loginService->logout();
+        return redirect()->route('login');
+    }
 
-        return back()->withErrors([
-            'pin_code' => 'Неверные учетные данные.',
-        ]);
+    public function verification()
+    {
+        return Inertia::render('auth/login-verification.page');
+    }
+
+    public function verificationStore(VerifySeedPhraseRequest $request)
+    {
+        $this->loginService->verifySeed($request->validated());
+        return redirect()->route('login.success');
+    }
+
+    public function success()
+    {
+        return Inertia::render('auth/login-success.page');
     }
 }
