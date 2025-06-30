@@ -48,4 +48,12 @@ class RegisteredUserController extends Controller
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
+
+    public function success()
+    {
+        $user = Auth::user();
+        return Inertia::render('auth/register-success.page',[
+            "user" => $user,
+        ]);
+    }
 }

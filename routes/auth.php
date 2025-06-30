@@ -13,14 +13,18 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
-Route::middleware('guest')->group(function () {
+Route::get('register-confirm', [AuthController::class, 'confirm'])
+    ->name('register.confirm');
+
+// Route::middleware('guest')->group(function () {
     Route::get('register', [AuthController::class, 'create'])
         ->name('register');
 
     Route::post('register', [AuthController::class, 'register']);
 
-    Route::get('register-confirm', [AuthController::class, 'confirm'])
-        ->name('register.confirm');
+
+    // Route::get('register-confirm', [AuthController::class, 'confirm'])
+    //     ->name('register.confirm');
 
     Route::post('register-confirm', [AuthController::class, 'confirmRegister'])
         ->name('register.confirm.store');
@@ -56,7 +60,7 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
-});
+// });
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)

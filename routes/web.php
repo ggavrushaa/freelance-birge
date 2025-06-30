@@ -8,15 +8,9 @@ Route::get('/', function () {
     return Inertia::render('welcome.page');
 })->name('home');
 
-Route::get('/confirm-register', function () {
-    return Inertia::render('auth/confirm-register.page');
-})->name('home');
-
-Route::get('/create-password', function () {
-    return Inertia::render('auth/create-password.page');
-})->name('home');
-
-// confirm-register
+Route::get('order/create', function () {
+    return Inertia::render('order/create');
+});
 
 
 

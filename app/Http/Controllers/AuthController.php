@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StorePasswordRequest;
@@ -27,26 +28,33 @@ class AuthController extends Controller
         $user = $this->registrationService->register($request->validated());
         Auth::login($user);
 
-        return Inertia::render('confirm-seed.page', [
+        return Inertia::render('auth/register.page', [
             'seed' => $user->seed_phrase,
         ]);
     }
 
     public function confirm()
     {
-         return Inertia::render('auth/confirm-register.page', [
-            'index' => $this->registrationService->generateIndexes(),
+        $index = $this->registrationService->generateIndexes();
+        return Inertia::render('auth/register-confirm.page', [
+            'index' => $index,
         ]);
+
     }
 
     public function confirmRegister(ConfirmSeedPhraseRequest $request)
     {
-        if (!$this->registrationService->validateSeedPhrase(
-            auth()->user(),
-            words: $request->input('words')
-            )) {
-            return redirect()->route('register')
-                ->withErrors(['seed_phrase' => 'Сид-фраза не совпадает с вашей.']);
+        if (
+            !$this->registrationService->validateSeedPhrase(
+                auth()->user(),
+                words: $request->input('words')
+            )
+        ) {
+            throw ValidationException::withMessages([
+                'error' => 'Сид-фраза не совпадает с вашей.',
+            ]);
+            // return redirect()->route('register.confirm')
+            //     ->withErrors(['error' => 'Сид-фраза не совпадает с вашей.']);
         }
 
         return redirect()->route('register.success');
@@ -59,7 +67,7 @@ class AuthController extends Controller
 
     public function storePassword(StorePasswordRequest $request)
     {
-           $this->registrationService->createPinCode(
+        $this->registrationService->createPinCode(
             auth()->user(),
             $request->input('pin_code')
         );
@@ -73,10 +81,12 @@ class AuthController extends Controller
 
     public function confirmPassword(StorePasswordRequest $request)
     {
-         if (!$this->registrationService->verifyPinCode(
-            auth()->user(),
-            $request->input('pin_code')
-        )) {
+        if (
+            !$this->registrationService->verifyPinCode(
+                auth()->user(),
+                $request->input('pin_code')
+            )
+        ) {
             return redirect()->route('confirm.password.show')
                 ->withErrors(['pin_code' => 'Неверный ПИН-код или аккаунт заблокирован']);
         }
