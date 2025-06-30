@@ -1,4 +1,5 @@
 @layer utilities {
+
     .text-muted {
         @apply text-center text-lg font-semibold;
         letter-spacing: -0.04em;
@@ -43,15 +44,57 @@
         color: rgba(60, 60, 67, 0.6);
     }
 
-    /* label */
 
-    .label-text {
+    /* input */
+    .input-bg {
+        background-color: #efeff4;
+    }
+
+    .border-input {
+        border-radius: 10px;
+    }
+
+
+    /* Titles */
+
+    .title-3 {
         font-weight: 600;
-        font-size: 20px;
+        font-size: 24px;
         letter-spacing: -0.04em;
         color: #242424;
     }
 
+    .title-4 {
+        font-weight: 600;
+        font-size: 20px;
+        letter-spacing: -0.04em;
+        color: #242424;
+        font-size: 20px;
+    }
 
+    .bg-1 {
+        background: rgba(118, 118, 128, 0.12);
+    }
 
+    /* switch */
+
+    .switch-bg {
+        background: rgba(118, 118, 128, 0.12);
+    }
+
+    .card {
+        box-shadow: unset;
+        background: #fff;
+        border-radius: 10px;
+    }
+
+    .text-description {
+        font-weight: 500;
+        font-size: 13px;
+        letter-spacing: -0.04em;
+        color: rgba(60, 60, 67, 0.6);
+        a {
+            @apply text-primary;
+        }
+    }
 }

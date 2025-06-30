@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Http\Requests\CustomerJob\StoreRequest;
-use CustomerJobRepository;
-use JobAttachmentService;
+use App\Repositories\CustomerJobRepository;
+use App\Services\JobAttachmentService;
+
 
 class CustomerJobController extends Controller
 {
