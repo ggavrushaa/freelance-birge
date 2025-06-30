@@ -1,32 +1,27 @@
 import { AuthInfoCard, AuthLayout, SeedPhrase } from '@/features/auth';
+import { ROUTES } from '@/shared/config/routes';
 import { useActive } from '@/shared/hooks/use-active';
 import { Button } from '@/shared/ui/button';
 import { CopyButton } from '@/shared/ui/copy-button';
 import { Head, router } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
-const phrase = [
-    'apple',
-    'banana',
-    'cherry',
-    'date',
-    'elderberry',
-    'fig',
-    'grape',
-    'honey',
-    'kiwi',
-    'lemon',
-    'mango',
-    'nectarine',
-];
+interface RegisterPageProps {
+    seed: string[];
+}
 
-const RegisterPage = () => {
+const RegisterPage = (props: RegisterPageProps) => {
+    const { seed } = props;
     const continueButton = useActive();
 
     const handleClickCopy = () => {
-        navigator.clipboard.writeText(phrase.join(' '));
+        navigator.clipboard.writeText(seed.join(' '));
         continueButton.activate();
     };
+
+    const handleClickContinue = () => {
+        router.visit(ROUTES.auth.registerConfirm)
+    }
 
     return (
         <>
@@ -37,7 +32,7 @@ const RegisterPage = () => {
                 className="mb-6"
             />
             <SeedPhrase
-                seedPhrase={phrase}
+                seedPhrase={seed}
                 renderInput={(word, index) => (
                     <SeedPhrase.Input
                         key={index}
@@ -52,7 +47,7 @@ const RegisterPage = () => {
             <CopyButton text="Копировать" onClick={handleClickCopy} />
             <Button
                 disabled={!continueButton.isActive}
-                onClick={() => router.visit('confirm-register')}
+                onClick={handleClickContinue}
                 className="mt-auto w-full"
             >
                 Продолжить

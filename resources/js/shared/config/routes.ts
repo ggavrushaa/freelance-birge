@@ -2,6 +2,9 @@ export const ROUTES = {
     auth: {
         login: 'login',
         register: 'register',
-        confirmRegister: 'confirm-register',
+        registerConfirm: 'register-confirm',
+        registerSuccess: 'register-success',
+        createPassword: 'create-password',
+        confirmPassword: 'confirm-password',
     }
 };
