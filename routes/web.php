@@ -18,7 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::resource('customer-job', CustomerJobController::class);
-Route::resource('freelance-service', FreelanceServiceController::class);
+// Route::resource('freelance-gig', FreelanceServiceController::class);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

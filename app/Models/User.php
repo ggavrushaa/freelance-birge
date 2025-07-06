@@ -51,6 +51,11 @@ class User extends Authenticatable
         return $this->hasMany(CustomerJob::class, 'author_id');
     }
 
+    public function freelanceGigs()
+    {
+        return $this->hasMany(FreelanceGig::class, 'user_id');
+    }
+
     public function hasRole($slug)
     {
         return $this->roles()->where('slug', $slug)->exists();
