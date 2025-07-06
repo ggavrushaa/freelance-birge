@@ -20,7 +20,7 @@ const Welcome = () => {
                     alt="logo"
                 />
                 <div className="flex flex-col gap-3">
-                    <Link href={route(ROUTES.auth.login)}>
+                    <Link href={"login-verification"}>
                         <Button className="w-full" variant="ghost">
                             Войти
                         </Button>

@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
     public function success()
     {
         $user = Auth::user();
-        return Inertia::render('auth/register-success.page',[
+        return Inertia::render('auth/register/success.page',[
             "user" => $user,
         ]);
     }

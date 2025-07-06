@@ -1,13 +1,17 @@
 import { AuthInfoCard, AuthLayout, SeedPhrase, useSeedPhrase } from '@/features/auth';
+import { ROUTES } from '@/shared/config/routes';
 import { SEED_PHRASE_LENGTH } from '@/shared/consts';
 import { Button } from '@/shared/ui/button';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
-const LoginPage = () => {
+const LoginVerificationPage = () => {
     const { phrase, onChangePhrase, isPhraseFilled } = useSeedPhrase({
         length: SEED_PHRASE_LENGTH,
     });
+    const handleClickContinue = () => {
+        router.post(ROUTES.auth.loginVerification, { words: phrase });
+    };
     return (
         <>
             <AuthInfoCard
@@ -28,18 +32,18 @@ const LoginPage = () => {
                 )}
                 className="mb-18"
             />
-            <Button disabled={!isPhraseFilled()} className="w-full">
+            <Button onClick={handleClickContinue} disabled={!isPhraseFilled} className="w-full">
                 Продолжить
             </Button>
         </>
     );
 };
 
-LoginPage.layout = (page: ReactNode) => (
+LoginVerificationPage.layout = (page: ReactNode) => (
     <AuthLayout>
         <Head title="Login" />
         {page}
     </AuthLayout>
 );
 
-export default LoginPage;
+export default LoginVerificationPage;

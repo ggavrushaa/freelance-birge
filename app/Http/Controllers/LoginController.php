@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use LoginService;
+use App\Services\Auth\LoginService;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Login;
@@ -34,7 +33,7 @@ class LoginController extends Controller
 
     public function verification()
     {
-        return Inertia::render('auth/login-verification.page');
+        return Inertia::render('auth/login/verification.page');
     }
 
     public function verificationStore(VerifySeedPhraseRequest $request)
@@ -45,6 +44,6 @@ class LoginController extends Controller
 
     public function success()
     {
-        return Inertia::render('auth/login-success.page');
+        return Inertia::render('auth/login/success.page');
     }
 }

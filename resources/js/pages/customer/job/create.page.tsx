@@ -1,3 +1,4 @@
+import { CreateCustomerJobFormValues } from '@/features/customer/job/create-job/model/types';
 import { DayPicker } from '@/shared/components/day-picker';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -20,35 +21,7 @@ const selections = {
     days: Array.from({ length: 90 }, (_, i) => i + 1),
 };
 
-interface InitialFormData {
-    name: string;
-    description: string;
-    photo: string;
-    price: string;
-    terms: string | null;
-    is_active: boolean;
-    express_mode: boolean;
-    premium_mode: boolean;
-    category_id: number | null;
-    subcategory_id: number | null;
-    user_id: number;
-}
-
-const initialFormData: InitialFormData = {
-    name: '',
-    description: '',
-    photo: '',
-    price: '0',
-    terms: null,
-    is_active: false,
-    express_mode: false,
-    premium_mode: false,
-    category_id: null,
-    subcategory_id: null,
-    user_id: 1080,
-};
-
-const isFilled = (data: InitialFormData) => {
+const isFilled = (data: CreateCustomerJobFormValues) => {
     return (
         data.name.trim() !== '' &&
         data.description.trim() !== '' &&
@@ -56,47 +29,46 @@ const isFilled = (data: InitialFormData) => {
         data.price.trim() !== '' &&
         data.terms !== null &&
         data.terms.trim() !== '' &&
-        data.category_id !== null &&
-        data.user_id !== null
+        data.category_id !== null
     );
 };
 
 const CustomerJobCreate = () => {
-    const [formData, setFormData] = useState(initialFormData);
+    const [formData, setFormData] = useState<CreateCustomerJobFormValues>({
+        name: '',
+        description: '',
+        photo: '',
+        price: '0',
+        terms: null,
+        is_active: false,
+        express_mode: false,
+        premium_mode: false,
+        category_id: null,
+        sub_category_id: null,
+    });
     const fileRef = useRef<HTMLInputElement>(null);
 
-    const handleChangeCategory = (categoryId: number) => {
+    const handleChangeField = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData((prev) => ({
             ...prev,
-            category_id: categoryId,
+            [event.target.name]: event.target.value,
         }));
     };
 
-    const handleChangeSubCategory = (categoryId: number) => {
+    const toggleMode = (mode: 'express_mode' | 'premium_mode') => {
         setFormData((prev) => ({
             ...prev,
-            category_id: categoryId,
+            [mode]: !prev[mode],
         }));
     };
 
-    const handleChangeName = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChangeCategoryId = (
+        formKey: 'category_id' | 'sub_category_id',
+        categoryId: number,
+    ) => {
         setFormData((prev) => ({
             ...prev,
-            name: event.target.value,
-        }));
-    };
-
-    const handleChangeDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        setFormData((prev) => ({
-            ...prev,
-            description: event.target.value,
-        }));
-    };
-
-    const handleChangePrice = (event: ChangeEvent<HTMLInputElement>) => {
-        setFormData((prev) => ({
-            ...prev,
-            price: event.target.value,
+            [formKey]: categoryId,
         }));
     };
 
@@ -104,20 +76,6 @@ const CustomerJobCreate = () => {
         setFormData((prev) => ({
             ...prev,
             terms: value,
-        }));
-    };
-
-    const toggleExpressMode = () => {
-        setFormData((prev) => ({
-            ...prev,
-            express_mode: !prev.express_mode,
-        }));
-    };
-
-    const togglePremiumMode = () => {
-        setFormData((prev) => ({
-            ...prev,
-            premium_mode: !prev.premium_mode,
         }));
     };
 
@@ -171,7 +129,7 @@ const CustomerJobCreate = () => {
                     className="hidden"
                 />
             </div>
-            <Select onValueChange={(value) => handleChangeCategory(Number(value))}>
+            <Select onValueChange={(value) => handleChangeCategoryId('category_id', Number(value))}>
                 <SelectTrigger>
                     <SelectValue placeholder="Выбрать категорию" />
                 </SelectTrigger>
@@ -187,7 +145,9 @@ const CustomerJobCreate = () => {
                     ))}
                 </SelectContent>
             </Select>
-            <Select onValueChange={(value) => handleChangeSubCategory(Number(value))}>
+            <Select
+                onValueChange={(value) => handleChangeCategoryId('sub_category_id', Number(value))}
+            >
                 <SelectTrigger>
                     <SelectValue placeholder="Выбрать подкатегорию (опционально)" />
                 </SelectTrigger>
@@ -203,8 +163,9 @@ const CustomerJobCreate = () => {
                 <Label htmlFor="title">Название</Label>
                 <Textarea
                     id="title"
+                    name="name"
                     value={formData.name}
-                    onChange={(event) => handleChangeName(event)}
+                    onChange={handleChangeField}
                     placeholder="Кратко опишите суть проекта"
                     className="h-26"
                     maxLength={40}
@@ -214,8 +175,9 @@ const CustomerJobCreate = () => {
                 <Label htmlFor="title">Описание</Label>
                 <Textarea
                     id="title"
+                    name="description"
                     value={formData.description}
-                    onChange={handleChangeDescription}
+                    onChange={handleChangeField}
                     placeholder="Опишите детали, сроки, требования, ожидаемый результат и тд."
                     maxLength={120}
                     className="h-34"
@@ -229,7 +191,8 @@ const CustomerJobCreate = () => {
                         <span className="text-xs text-[#242424]">US$</span>
                         <input
                             className="max-w-[70%] focus:outline-none"
-                            onChange={(event) => handleChangePrice(event)}
+                            name="price"
+                            onChange={handleChangeField}
                             type="text"
                             value={formData.price}
                         />
@@ -252,7 +215,11 @@ const CustomerJobCreate = () => {
                 </div>
                 <div className="card mb-1 flex items-center justify-between rounded-[10px] px-4 py-3">
                     <h4 className="title-4 mr-0.5">Экспресс-режим</h4>
-                    <Switch checked={formData.express_mode} onClick={toggleExpressMode} />
+                    <Switch
+                        name="express_mode"
+                        checked={formData.express_mode}
+                        onClick={() => toggleMode('express_mode')}
+                    />
                 </div>
                 <p className="text-description max-w-[269px]">
                     Быстрый поиск фрилансера: заказ поднимается в топ списка с{' '}
@@ -262,7 +229,11 @@ const CustomerJobCreate = () => {
             <div className="mb-7">
                 <div className="card mb-1 flex items-center justify-between rounded-[10px] px-4 py-3">
                     <h4 className="title-4 mr-0.5">Только для Premium</h4>
-                    <Switch checked={formData.premium_mode} onClick={togglePremiumMode} />
+                    <Switch
+                        name="premium_mode"
+                        checked={formData.premium_mode}
+                        onClick={() => toggleMode('premium_mode')}
+                    />
                 </div>
                 <p className="text-description max-w-[269px]">
                     Фильтруются лучшие фрилансеры для сложных и высокобюджетных заказов с{' '}
