@@ -20,9 +20,9 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->boolean('express_mode')->default(false);
             $table->boolean('premium_mode')->default(false);
-            
+
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->foreignId('sub_category_id')->constrained('sub_categories')->onDelete('cascade');
+            $table->foreignId('sub_category_id')->constrained('sub_categories')->onDelete('cascade')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
             $table->timestamps();

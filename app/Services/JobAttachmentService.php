@@ -7,7 +7,9 @@ class JobAttachmentService
 {
     public function uploadPhoto($file)
     {
-        return $file->store('jobs_photo', 'public');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('photos', $fileName, 'public');
+        return '/storage/' . $path;
     }
 
     public function deletePhoto($path)
