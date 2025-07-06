@@ -25,7 +25,9 @@ class CustomerJobController extends Controller
 
     public function create()
     {
-        return Inertia::render('customer/job/create.page');
+        return Inertia::render('customer/job/create.page', [
+            'categories' => $this->repository->getCategories(),
+        ]);
     }
 
     public function store(StoreRequest $request)

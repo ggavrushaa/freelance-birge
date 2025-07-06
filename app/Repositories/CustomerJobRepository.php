@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Models\User;
+use App\Models\Category;
 
 class CustomerJobRepository
 {
@@ -10,6 +11,11 @@ class CustomerJobRepository
         return $user->customerJobs()
             ->with(['category', 'subCategory', 'freelancer', 'author'])
             ->paginate($perPage);
+    }
+
+    public function getCategories()
+    {
+        return Category::all();
     }
 
 }
