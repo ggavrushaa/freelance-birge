@@ -15,7 +15,7 @@ class CustomerJobRepository
 
     public function getCategories()
     {
-        return Category::all();
+        return Category::with('subCategories')->get();
     }
 
 }
