@@ -25,7 +25,7 @@ class CustomerJobController extends Controller
 
     public function create()
     {
-        return Inertia::render('job/create.page');
+        return Inertia::render('customer/job/create.page');
     }
 
     public function store(StoreRequest $request)
@@ -47,7 +47,7 @@ class CustomerJobController extends Controller
     {
         $job = auth()->user()->customerJobs()->findOrFail($id);
 
-        return Inertia::render('job/show.page', [
+        return Inertia::render('customer/job/show.page', [
             'job' => $job,
         ]);
     }

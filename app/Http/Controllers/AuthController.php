@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     public function create()
     {
-        return Inertia::render('auth/register.page');
+        return Inertia::render('auth/register/index.page');
     }
 
     public function register(RegisterUserRequest $request)
@@ -28,7 +28,7 @@ class AuthController extends Controller
         $user = $this->registrationService->register($request->validated());
         Auth::login($user);
 
-        return Inertia::render('auth/register.page', [
+        return Inertia::render('auth/register/index.page', [
             'seed' => $user->seed_phrase,
         ]);
     }
@@ -36,7 +36,7 @@ class AuthController extends Controller
     public function confirm()
     {
         $index = $this->registrationService->generateIndexes();
-        return Inertia::render('auth/register-confirm.page', [
+        return Inertia::render('auth/register/confirm.page', [
             'index' => $index,
         ]);
 
@@ -53,8 +53,6 @@ class AuthController extends Controller
             throw ValidationException::withMessages([
                 'error' => 'Сид-фраза не совпадает с вашей.',
             ]);
-            // return redirect()->route('register.confirm')
-            //     ->withErrors(['error' => 'Сид-фраза не совпадает с вашей.']);
         }
 
         return redirect()->route('register.success');
@@ -62,7 +60,7 @@ class AuthController extends Controller
 
     public function createPassword()
     {
-        return Inertia::render('auth/create-password.page');
+        return Inertia::render('auth/password/create.page');
     }
 
     public function storePassword(StorePasswordRequest $request)
@@ -76,7 +74,7 @@ class AuthController extends Controller
 
     public function confirmPasswordShow()
     {
-        return Inertia::render('auth/confirm-password.page');
+        return Inertia::render('auth/password/confirm.page');
     }
 
     public function confirmPassword(StorePasswordRequest $request)
