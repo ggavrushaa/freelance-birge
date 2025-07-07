@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Http\Requests\CustomerJob\StoreRequest;
+use App\Http\Requests\CustomerJob\UpdateRequest;
 use App\Repositories\CustomerJobRepository;
 use App\Services\JobAttachmentService;
 
@@ -62,7 +63,7 @@ class CustomerJobController extends Controller
             'job' => $job,
         ]);
     }
-    public function update(StoreRequest $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         $job = auth()->user()->customerJobs()->findOrFail($id);
         $job->update($request->validated());
