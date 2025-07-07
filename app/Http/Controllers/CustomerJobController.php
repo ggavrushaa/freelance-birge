@@ -82,4 +82,13 @@ class CustomerJobController extends Controller
 
         return redirect()->route('jobs.index')->with('success', 'Работа успешно удалена.');
     }
+
+    public function published($id)
+    {
+        $job = auth()->user()->customerJobs()->findOrFail($id);
+        $job->activate();
+
+        return redirect()->route('jobs.index')->with('success', 'Работа успешно опубликована.');
+    }
+
 }

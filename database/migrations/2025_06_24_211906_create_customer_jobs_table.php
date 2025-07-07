@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->default(0.00);
             $table->integer('terms')->default(0);
 
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
             $table->boolean('express_mode')->default(false);
             $table->boolean('premium_mode')->default(false);
 
