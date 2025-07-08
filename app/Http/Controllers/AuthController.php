@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +9,6 @@ use App\Http\Requests\StorePasswordRequest;
 use App\Services\Auth\UserRegistrationService;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Http\Requests\ConfirmSeedPhraseRequest;
-use Illuminate\Console\View\Components\Confirm;
 
 class AuthController extends Controller
 {

@@ -43,7 +43,7 @@ class CustomerJobController extends Controller
 
         $job = auth()->user()->customerJobs()->create($data);
 
-        return redirect()->route('jobs.show', $job);
+        return redirect()->route(route: 'jobs.show', $job);
     }
 
     public function show($id)
@@ -66,7 +66,19 @@ class CustomerJobController extends Controller
     public function update(UpdateRequest $request, $id)
     {
         $job = auth()->user()->customerJobs()->findOrFail($id);
-        $job->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('photo')) {
+            if ($job->photo) {
+                $this->attachmentService->deletePhoto($job->photo);
+            }
+
+            $data['photo'] = $this->attachmentService->uploadPhoto(
+                $request->file('photo')
+            );
+        }
+
+         $job->update($data);
 
         return redirect()->route('jobs.show', $job)->with('success', 'Работа успешно обновлена.');
     }
