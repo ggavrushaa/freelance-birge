@@ -11,6 +11,9 @@ export const ROUTES = {
     customer: {
         job: {
             create: 'customer-job',
+            edit: (id:number) => `/customer-job/${id}/edit`,
+            update: (id:number) => `/customer-job/${id}/update`,
+            publish: (id:number) => `/customer-job/${id}/published`,
         },
     }
 };

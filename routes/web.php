@@ -18,7 +18,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Route::resource('customer-job', CustomerJobController::class);
+Route::resource('customer-job', CustomerJobController::class)->except('update');
+Route::post('customer-job/{id}/update', [CustomerJobController::class, 'update'])->name('customer-job.update');
 Route::post('customer-job/{id}/published', [CustomerJobController::class, 'published'])->name('customer-job.published');
 
 Route::resource('freelance-gig', FreelanceGigController::class);
