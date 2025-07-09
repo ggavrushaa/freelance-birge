@@ -2,6 +2,7 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CustomerJobController;
 use App\Http\Controllers\FreelanceGigController;
 use App\Http\Controllers\FreelanceServiceController;
@@ -12,11 +13,7 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard.page');
-    })->name('dashboard');
-});
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::resource('customer-job', CustomerJobController::class);
 Route::post('customer-job/{id}/published', [CustomerJobController::class, 'published'])->name('customer-job.published');
