@@ -88,13 +88,15 @@
         border-radius: 10px;
     }
 
-    .text-description {
-        font-weight: 500;
-        font-size: 13px;
-        letter-spacing: -0.04em;
-        color: rgba(60, 60, 67, 0.6);
-        a {
-            @apply text-primary;
-        }
+    .bg-badge{
+        background: rgba(0, 122, 255, 0.1);
     }
+    .bg-avatar {
+        background: linear-gradient(225deg, #7261ff 0%, #66a9e0 100%);
+    }
+
+    .bg-grey {
+        background: rgba(60, 60, 67, 0.6);
+    }
+    
 }

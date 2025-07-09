@@ -171,5 +171,10 @@ input {
     width: -webkit-fill-available;
 }
 
+p{
+    word-wrap: break-word;
+}
+
 
 @import './typography.css';
+@import './text.css';

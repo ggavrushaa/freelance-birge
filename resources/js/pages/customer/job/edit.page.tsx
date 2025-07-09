@@ -1,7 +1,8 @@
-import { isCustomerJobCreateFormFilled } from '@/features/customer/job/create-job';
-import { CreateCustomerJobFormValues } from '@/features/customer/job/create-job/model/types';
-import { useCustomerJobForm } from '@/features/customer/job/model/use-customer-job-form';
+import { useCustomerJobForm } from '@/features/customer/job';
+import { EditCustomerJobFormValues } from '@/features/customer/job/edit-job';
+import { isCustomerJobEditFormFilled } from '@/features/customer/job/edit-job/model/validation';
 import { DayPicker } from '@/shared/components/day-picker';
+import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -9,22 +10,26 @@ import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Switch } from '@/shared/ui/switch';
 import { Textarea } from '@/shared/ui/textarea';
-import { Category, SharedData } from '@/types';
+import { Category, CustomerJob, SharedData } from '@/types';
 import { router } from '@inertiajs/react';
+import { ChangeEvent } from 'react';
+
+type CustomerJobEditPageProps = SharedData & {
+    categories: Category[];
+    job: CustomerJob;
+};
 
 const selections = {
     days: Array.from({ length: 90 }, (_, i) => i + 1),
 };
 
-type CustomerJobCreateProps = SharedData & {
-    categories: Category[];
-};
-
-const CustomerJobCreate = (props: CustomerJobCreateProps) => {
+const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
     const {
-        categories,
+        categories = [],
+        job,
         auth: { user },
     } = props;
+
     const photoFile = useFile();
 
     const {
@@ -34,37 +39,43 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
         handleChangeTerms,
         handleChangeField,
         toggleMode,
-    } = useCustomerJobForm<CreateCustomerJobFormValues>({
-        name: '',
-        description: '',
+    } = useCustomerJobForm<EditCustomerJobFormValues>({
+        name: job.name,
+        description: job.description,
         photo: null,
-        price: '0',
-        terms: null,
-        is_active: false,
-        express_mode: false,
-        premium_mode: false,
-        category_id: null,
-        sub_category_id: null,
+        price: job.price,
+        terms: job.terms,
+        is_active: job.is_active,
+        express_mode: job.express_mode,
+        premium_mode: job.premium_mode,
+        category_id: job.category_id,
+        sub_category_id: job.sub_category_id,
     });
+
+    const handleSave = () => {
+        const { photo, ...rest } = formData;
+        const payload = {
+            ...rest,
+            ...(photo && { photo }),
+            user_id: user.id,
+        };
+        router.post(ROUTES.customer.job.update(job.id), payload);
+    };
 
     const handleClickAddPhoto = () => photoFile.ref.current?.click();
 
-    const handlePhotoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePhotoFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         photoFile.onChange(e, (file) => {
             setFormData((prev) => ({ ...prev, photo: file }));
         });
     };
 
-    const handleSave = () => {
-        router.post('/customer-job', {
-            ...formData,
-            user_id: user.id,
-        });
-    };
+    const isFilledForm = isCustomerJobEditFormFilled(formData);
 
-    const isFilledForm = isCustomerJobCreateFormFilled(formData);
     const subCategories =
         categories.find(({ id }) => id === formData.category_id)?.sub_categories || [];
+
+    const photoFilePreview = photoFile.preview ? photoFile.preview : job.photo;
 
     return (
         <div className="flex min-h-[100vh] flex-col gap-3 bg-[#efeff4] p-6 pb-12">
@@ -72,12 +83,12 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                 <div
                     className="flex h-48 w-full items-center justify-center overflow-hidden rounded-sm border bg-[#fff]"
                     style={{
-                        backgroundImage: photoFile.preview ? `url(${photoFile.preview})` : 'none',
+                        backgroundImage: photoFilePreview ? `url(${photoFilePreview})` : 'none',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
                 >
-                    {photoFile.preview ? null : <p className="font-semibold">Ваше фото</p>}
+                    {photoFilePreview ? null : <p className="font-semibold">Ваше фото</p>}
                 </div>
                 <Button className="w-full" onClick={handleClickAddPhoto}>
                     Добавить
@@ -90,23 +101,23 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                     className="hidden"
                 />
             </div>
-            <Select onValueChange={(value) => handleChangeCategoryId('category_id', Number(value))}>
+            <Select
+                value={String(formData.category_id)}
+                onValueChange={(value) => handleChangeCategoryId('category_id', Number(value))}
+            >
                 <SelectTrigger>
                     <SelectValue placeholder="Выбрать категорию" />
                 </SelectTrigger>
                 <SelectContent>
                     {categories.map((category) => (
-                        <SelectItem
-                            key={category.id}
-                            value={String(category.id)}
-                            onSelect={() => console.log(category)}
-                        >
+                        <SelectItem key={category.id} value={String(category.id)}>
                             {category.name}
                         </SelectItem>
                     ))}
                 </SelectContent>
             </Select>
             <Select
+                value={String(formData.sub_category_id)}
                 onValueChange={(value) => handleChangeCategoryId('sub_category_id', Number(value))}
                 disabled={!formData.category_id}
             >
@@ -163,7 +174,7 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                 <div className="flex items-center justify-between">
                     <Label htmlFor="title">Срок</Label>
                     <DayPicker
-                        value={formData.terms}
+                        value={String(formData.terms)}
                         setValue={handleChangeTerms}
                         selections={selections}
                         pickedValue={{ days: 3 }}
@@ -179,7 +190,7 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                     <h4 className="title-4 mr-0.5">Экспресс-режим</h4>
                     <Switch
                         name="express_mode"
-                        checked={formData.express_mode}
+                        checked={Boolean(formData.express_mode)}
                         onClick={() => toggleMode('express_mode')}
                     />
                 </div>
@@ -193,7 +204,7 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                     <h4 className="title-4 mr-0.5">Только для Premium</h4>
                     <Switch
                         name="premium_mode"
-                        checked={formData.premium_mode}
+                        checked={Boolean(formData.premium_mode)}
                         onClick={() => toggleMode('premium_mode')}
                     />
                 </div>
@@ -209,4 +220,4 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
     );
 };
 
-export default CustomerJobCreate;
+export default CustomerJobEditPage;
