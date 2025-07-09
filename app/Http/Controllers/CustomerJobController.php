@@ -43,7 +43,7 @@ class CustomerJobController extends Controller
 
         $job = auth()->user()->customerJobs()->create($data);
 
-        return redirect()->route(route: 'jobs.show', $job);
+        return redirect()->route( 'customer-job.show', $job);
     }
 
     public function show($id)
@@ -59,7 +59,8 @@ class CustomerJobController extends Controller
     {
         $job = auth()->user()->customerJobs()->findOrFail($id);
 
-        return Inertia::render('job/edit.page', [
+        return Inertia::render('customer/job/edit.page', [
+            'categories' => $this->repository->getCategories(),
             'job' => $job,
         ]);
     }
@@ -80,7 +81,7 @@ class CustomerJobController extends Controller
 
          $job->update($data);
 
-        return redirect()->route('jobs.show', $job)->with('success', 'Работа успешно обновлена.');
+        return redirect()->route('customer-job.show', $job)->with('success', 'Работа успешно обновлена.');
     }
 
     public function destroy($id)
