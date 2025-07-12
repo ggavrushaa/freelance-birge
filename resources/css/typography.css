@@ -1,5 +1,4 @@
 @layer utilities {
-
     .text-muted {
         @apply text-center text-lg font-semibold;
         letter-spacing: -0.04em;
@@ -97,6 +96,10 @@
 
     .bg-grey {
         background: rgba(60, 60, 67, 0.6);
+    }
+
+    .bg-input {
+        background: rgba(118, 118, 128, 0.12);
     }
     
 }

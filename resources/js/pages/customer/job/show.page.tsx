@@ -16,9 +16,13 @@ type CustomerJobShowPageProps = SharedData & {
 const MAX_DESCRIPTION_LENGTH = 140;
 
 const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
-    const { job } = props;
+    const { job , categories } = props;
     const description = useVisibility();
 
+    const getCategoryName = () => {
+        return categories.find((category) => category.id === job.category_id)?.name;
+    };
+    
     const handleClickEdit = () => {
         router.visit(ROUTES.customer.job.edit(job.id));
     };
@@ -86,7 +90,7 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
                     </div>
                     <div className="flex items-center justify-between">
                         <p className="text-15 text-500 text-gray">Категории</p>
-                        <span className="text-17 text-accent">Разработка и IT</span>
+                        <span className="text-17 text-accent">{getCategoryName()}</span>
                     </div>
                 </div>
             </section>

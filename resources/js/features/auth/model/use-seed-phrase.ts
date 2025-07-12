@@ -1,7 +1,11 @@
 import { SEED_PHRASE_LENGTH } from '@/shared/consts';
 import { useState } from 'react';
 
-export const useSeedPhrase = ({ length = SEED_PHRASE_LENGTH }: { length: number }) => {
+interface useSeedPhraseProps {
+    length: number;
+}
+
+export const useSeedPhrase = ({ length = SEED_PHRASE_LENGTH }: useSeedPhraseProps) => {
     const [phrase, setPhrase] = useState<string[]>(Array.from({ length }));
 
     const onChangePhrase = (index: number, newValue: string) => {

@@ -1,1 +1,1 @@
-export { isCustomerJobCreateFormFilled } from './model/validation';
+export { createCustomerJobSchema } from './model/validation';

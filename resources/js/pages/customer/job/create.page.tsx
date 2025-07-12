@@ -1,7 +1,7 @@
-import { isCustomerJobCreateFormFilled } from '@/features/customer/job/create-job';
-import { CreateCustomerJobFormValues } from '@/features/customer/job/create-job/model/types';
-import { useCustomerJobForm } from '@/features/customer/job/model/use-customer-job-form';
+import { Category } from '@/entities/category';
+import { createCustomerJobSchema } from '@/features/customer/job/create-job';
 import { DayPicker } from '@/shared/components/day-picker';
+import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -9,8 +9,12 @@ import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Switch } from '@/shared/ui/switch';
 import { Textarea } from '@/shared/ui/textarea';
-import { Category, SharedData } from '@/types';
+import { SharedData } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from '@inertiajs/react';
+import { ChangeEvent } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 const selections = {
     days: Array.from({ length: 90 }, (_, i) => i + 1),
@@ -25,49 +29,51 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
         categories,
         auth: { user },
     } = props;
+    
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        formState: { isValid },
+    } = useForm<z.infer<typeof createCustomerJobSchema>>({
+        resolver: zodResolver(createCustomerJobSchema),
+        mode: 'onChange',
+        defaultValues: {
+            name: '',
+            description: '',
+            price: '0',
+            express_mode: false,
+            premium_mode: false,
+            photo: null,
+        },
+    });
     const photoFile = useFile();
 
-    const {
-        formData,
-        setFormData,
-        handleChangeCategoryId,
-        handleChangeTerms,
-        handleChangeField,
-        toggleMode,
-    } = useCustomerJobForm<CreateCustomerJobFormValues>({
-        name: '',
-        description: '',
-        photo: null,
-        price: '0',
-        terms: null,
-        is_active: false,
-        express_mode: false,
-        premium_mode: false,
-        category_id: null,
-        sub_category_id: null,
-    });
+    const categoryId = watch('category_id');
+    const terms = watch('terms');
+    const expressMode = watch('express_mode');
+    const premiumMode = watch('premium_mode');
+    const subCategories = categories.find(({ id }) => id === categoryId)?.sub_categories || [];
 
     const handleClickAddPhoto = () => photoFile.ref.current?.click();
 
-    const handlePhotoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        photoFile.onChange(e, (file) => {
-            setFormData((prev) => ({ ...prev, photo: file }));
-        });
+    const handleChangePhotoFile = (e: ChangeEvent<HTMLInputElement>) => {
+        photoFile.onChange(e, (file) => setValue('photo', file, { shouldValidate: true }));
     };
 
-    const handleSave = () => {
-        router.post('/customer-job', {
-            ...formData,
+    const handleSave = (data: z.infer<typeof createCustomerJobSchema>) => {
+        router.post(`/${ROUTES.customer.job.create}`, {
+            ...data,
             user_id: user.id,
         });
     };
 
-    const isFilledForm = isCustomerJobCreateFormFilled(formData);
-    const subCategories =
-        categories.find(({ id }) => id === formData.category_id)?.sub_categories || [];
-
     return (
-        <div className="flex min-h-[100vh] flex-col gap-3 bg-[#efeff4] p-6 pb-12">
+        <form
+            onSubmit={handleSubmit(handleSave)}
+            className="flex min-h-[100vh] flex-col gap-3 bg-[#efeff4] p-6 pb-12"
+        >
             <div className="flex flex-col items-center gap-2">
                 <div
                     className="flex h-48 w-full items-center justify-center overflow-hidden rounded-sm border bg-[#fff]"
@@ -86,11 +92,15 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                     type="file"
                     accept="image/*"
                     ref={photoFile.ref}
-                    onChange={handlePhotoFileChange}
+                    onChange={handleChangePhotoFile}
                     className="hidden"
                 />
             </div>
-            <Select onValueChange={(value) => handleChangeCategoryId('category_id', Number(value))}>
+            <Select
+                onValueChange={(value) =>
+                    setValue('category_id', Number(value), { shouldValidate: true })
+                }
+            >
                 <SelectTrigger>
                     <SelectValue placeholder="Выбрать категорию" />
                 </SelectTrigger>
@@ -107,8 +117,10 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                 </SelectContent>
             </Select>
             <Select
-                onValueChange={(value) => handleChangeCategoryId('sub_category_id', Number(value))}
-                disabled={!formData.category_id}
+                onValueChange={(value) =>
+                    setValue('sub_category_id', Number(value), { shouldValidate: true })
+                }
+                disabled={!categoryId}
             >
                 <SelectTrigger>
                     <SelectValue placeholder="Выбрать подкатегорию (опционально)" />
@@ -122,27 +134,23 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                 </SelectContent>
             </Select>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="title">Название</Label>
+                <Label htmlFor="name">Название</Label>
                 <Textarea
-                    id="title"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChangeField}
+                    id="name"
                     placeholder="Кратко опишите суть проекта"
                     className="h-26"
                     maxLength={40}
+                    {...register('name')}
                 />
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="title">Описание</Label>
+                <Label htmlFor="description">Описание</Label>
                 <Textarea
-                    id="title"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChangeField}
+                    id="description"
                     placeholder="Опишите детали, сроки, требования, ожидаемый результат и тд."
                     maxLength={120}
                     className="h-34"
+                    {...register('description')}
                 />
             </div>
             <Label>Стоимость и сроки</Label>
@@ -153,18 +161,18 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                         <span className="text-xs text-[#242424]">US$</span>
                         <input
                             className="max-w-[70%] focus:outline-none"
-                            name="price"
-                            onChange={handleChangeField}
-                            type="text"
-                            value={formData.price}
+                            type="number"
+                            {...register('price')}
                         />
                     </div>
                 </div>
                 <div className="flex items-center justify-between">
                     <Label htmlFor="title">Срок</Label>
                     <DayPicker
-                        value={formData.terms}
-                        setValue={handleChangeTerms}
+                        value={terms}
+                        setValue={(value: string) =>
+                            setValue('terms', value, { shouldValidate: true })
+                        }
                         selections={selections}
                         pickedValue={{ days: 3 }}
                     />
@@ -179,8 +187,10 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                     <h4 className="title-4 mr-0.5">Экспресс-режим</h4>
                     <Switch
                         name="express_mode"
-                        checked={formData.express_mode}
-                        onClick={() => toggleMode('express_mode')}
+                        checked={expressMode}
+                        onClick={() =>
+                            setValue('express_mode', !expressMode, { shouldValidate: true })
+                        }
                     />
                 </div>
                 <p className="text-description max-w-[269px]">
@@ -193,8 +203,10 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                     <h4 className="title-4 mr-0.5">Только для Premium</h4>
                     <Switch
                         name="premium_mode"
-                        checked={formData.premium_mode}
-                        onClick={() => toggleMode('premium_mode')}
+                        checked={premiumMode}
+                        onClick={() =>
+                            setValue('premium_mode', !premiumMode, { shouldValidate: true })
+                        }
                     />
                 </div>
                 <p className="text-description max-w-[269px]">
@@ -202,10 +214,10 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                     <a href="">RIKI Premium</a>
                 </p>
             </div>
-            <Button disabled={!isFilledForm} onClick={handleSave}>
+            <Button type="submit" disabled={!isValid}>
                 Продолжить
             </Button>
-        </div>
+        </form>
     );
 };
 
