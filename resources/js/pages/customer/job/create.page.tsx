@@ -1,6 +1,7 @@
 import { Category } from '@/entities/category';
 import { createCustomerJobSchema } from '@/features/customer/job/create-job';
 import { DayPicker } from '@/shared/components/day-picker';
+import { FormImagePreview } from '@/shared/components/FormImagePreview';
 import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
 import { Button } from '@/shared/ui/button';
@@ -24,12 +25,12 @@ type CustomerJobCreateProps = SharedData & {
     categories: Category[];
 };
 
-const CustomerJobCreate = (props: CustomerJobCreateProps) => {
+const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
     const {
         categories,
         auth: { user },
     } = props;
-    
+
     const {
         register,
         handleSubmit,
@@ -50,6 +51,8 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
     });
     const photoFile = useFile();
 
+    const name = watch('name');
+    const description = watch('description');
     const categoryId = watch('category_id');
     const terms = watch('terms');
     const expressMode = watch('express_mode');
@@ -75,16 +78,7 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
             className="flex min-h-[100vh] flex-col gap-3 bg-[#efeff4] p-6 pb-12"
         >
             <div className="flex flex-col items-center gap-2">
-                <div
-                    className="flex h-48 w-full items-center justify-center overflow-hidden rounded-sm border bg-[#fff]"
-                    style={{
-                        backgroundImage: photoFile.preview ? `url(${photoFile.preview})` : 'none',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                >
-                    {photoFile.preview ? null : <p className="font-semibold">Ваше фото</p>}
-                </div>
+                <FormImagePreview preview={photoFile.preview} />
                 <Button className="w-full" onClick={handleClickAddPhoto}>
                     Добавить
                 </Button>
@@ -140,6 +134,7 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                     placeholder="Кратко опишите суть проекта"
                     className="h-26"
                     maxLength={40}
+                    value={name}
                     {...register('name')}
                 />
             </div>
@@ -149,6 +144,7 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
                     id="description"
                     placeholder="Опишите детали, сроки, требования, ожидаемый результат и тд."
                     maxLength={120}
+                    value={description}
                     className="h-34"
                     {...register('description')}
                 />
@@ -221,4 +217,4 @@ const CustomerJobCreate = (props: CustomerJobCreateProps) => {
     );
 };
 
-export default CustomerJobCreate;
+export default CustomerJobCreatePage;

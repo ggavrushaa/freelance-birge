@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 
 type AllowedHeading = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-type fontSize = 17 | 21 | 28;
+type fontSize = 17 | 20 | 21 | 28;
 
 type TitleProps<E extends AllowedHeading = 'h3'> = {
     as?: E;
@@ -21,6 +21,7 @@ export function Title<E extends AllowedHeading = 'h3'>({
 
     const fontSizeClass = {
         17: 'text-[17px]',
+        20: 'text-[20px]',
         21: 'text-[21px]',
         28: 'text-[28px]',
     }[fontSize];

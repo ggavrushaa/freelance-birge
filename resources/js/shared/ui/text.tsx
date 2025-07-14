@@ -1,11 +1,13 @@
 import classNames from 'classnames';
 
 type AllowedText = 'p' | 'span';
-type fontSize = 12 |  13 | 17 | 21;
+type fontSize = 12 | 13 | 17 | 21;
+type FontColor = 'gray' | 'primary' | "black";
 
 type TextProps<E extends AllowedText = 'p'> = {
     as?: E;
     fontSize?: fontSize;
+    fontColor?: FontColor;
     className?: string;
     children: React.ReactNode;
 } & Omit<React.ComponentPropsWithoutRef<E>, 'as' | 'className' | 'children'>;
@@ -13,6 +15,7 @@ type TextProps<E extends AllowedText = 'p'> = {
 export function Text<E extends AllowedText = 'p'>({
     as,
     fontSize = 17,
+    fontColor = 'gray',
     children,
     className,
     ...rest
@@ -26,9 +29,20 @@ export function Text<E extends AllowedText = 'p'>({
         21: 'text-[21px]',
     }[fontSize];
 
+    const fontColorClass = {
+        gray: 'text-gray',
+        primary: 'text-primary',
+        black: 'text-[#242424]',
+    }[fontColor];
+
     return (
         <Component
-            className={classNames('letter-spacing text-gray', fontSizeClass, className)}
+            className={classNames(
+                'letter-spacing',
+                fontSizeClass,
+                fontColorClass,
+                className,
+            )}
             {...rest}
         >
             {children}

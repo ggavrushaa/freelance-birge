@@ -58,6 +58,8 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
 
     const categoryId = watch('category_id');
     const subCategoryId = watch('sub_category_id');
+    const name = watch('name');
+    const description = watch('description');
     const terms = watch('terms');
     const expressMode = watch('express_mode');
     const premiumMode = watch('premium_mode');
@@ -152,6 +154,7 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                     placeholder="Кратко опишите суть проекта"
                     className="h-26"
                     maxLength={40}
+                    value={name}
                     {...register('name')}
                 />
             </div>
@@ -161,6 +164,7 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                     id="description"
                     placeholder="Опишите детали, сроки, требования, ожидаемый результат и тд."
                     maxLength={120}
+                    value={description}
                     className="h-34"
                     {...register('description')}
                 />
