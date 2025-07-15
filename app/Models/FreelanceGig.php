@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class FreelanceGig extends Model
@@ -17,6 +18,11 @@ class FreelanceGig extends Model
         'category_id',
         'sub_category_id',
         'user_id',
+        'status',
+    ];
+
+    protected $casts = [
+        'status' => OrderStatusEnum::class,
     ];
 
     public function freelancer()
@@ -32,5 +38,10 @@ class FreelanceGig extends Model
     public function subCategory()
     {
         return $this->belongsTo(SubCategory::class);
+    }
+
+    public function tariffs()
+    {
+        return $this->hasMany(Tariff::class);
     }
 }

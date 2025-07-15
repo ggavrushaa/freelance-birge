@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class CustomerJob extends Model
@@ -21,6 +22,11 @@ class CustomerJob extends Model
         'category_id',
         'sub_category_id',
         'user_id', 'author_id',
+        'status',
+    ];
+
+    protected $casts = [
+        'status' => OrderStatusEnum::class,
     ];
 
     public function category()

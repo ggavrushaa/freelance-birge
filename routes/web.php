@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CustomerJobController;
 use App\Http\Controllers\FreelanceGigController;
 use App\Http\Controllers\FreelanceServiceController;
+use App\Http\Controllers\TariffController;
 
 
 Route::get('/', function () {
@@ -20,6 +21,7 @@ Route::post('customer-job/{id}/update', [CustomerJobController::class, 'update']
 Route::post('customer-job/{id}/published', [CustomerJobController::class, 'published'])->name('customer-job.published');
 
 Route::resource('freelance-gig', FreelanceGigController::class);
+Route::resource('tariff', TariffController::class);
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

@@ -10,7 +10,7 @@ class DashboardController extends Controller
     public function index()
     {
         return Inertia::render('dashboard.page', [
-            'jobs' => auth()->user()->customerJobs()->latest()->take(3)->get(),
+            'jobs' => auth()->user()->customerJobs()->get(),
         ]);
     }
 }

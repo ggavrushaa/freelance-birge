@@ -9,7 +9,7 @@ class FreelanceGigRepository
     public function getForUser(User $user, int $perPage = 20)
     {
         return $user->freelanceGigs()
-            ->with(['category', 'subCategory', 'freelancer'])
+            ->with(['category', 'subCategory', 'freelancer', 'tariffs'])
             ->paginate($perPage);
     }
 
