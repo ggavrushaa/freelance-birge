@@ -1,0 +1,14 @@
+.swiper-pagination-bullet {
+    background: #fff;
+    width: 3px;
+    height: 3px;
+    opacity: 0.2;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+}
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+    bottom: 4px;
+}

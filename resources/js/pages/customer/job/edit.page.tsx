@@ -1,6 +1,5 @@
-import { useCustomerJobForm } from '@/features/customer/job';
-import { EditCustomerJobFormValues } from '@/features/customer/job/edit-job';
-import { isCustomerJobEditFormFilled } from '@/features/customer/job/edit-job/model/validation';
+import { Category } from '@/entities/category';
+import { editCustomerJobSchema } from '@/features/customer/job/edit-job/model/validation';
 import { DayPicker } from '@/shared/components/day-picker';
 import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
@@ -10,9 +9,12 @@ import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Switch } from '@/shared/ui/switch';
 import { Textarea } from '@/shared/ui/textarea';
-import { Category, CustomerJob, SharedData } from '@/types';
+import { CustomerJob, SharedData } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from '@inertiajs/react';
 import { ChangeEvent } from 'react';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
 
 type CustomerJobEditPageProps = SharedData & {
     categories: Category[];
@@ -33,52 +35,61 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
     const photoFile = useFile();
 
     const {
-        formData,
-        setFormData,
-        handleChangeCategoryId,
-        handleChangeTerms,
-        handleChangeField,
-        toggleMode,
-    } = useCustomerJobForm<EditCustomerJobFormValues>({
-        name: job.name,
-        description: job.description,
-        photo: null,
-        price: job.price,
-        terms: job.terms,
-        is_active: job.is_active,
-        express_mode: job.express_mode,
-        premium_mode: job.premium_mode,
-        category_id: job.category_id,
-        sub_category_id: job.sub_category_id,
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        formState: { isValid },
+    } = useForm<z.infer<typeof editCustomerJobSchema>>({
+        resolver: zodResolver(editCustomerJobSchema),
+        mode: 'onChange',
+        defaultValues: {
+            name: job.name,
+            description: job.description,
+            price: job.price,
+            terms: job.terms,
+            category_id: job.category_id,
+            sub_category_id: job.sub_category_id,
+            express_mode: Boolean(job.express_mode),
+            premium_mode: Boolean(job.premium_mode),
+            photo: job.photo,
+        },
     });
 
-    const handleSave = () => {
-        const { photo, ...rest } = formData;
-        const payload = {
-            ...rest,
-            ...(photo && { photo }),
-            user_id: user.id,
-        };
-        router.post(ROUTES.customer.job.update(job.id), payload);
-    };
+    const categoryId = watch('category_id');
+    const subCategoryId = watch('sub_category_id');
+    const name = watch('name');
+    const description = watch('description');
+    const terms = watch('terms');
+    const expressMode = watch('express_mode');
+    const premiumMode = watch('premium_mode');
+    const subCategories = categories.find(({ id }) => id === categoryId)?.sub_categories || [];
+
+    const photoFilePreview = photoFile.preview ?? job.photo ?? '';
 
     const handleClickAddPhoto = () => photoFile.ref.current?.click();
 
     const handlePhotoFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         photoFile.onChange(e, (file) => {
-            setFormData((prev) => ({ ...prev, photo: file }));
+            setValue('photo', file, { shouldValidate: true });
         });
     };
 
-    const isFilledForm = isCustomerJobEditFormFilled(formData);
-
-    const subCategories =
-        categories.find(({ id }) => id === formData.category_id)?.sub_categories || [];
-
-    const photoFilePreview = photoFile.preview ? photoFile.preview : job.photo;
+    const handleSave = (data: z.infer<typeof editCustomerJobSchema>) => {
+        const { photo, ...rest } = data;
+        const payload = {
+            ...rest,
+            ...(photo !== job.photo && { photo }),
+            user_id: user.id,
+        };
+        router.post(ROUTES.customer.job.update(job.id), payload);
+    };
 
     return (
-        <div className="flex min-h-[100vh] flex-col gap-3 bg-[#efeff4] p-6 pb-12">
+        <form
+            onSubmit={handleSubmit(handleSave)}
+            className="flex min-h-[100vh] flex-col gap-3 bg-[#efeff4] p-6 pb-12"
+        >
             <div className="flex flex-col items-center gap-2">
                 <div
                     className="flex h-48 w-full items-center justify-center overflow-hidden rounded-sm border bg-[#fff]"
@@ -90,7 +101,7 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                 >
                     {photoFilePreview ? null : <p className="font-semibold">Ваше фото</p>}
                 </div>
-                <Button className="w-full" onClick={handleClickAddPhoto}>
+                <Button type="button" className="w-full" onClick={handleClickAddPhoto}>
                     Добавить
                 </Button>
                 <input
@@ -102,8 +113,10 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                 />
             </div>
             <Select
-                value={String(formData.category_id)}
-                onValueChange={(value) => handleChangeCategoryId('category_id', Number(value))}
+                value={String(categoryId)}
+                onValueChange={(value) =>
+                    setValue('category_id', Number(value), { shouldValidate: true })
+                }
             >
                 <SelectTrigger>
                     <SelectValue placeholder="Выбрать категорию" />
@@ -117,9 +130,11 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                 </SelectContent>
             </Select>
             <Select
-                value={String(formData.sub_category_id)}
-                onValueChange={(value) => handleChangeCategoryId('sub_category_id', Number(value))}
-                disabled={!formData.category_id}
+                value={String(subCategoryId)}
+                onValueChange={(value) =>
+                    setValue('sub_category_id', Number(value), { shouldValidate: true })
+                }
+                disabled={!categoryId}
             >
                 <SelectTrigger>
                     <SelectValue placeholder="Выбрать подкатегорию (опционально)" />
@@ -133,27 +148,25 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                 </SelectContent>
             </Select>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="title">Название</Label>
+                <Label htmlFor="name">Название</Label>
                 <Textarea
-                    id="title"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChangeField}
+                    id="name"
                     placeholder="Кратко опишите суть проекта"
                     className="h-26"
                     maxLength={40}
+                    value={name}
+                    {...register('name')}
                 />
             </div>
             <div className="flex flex-col gap-2">
-                <Label htmlFor="title">Описание</Label>
+                <Label htmlFor="description">Описание</Label>
                 <Textarea
-                    id="title"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChangeField}
+                    id="description"
                     placeholder="Опишите детали, сроки, требования, ожидаемый результат и тд."
                     maxLength={120}
+                    value={description}
                     className="h-34"
+                    {...register('description')}
                 />
             </div>
             <Label>Стоимость и сроки</Label>
@@ -164,18 +177,18 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                         <span className="text-xs text-[#242424]">US$</span>
                         <input
                             className="max-w-[70%] focus:outline-none"
-                            name="price"
-                            onChange={handleChangeField}
-                            type="text"
-                            value={formData.price}
+                            type="number"
+                            {...register('price')}
                         />
                     </div>
                 </div>
                 <div className="flex items-center justify-between">
                     <Label htmlFor="title">Срок</Label>
                     <DayPicker
-                        value={String(formData.terms)}
-                        setValue={handleChangeTerms}
+                        value={String(terms)}
+                        setValue={(value: string) =>
+                            setValue('terms', Number(value), { shouldValidate: true })
+                        }
                         selections={selections}
                         pickedValue={{ days: 3 }}
                     />
@@ -190,8 +203,10 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                     <h4 className="title-4 mr-0.5">Экспресс-режим</h4>
                     <Switch
                         name="express_mode"
-                        checked={Boolean(formData.express_mode)}
-                        onClick={() => toggleMode('express_mode')}
+                        checked={expressMode}
+                        onClick={() =>
+                            setValue('express_mode', !expressMode, { shouldValidate: true })
+                        }
                     />
                 </div>
                 <p className="text-description max-w-[269px]">
@@ -204,8 +219,10 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                     <h4 className="title-4 mr-0.5">Только для Premium</h4>
                     <Switch
                         name="premium_mode"
-                        checked={Boolean(formData.premium_mode)}
-                        onClick={() => toggleMode('premium_mode')}
+                        checked={premiumMode}
+                        onClick={() =>
+                            setValue('premium_mode', !premiumMode, { shouldValidate: true })
+                        }
                     />
                 </div>
                 <p className="text-description max-w-[269px]">
@@ -213,10 +230,10 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                     <a href="">RIKI Premium</a>
                 </p>
             </div>
-            <Button disabled={!isFilledForm} onClick={handleSave}>
+            <Button type="submit" disabled={!isValid}>
                 Продолжить
             </Button>
-        </div>
+        </form>
     );
 };
 

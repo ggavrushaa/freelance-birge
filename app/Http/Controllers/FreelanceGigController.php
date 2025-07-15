@@ -25,7 +25,7 @@ class FreelanceGigController extends Controller
 
     public function create()
     {
-        return Inertia::render('freelance/create.page', [
+        return Inertia::render('freelance/gig/create.page', [
             'categories' => $this->repository->getCategories(),
         ]);
     }

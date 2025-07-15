@@ -102,7 +102,7 @@ class CustomerJobController extends Controller
         $job = auth()->user()->customerJobs()->findOrFail($id);
         $job->activate();
 
-        return redirect()->route('jobs.index')->with('success', 'Работа успешно опубликована.');
+        return redirect()->route('dashboard')->with('success', 'Работа успешно опубликована.');
     }
 
 }
