@@ -7,9 +7,15 @@ use App\Http\Requests\Tariff\StoreRequest;
 use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
 use App\Enums\TariffAdditionalOptionsEnum;
+use App\Services\TariffService;
 
 class TariffController extends Controller
 {
+    public function __construct(
+        private TariffService $service,
+    ) {
+    }
+
     public function create()
     {
         return Inertia::render(
@@ -58,6 +64,20 @@ class TariffController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Тариф успешно удален',
+        ]);
+    }
+
+    public function syncTariffs($gigId)
+    {
+        $tariffs = $this->service->getUnassociatedTariffs();
+
+        foreach ($tariffs as $tariff) {
+            $this->service->associateTariffWithGig($tariff, $gigId);
+        }       
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Тарифы успешно синхронизированы',
         ]);
     }
 }

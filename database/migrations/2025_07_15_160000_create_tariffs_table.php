@@ -19,7 +19,7 @@ return new class extends Migration {
             
             $table->json('additional_options')->nullable();
 
-            $table->foreignId('freelance_gig_id')->constrained('freelance_gigs')->onDelete('cascade');
+            $table->foreignId('freelance_gig_id')->nullable()->constrained('freelance_gigs')->onDelete('cascade');
 
             $table->timestamps();
         });
