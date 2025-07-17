@@ -15,6 +15,8 @@ import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { createFreelanceGigSchema } from '../model/validation';
+import { router } from '@inertiajs/react';
+import { ROUTES } from '@/shared/config/routes';
 
 const useFormServices = ({ initialValue }: { initialValue: unknown[] }) => {
     const [items, setItems] = useState(initialValue);
@@ -37,7 +39,11 @@ const useFormServices = ({ initialValue }: { initialValue: unknown[] }) => {
 const FormServices = () => {
     const services = useFormServices({ initialValue: [] });
     const [isEdit, setIsEdit] = useState(false);
-    const toggleIsEdit = () => setIsEdit((prev) => !prev);
+    const toggleIsEdit = () => {
+        if(services.items.length === 0) return;
+        console.log(services.items);
+        setIsEdit((prev) => !prev);
+    };
 
     return (
         <div className="mb-6">
@@ -88,7 +94,7 @@ const FormServices = () => {
 };
 
 export const CreateGigForm = () => {
-    const { categories } = usePageProps();
+    const { categories , auth: { user }} = usePageProps();
     const photoFile = useFile();
     const {
         register,
@@ -119,7 +125,10 @@ export const CreateGigForm = () => {
     };
 
     const handleSave = (data: z.infer<typeof createFreelanceGigSchema>) => {
-        console.log(data);
+        router.post(`/${ROUTES.freelance.gig.create}`,{
+            ...data,
+            user_id: user.id,
+        });
     };
 
     return (

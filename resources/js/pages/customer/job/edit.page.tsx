@@ -1,6 +1,7 @@
 import { Category } from '@/entities/category';
 import { editCustomerJobSchema } from '@/features/customer/job/edit-job/model/validation';
-import { DayPicker } from '@/shared/components/day-picker';
+import { InputPicker } from '@/shared/components/input-picker/input-picker';
+import { InputPickerTrigger } from '@/shared/components/input-picker/input-picker-trigger';
 import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
 import { Button } from '@/shared/ui/button';
@@ -9,6 +10,7 @@ import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Switch } from '@/shared/ui/switch';
 import { Textarea } from '@/shared/ui/textarea';
+import { getDayLabel } from '@/shared/utils/get-day-label';
 import { CustomerJob, SharedData } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from '@inertiajs/react';
@@ -21,7 +23,7 @@ type CustomerJobEditPageProps = SharedData & {
     job: CustomerJob;
 };
 
-const selections = {
+const daySelections = {
     days: Array.from({ length: 90 }, (_, i) => i + 1),
 };
 
@@ -184,13 +186,16 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                 </div>
                 <div className="flex items-center justify-between">
                     <Label htmlFor="title">Срок</Label>
-                    <DayPicker
-                        value={String(terms)}
+                    <InputPicker
+                        name="Срок"
+                        value={terms}
                         setValue={(value: string) =>
                             setValue('terms', Number(value), { shouldValidate: true })
                         }
-                        selections={selections}
+                        selections={daySelections}
                         pickedValue={{ days: 3 }}
+                        renderTrigger={(value) => <InputPickerTrigger name='Дни' value={value} />}
+                        renderLabel={(option) => getDayLabel(option as number)}
                     />
                 </div>
             </Card>

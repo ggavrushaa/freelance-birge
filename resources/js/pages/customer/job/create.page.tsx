@@ -1,7 +1,8 @@
 import { Category } from '@/entities/category';
 import { createCustomerJobSchema } from '@/features/customer/job/create-job';
-import { DayPicker } from '@/shared/components/day-picker';
 import { FormImagePreview } from '@/shared/components/FormImagePreview';
+import { InputPicker } from '@/shared/components/input-picker/input-picker';
+import { InputPickerTrigger } from '@/shared/components/input-picker/input-picker-trigger';
 import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
 import { Button } from '@/shared/ui/button';
@@ -10,6 +11,7 @@ import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Switch } from '@/shared/ui/switch';
 import { Textarea } from '@/shared/ui/textarea';
+import { getDayLabel } from '@/shared/utils/get-day-label';
 import { SharedData } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from '@inertiajs/react';
@@ -17,7 +19,7 @@ import { ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-const selections = {
+const daySelections = {
     days: Array.from({ length: 90 }, (_, i) => i + 1),
 };
 
@@ -164,13 +166,16 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
                 </div>
                 <div className="flex items-center justify-between">
                     <Label htmlFor="title">Срок</Label>
-                    <DayPicker
+                    <InputPicker
+                        name="Срок"
                         value={terms}
                         setValue={(value: string) =>
                             setValue('terms', value, { shouldValidate: true })
                         }
-                        selections={selections}
+                        selections={daySelections}
                         pickedValue={{ days: 3 }}
+                        renderTrigger={(value) => <InputPickerTrigger name='Дни' value={value} />}
+                        renderLabel={(option) => getDayLabel(option as number)}
                     />
                 </div>
             </Card>

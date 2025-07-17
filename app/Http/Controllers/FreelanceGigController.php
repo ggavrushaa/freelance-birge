@@ -41,15 +41,14 @@ class FreelanceGigController extends Controller
         }
 
         $gig = auth()->user()->freelanceGigs()->create($data);
-
-        return redirect()->route('freelance.show', $gig);
+        return redirect()->route('freelance-gig.show', $gig);
     }
 
     public function show($id)
     {
         $gig = auth()->user()->freelanceGigs()->with('tariffs')->findOrFail($id);
 
-        return Inertia::render('freelance/show.page', [
+        return Inertia::render('freelance/gig/show.page', [
             'gig' => $gig,
         ]);
     }

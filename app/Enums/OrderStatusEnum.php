@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum OrderStatusEnum
+enum OrderStatusEnum: string
 {
     case CREATED = 'Заказ создан';
     case PENDING = 'Ожидание подтверждения';
