@@ -101,5 +101,9 @@
     .bg-input {
         background: rgba(118, 118, 128, 0.12);
     }
+
+    .bg-main{
+        background: #efeff4;
+    }
     
 }
