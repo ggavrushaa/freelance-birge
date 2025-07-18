@@ -21,7 +21,7 @@ class StoreRequest extends FormRequest
             'corrections' => 'required|integer|min:0',
             'additional_options' => 'nullable|array',
             'additional_options.*' => 'string|in:' . implode(',', array_column(\App\Enums\TariffAdditionalOptionsEnum::cases(), 'value')),
-            'freelance_gig_id' => 'required|exists:freelance_gigs,id',
+            'freelance_gig_id' => 'nullable|exists:freelance_gigs,id',
         ];
     }
 }
