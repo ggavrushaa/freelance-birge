@@ -37,16 +37,6 @@ class TariffController extends Controller
         );
     }
 
-    public function store(StoreRequest $request): JsonResponse
-    {
-        $tariff = Tariff::create($request->validated());
-
-        return response()->json([
-            'success' => true,
-            'tariff' => $tariff->load('freelanceGig'),
-        ]);
-    }
-
     public function update(StoreRequest $request, Tariff $tariff): JsonResponse
     {
         $tariff->update($request->validated());
@@ -64,20 +54,6 @@ class TariffController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Тариф успешно удален',
-        ]);
-    }
-
-    public function syncTariffs($gigId)
-    {
-        $tariffs = $this->service->getUnassociatedTariffs();
-
-        foreach ($tariffs as $tariff) {
-            $this->service->associateTariffWithGig($tariff, $gigId);
-        }       
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Тарифы успешно синхронизированы',
         ]);
     }
 }

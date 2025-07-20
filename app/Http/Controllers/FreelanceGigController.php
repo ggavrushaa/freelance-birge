@@ -6,13 +6,14 @@ use Inertia\Inertia;
 use App\Services\JobAttachmentService;
 use App\Repositories\FreelanceGigRepository;
 use App\Http\Requests\FreelanceGig\StoreRequest;
-use App\Enums\TariffAdditionalOptionsEnum;
+use App\Services\FreelanceGigService;
 
 class FreelanceGigController extends Controller
 {
     public function __construct(
         private FreelanceGigRepository $repository,
         private JobAttachmentService $attachmentService,
+        private FreelanceGigService $service,
     ) {
     }
 
@@ -40,7 +41,7 @@ class FreelanceGigController extends Controller
             );
         }
 
-        $gig = auth()->user()->freelanceGigs()->create($data);
+        $gig = $this->service->createFreelanceGig($data);
         return redirect()->route('freelance-gig.show', $gig);
     }
 
