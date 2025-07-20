@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 
 type AllowedText = 'p' | 'span';
-type fontSize = 12 | 13 | 17 | 21;
-type FontColor = 'gray' | 'primary' | "black";
+type fontSize = 12 | 13 | 15 | 17 | 21;
+type FontColor = 'gray' | 'primary' | 'black';
 
 type TextProps<E extends AllowedText = 'p'> = {
     as?: E;
@@ -25,6 +25,7 @@ export function Text<E extends AllowedText = 'p'>({
     const fontSizeClass = {
         12: 'text-[12px]',
         13: 'text-[13px]',
+        15: 'text-[15px]',
         17: 'text-[17px]',
         21: 'text-[21px]',
     }[fontSize];
@@ -37,12 +38,7 @@ export function Text<E extends AllowedText = 'p'>({
 
     return (
         <Component
-            className={classNames(
-                'letter-spacing',
-                fontSizeClass,
-                fontColorClass,
-                className,
-            )}
+            className={classNames('letter-spacing', fontSizeClass, fontColorClass, className)}
             {...rest}
         >
             {children}
