@@ -1,5 +1,7 @@
+import { Tariff } from '@/entities/tariff/model/types';
 import { InputPicker } from '@/shared/components/input-picker/input-picker';
 import { InputPickerTrigger } from '@/shared/components/input-picker/input-picker-trigger';
+import { useModal } from '@/shared/hooks/use-modal';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Label } from '@/shared/ui/label';
@@ -10,16 +12,25 @@ import { getDayLabel } from '@/shared/utils/get-day-label';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
+import { CreateTariffFormLayout } from '../layouts/create-tariff-form.layout';
 import { createTariffSchema } from '../model/validation/create-tariff-schema';
-import { useModal } from '@/shared/hooks/use-modal';
 import { TariffAdditionalsModal } from './tariff-additionals-modal';
-import { createPortal } from 'react-dom';
 
 const daySelections = {
     days: Array.from({ length: 90 }, (_, i) => i + 1),
 };
 
-export const CreateTariffForm = () => {
+interface CreateTariffFormProps {
+    tariffValues: Pick<
+        Tariff,
+        'name' | 'description' | 'price' | 'term' | 'corrections' | 'additional_options'
+    >;
+    onSave: (data: z.infer<typeof createTariffSchema>) => void;
+}
+
+export const CreateTariffForm = (props: CreateTariffFormProps) => {
+    const { tariffValues, onSave } = props;
+    const additionalOptionsModal = useModal();
     const {
         register,
         control,
@@ -29,23 +40,13 @@ export const CreateTariffForm = () => {
         resolver: zodResolver(createTariffSchema),
         mode: 'onChange',
         defaultValues: {
-            name: '',
-            description: '',
-            price: 0,
-            term: 1,
-            corrections: 0,
-            additional_options: [],
+            ...tariffValues,
         },
     });
-    const additionalOptionsModal = useModal();
-
-    const onSubmit = (data: z.infer<typeof createTariffSchema>) => {
-        console.log(data);
-    };
 
     return (
-        <>
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <CreateTariffFormLayout>
+            <form onSubmit={handleSubmit(onSave)}>
                 <Title fontSize={24} className="mb-7.5 text-center font-bold">
                     Услуга 1
                 </Title>
@@ -75,10 +76,17 @@ export const CreateTariffForm = () => {
                         <Label htmlFor="title">Бюджет</Label>
                         <div className="input-bg flex max-w-[110px] items-center gap-2 overflow-hidden rounded-[10px] border px-4 py-2">
                             <span className="text-xs text-[#242424]">US$</span>
-                            <input
-                                className="max-w-[70%] text-[11px] focus:outline-none"
-                                type="number"
-                                {...register('price')}
+                            <Controller
+                                name="price"
+                                control={control}
+                                render={({ field }) => (
+                                    <input
+                                        className="max-w-[70%] text-[11px] focus:outline-none"
+                                        type="number"
+                                        value={String(field.value)}
+                                        onChange={(e) => field.onChange(Number(e.target.value))}
+                                    />
+                                )}
                             />
                         </div>
                     </div>
@@ -124,7 +132,10 @@ export const CreateTariffForm = () => {
                     </div>
                 </Card>
                 <Label className="mb-3 block">Параметры</Label>
-                <Card onClick={additionalOptionsModal.open} className="mb-15 flex flex-row items-center gap-0 px-4 py-3">
+                <Card
+                    onClick={additionalOptionsModal.open}
+                    className="mb-15 flex flex-row items-center gap-0 px-4 py-3"
+                >
                     <Text fontSize={15}>Добавить дополнения</Text>
                     <Text fontSize={15} className="mr-1 ml-auto">
                         Выбрать
@@ -135,7 +146,7 @@ export const CreateTariffForm = () => {
                     Сохранить
                 </Button>
             </form>
-            {additionalOptionsModal.isOpen && createPortal(<TariffAdditionalsModal/>,document.body)}
-        </>
+            {additionalOptionsModal.isOpen && <TariffAdditionalsModal />}
+        </CreateTariffFormLayout>
     );
 };

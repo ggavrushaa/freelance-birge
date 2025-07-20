@@ -3,6 +3,7 @@ import { Card } from '@/shared/ui/card';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
 import { useState } from 'react';
+import { Portal } from 'vaul';
 
 const options = [
     'Написание документации к коду',
@@ -18,10 +19,10 @@ export const TariffAdditionalsModal = () => {
 
     const resetChoosenOptionId = () => {
         setChoosenOptionId(null);
-    }
+    };
 
     const handleClickOption = (id: number) => {
-        if(choosenOptionId === id) {
+        if (choosenOptionId === id) {
             resetChoosenOptionId();
             return;
         }
@@ -36,32 +37,38 @@ export const TariffAdditionalsModal = () => {
     };
 
     return (
-        <div className="bg-main fixed top-0 left-0 min-h-[100svh] w-full px-6 pt-22 pb-12 flex flex-col">
-            <Title fontSize={20} className="mb-8 text-center font-bold">
-                Разработка и IT
-            </Title>
-            <div className="mb-3 flex items-center justify-between">
-                <Title fontSize={20} className="font-bold">
-                    Дополнения (опционально)
+        <Portal>
+            <div className="bg-main fixed top-0 left-0 flex min-h-[100svh] w-full flex-col px-6 pt-22 pb-12">
+                <Title fontSize={20} className="mb-8 text-center font-bold">
+                    Разработка и IT
                 </Title>
-                <Text fontColor="primary" onClick={resetChoosenOptionId}>Очистить</Text>
-            </div>
-            <Card className="gap-0 px-4 py-0">
-                {options.map((option, index) => (
-                    <div
-                        onClick={() => handleClickOption(index)}
-                        className="flex items-center gap-4"
-                    >
-                        {renderOptionIcon(index)}
-                        <div className="flex-1 border-b-[0.33px] border-gray py-2.5">
-                            <Text className="max-w-[174px]" fontSize={15}>
-                                {option}
-                            </Text>
+                <div className="mb-3 flex items-center justify-between">
+                    <Title fontSize={20} className="font-bold">
+                        Дополнения (опционально)
+                    </Title>
+                    <Text fontColor="primary" onClick={resetChoosenOptionId}>
+                        Очистить
+                    </Text>
+                </div>
+                <Card className="gap-0 px-4 py-0">
+                    {options.map((option, index) => (
+                        <div
+                            onClick={() => handleClickOption(index)}
+                            className="flex items-center gap-4"
+                        >
+                            {renderOptionIcon(index)}
+                            <div className="flex-1 border-b-[0.33px] border-gray py-2.5">
+                                <Text className="max-w-[174px]" fontSize={15}>
+                                    {option}
+                                </Text>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </Card>
-            <Button disabled={!choosenOptionId} className='w-full mt-auto'>Сохранить</Button>
-        </div>
+                    ))}
+                </Card>
+                <Button disabled={!choosenOptionId} className="mt-auto w-full">
+                    Сохранить
+                </Button>
+            </div>
+        </Portal>
     );
 };
