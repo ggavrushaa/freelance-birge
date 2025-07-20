@@ -14,9 +14,12 @@ const RegisterPage = (props: RegisterPageProps) => {
     const { seed } = props;
     const continueButton = useActive();
 
-    const handleClickCopy = () => {
-        navigator.clipboard.writeText(seed.join(' '));
-        continueButton.activate();
+    const handleCopySuccess = (success: boolean) => {
+        console.log('Copy callback triggered with success:', success);
+        if (success) {
+            console.log('Activating continue button');
+            continueButton.activate();
+        }
     };
 
     const handleClickContinue = () => {
@@ -44,7 +47,11 @@ const RegisterPage = (props: RegisterPageProps) => {
                 )}
                 className="mb-6 grid grid-cols-2 gap-3 text-center text-muted"
             />
-            <CopyButton text="Копировать" onClick={handleClickCopy} />
+            <CopyButton
+                text="Копировать"
+                copyText={seed.join(' ')}
+                onCopy={handleCopySuccess}
+            />
             <Button
                 disabled={!continueButton.isActive}
                 onClick={handleClickContinue}

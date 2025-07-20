@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Skill extends Model
+class Label extends Model
 {
-    protected $table = 'skills';
+    protected $table = 'labels';
 
     protected $fillable = [
         'name',
@@ -14,6 +14,6 @@ class Skill extends Model
 
     public function profiles()
     {
-        return $this->belongsToMany(Profile::class, 'profile_skills');
+        return $this->belongsToMany(Profile::class, 'profile_labels');
     }
 }
