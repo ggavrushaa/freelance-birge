@@ -4,7 +4,7 @@ namespace App\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,6 +16,7 @@ class UpdateRequest extends FormRequest
         return [
             'description' => 'nullable|string|max:255',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'user_id' => 'required|exists:users,id',
             'balance' => 'nullable|numeric|min:0',
             'rating' => 'nullable|numeric|min:0',
             'reviews_count' => 'nullable|numeric|min:0',
@@ -23,8 +24,8 @@ class UpdateRequest extends FormRequest
             'completed_orders_count' => 'nullable|numeric|min:0',
             'languages' => 'nullable|array',
             'skills' => 'nullable|array',
-            'languages.*' => 'string',
-            'skills.*' => 'string',
+            'languages.*' => 'exists:languages,id',
+            'skills.*' => 'exists:skills,id',
         ];
     }
 }

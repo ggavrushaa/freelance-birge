@@ -7,12 +7,15 @@ use Inertia\Inertia;
 use App\Repositories\ProfileRepository;
 use App\Services\ProfileService;
 use App\Http\Requests\Profile\UpdateRequest;
+use App\Services\JobAttachmentService;
+use App\Http\Requests\Profile\StoreRequest;
 
 class ProfileController extends Controller
 {
     public function __construct(
         private ProfileRepository $repository,
         private ProfileService $service,
+        private JobAttachmentService $attachmentService,
     ) {
     }
 
@@ -23,6 +26,25 @@ class ProfileController extends Controller
         return Inertia::render('profile/show.page', [
             'profile' => $profile,
         ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render('profile/create.page');
+    }
+
+    public function store(StoreRequest $request)
+    {
+        $data = $request->validated();
+
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $this->attachmentService->uploadPhoto(
+                $request->file('avatar')
+            );
+        }
+
+        $this->service->create($data);
+        return redirect()->route('profile.show');
     }
 
     public function edit()
@@ -38,7 +60,14 @@ class ProfileController extends Controller
     {
         $profile = $this->repository->getProfileWithRelations(auth()->user());
 
-        $this->service->updateProfile($profile, $request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $this->attachmentService->uploadPhoto(
+                $request->file('avatar')
+            );
+        }
+        $this->service->update($profile, $data);
 
         return redirect()->route('profile.show');
     }

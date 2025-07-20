@@ -47,7 +47,7 @@ class PortfolioController extends Controller
             );
         }
 
-        $portfolio = $this->service->createPortfolio($data);
+        $portfolio = $this->service->create($data);
 
         return redirect()->route('portfolio.show', $portfolio);
     }
@@ -61,14 +61,21 @@ class PortfolioController extends Controller
 
     public function update(StoreRequest $request, Portfolio $portfolio)
     {
-        $this->service->updatePortfolio($portfolio, $request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $this->attachmentService->uploadPhoto(
+                $request->file('image')
+            );
+        }
+        $this->service->update($portfolio, $data);
 
         return redirect()->route('portfolio.show', $portfolio);
     }
 
     public function destroy(Portfolio $portfolio)
     {
-        $this->service->deletePortfolio($portfolio);
+        $this->service->delete($portfolio);
 
         return redirect()->route('portfolio.index');
     }

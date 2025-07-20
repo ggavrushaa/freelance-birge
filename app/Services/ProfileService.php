@@ -6,7 +6,7 @@ use App\Models\Profile;
 
 class ProfileService
 {
-    public function updateProfile(Profile $profile, array $data): Profile
+    public function update(Profile $profile, array $data): Profile
     {
         $skills = $data['skills'] ?? [];
         $languages = $data['languages'] ?? [];
@@ -18,6 +18,20 @@ class ProfileService
         $profile->skills()->sync($skills);
         $profile->languages()->sync($languages);
 
+        return $profile;
+    }
+
+    public function create(array $data): Profile
+    {
+        $skills = $data['skills'] ?? [];
+        $languages = $data['languages'] ?? [];
+
+        unset($data['skills'], $data['languages']);
+
+        $profile = Profile::create($data);
+
+        $profile->skills()->sync($skills);
+        $profile->languages()->sync($languages);
         return $profile;
     }
 }
