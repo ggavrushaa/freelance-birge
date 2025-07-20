@@ -13,7 +13,8 @@ Route::get('/', function () {
     return Inertia::render('welcome.page');
 })->name('home');
 
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('customer/dashboard', [DashboardController::class, 'customerDashboard'])->name('customer.dashboard');
+Route::get('freelancer/dashboard', [DashboardController::class, 'freelancerDashboard'])->name('freelancer.dashboard');
 
 Route::resource('customer-job', CustomerJobController::class)->except('update');
 Route::post('customer-job/{id}/update', [CustomerJobController::class, 'update'])->name('customer-job.update');
