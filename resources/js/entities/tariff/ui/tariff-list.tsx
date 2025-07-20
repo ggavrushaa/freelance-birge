@@ -3,16 +3,15 @@ import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { Tariff } from '../model/types';
 
-interface TariffListProps {
-    tariffs: Tariff[];
-    onClick: (id: number) => void;
+interface TariffListProps<T> {
+    tariffs: T[];
     onAdd: () => void;
+    onClick: (id: number) => void;
     onRemove: () => void;
 }
 
-export const TariffList = (props: TariffListProps) => {
+export const TariffList = <T,>(props: TariffListProps<T>) => {
     const { tariffs, onClick, onAdd, onRemove } = props;
     const [isEdit, setIsEdit] = useState(false);
     const toggleIsEdit = () => {

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Profile;
+use App\Models\User;
 
 class ProfileRepository
 {

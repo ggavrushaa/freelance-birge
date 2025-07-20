@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->pin_code_blocked_until && now()->lessThan($this->pin_code_blocked_until);
     }
+
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
 }

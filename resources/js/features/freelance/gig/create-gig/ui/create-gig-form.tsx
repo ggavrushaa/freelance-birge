@@ -49,7 +49,6 @@ export const CreateGigForm = () => {
 
     const handleClickTariff = (id: number) => {
         setSelectedTariffId(id);
-        console.log(id,"id");
         tariffModal.open();
     };
 
