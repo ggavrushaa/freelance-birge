@@ -44,7 +44,7 @@ class ProfileController extends Controller
         }
 
         $this->service->create($data);
-        return redirect()->route('profile.show');
+        return redirect()->route('profile.show', ['profile' => $this->repository->getProfileWithRelations(auth()->user())]);
     }
 
     public function edit()
