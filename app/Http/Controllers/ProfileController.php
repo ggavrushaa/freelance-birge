@@ -69,7 +69,7 @@ class ProfileController extends Controller
         }
         $this->service->update($profile, $data);
 
-        return redirect()->route('profile.show');
+        return redirect()->route('profile.show', ['profile' => $this->repository->getProfileWithRelations(auth()->user())]);
     }
 
 }
