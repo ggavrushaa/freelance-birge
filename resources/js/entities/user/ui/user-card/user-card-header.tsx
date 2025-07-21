@@ -1,7 +1,14 @@
 import { Badge } from '@/shared/ui/badge';
 import { Title } from '@/shared/ui/title';
+import { ReactNode } from 'react';
 
-export const UserCardHeader = () => {
+interface UserCardHeaderProps {
+    userName: string;
+    rightAddon: ReactNode;
+}
+
+export const UserCardHeader = (props: UserCardHeaderProps) => {
+    const { userName, rightAddon } = props;
     return (
         <div className="flex items-center">
             <div
@@ -9,13 +16,13 @@ export const UserCardHeader = () => {
                 style={{ background: 'linear-gradient(90deg, #7261FF 0%, #66A9E0 100%)' }}
             ></div>
             <div className="ml-2">
-                <Title className='font-medium'>Andrew</Title>
+                <Title className="font-medium">{userName}</Title>
                 <div className="flex gap-1">
                     <Badge>Новый</Badge>
                     <Badge>Premium</Badge>
                 </div>
             </div>
-            <img src="/icons/arrow-right.svg" className="ml-auto" />
+            {rightAddon}
         </div>
     );
 };

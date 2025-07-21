@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PortfolioController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
@@ -26,7 +27,7 @@ Route::resource('tariff', TariffController::class);
 
 Route::resource('profile', ProfileController::class);
 
-// Route::resource('portfolio', PortfolioController::class);
+Route::resource('portfolio', PortfolioController::class);
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

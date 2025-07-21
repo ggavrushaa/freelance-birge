@@ -11,9 +11,9 @@ export const ROUTES = {
     customer: {
         job: {
             create: 'customer-job',
-            edit: (id:number) => `/customer-job/${id}/edit`,
-            update: (id:number) => `/customer-job/${id}/update`,
-            publish: (id:number) => `/customer-job/${id}/published`,
+            edit: (id: number) => `/customer-job/${id}/edit`,
+            update: (id: number) => `/customer-job/${id}/update`,
+            publish: (id: number) => `/customer-job/${id}/published`,
         },
     },
     freelance: {
@@ -23,5 +23,11 @@ export const ROUTES = {
             // update: (id:number) => `/freelance-gig/${id}/update`,
             // publish: (id:number) => `/freelance-gig/${id}/published`,
         },
+    },
+    profile: {
+        create: '/profile/create',
+    },
+    portfolio: {
+        create: '/portfolio',
     },
 };

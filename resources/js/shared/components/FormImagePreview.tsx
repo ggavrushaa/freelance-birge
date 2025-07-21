@@ -2,11 +2,12 @@ import classNames from 'classnames';
 
 interface FormImagePreviewProps {
     preview: string | null;
+    placeholder?: string;
     className?: string;
 }
 
 export const FormImagePreview = (props: FormImagePreviewProps) => {
-    const { preview } = props;
+    const { preview, placeholder } = props;
     return (
         <div
             className={classNames(
@@ -19,7 +20,9 @@ export const FormImagePreview = (props: FormImagePreviewProps) => {
                 backgroundPosition: 'center',
             }}
         >
-            {preview ? null : <p className="font-semibold">Ваше фото</p>}
+            {preview ? null : (
+                <p className="font-semibold">{placeholder ? placeholder : 'Ваше фото'}</p>
+            )}
         </div>
     );
 };

@@ -2,6 +2,10 @@ import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
+type SelectTriggerProps = React.ComponentProps<typeof SelectPrimitive.Trigger> & {
+  withArrow?: boolean;
+};
+
 import { cn } from "@/shared/lib/utils"
 
 function Select({
@@ -24,9 +28,10 @@ function SelectValue({
 
 function SelectTrigger({
   className,
+  withArrow = true,
   children,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger>) {
+}: SelectTriggerProps){
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
@@ -38,7 +43,7 @@ function SelectTrigger({
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDownIcon className=" size-5 transition-transform duration-300 group-data-[state=open]:rotate-180"stroke="#007AFF" />
+        {withArrow && <ChevronDownIcon className=" size-5 transition-transform duration-300 group-data-[state=open]:rotate-180"stroke="#007AFF" />}
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   )

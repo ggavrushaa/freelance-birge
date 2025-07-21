@@ -98,6 +98,10 @@
         background: rgba(60, 60, 67, 0.6);
     }
 
+    .border-profile {
+        border-color: rgba(36, 36, 36, 0.05);
+    }
+
     .bg-input {
         background: rgba(118, 118, 128, 0.12);
     }
