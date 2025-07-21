@@ -19,6 +19,11 @@ class ProfileController extends Controller
     ) {
     }
 
+    public function index()
+    {
+        return Inertia::render('profile/index.page');
+    }
+
     public function show()
     {
         $profile = $this->repository->getProfileWithRelations(auth()->user());
