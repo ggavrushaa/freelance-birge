@@ -9,12 +9,12 @@ class ProfileRepository
 {
     public function getProfile(User $user)
     {
-        return $user->profile()->first();
+        return Profile::where('user_id', $user->id)->first();
     }
 
     public function getProfileWithRelations(User $user)
     {
-        return $user->profile()->with('labels', 'languages', 'skills')->first();
+        return Profile::with('labels', 'languages', 'skills')->where('user_id', $user->id)->first();
     }
 
     public function getLabels(Profile $profile)
