@@ -21,7 +21,7 @@ class TariffController extends Controller
         return Inertia::render(
             'tariff/create.page',
             [
-                'additionalOptions' => TariffAdditionalOptionsEnum::cases(),
+                'additionalOptions' => TariffAdditionalOptionsEnum::toArray(),
             ]
         );
     }
@@ -32,7 +32,7 @@ class TariffController extends Controller
             'tariff/edit.page',
             [
                 'tariff' => $tariff->load('freelanceGig'),
-                'additionalOptions' => TariffAdditionalOptionsEnum::cases(),
+                'additionalOptions' => TariffAdditionalOptionsEnum::toArray(),
             ]
         );
     }
