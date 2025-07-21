@@ -9,7 +9,7 @@ class ProfileRepository
 {
     public function getProfile(User $user)
     {
-        return $user->profile;
+        return $user->profile()->first();
     }
 
     public function getProfileWithRelations(User $user)
