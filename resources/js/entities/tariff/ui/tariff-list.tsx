@@ -19,7 +19,7 @@ export const TariffList = <T,>(props: TariffListProps<T>) => {
         setIsEdit((prev) => !prev);
     };
 
-    const handleClick = (id:number) => {
+    const handleClick = (id: number) => {
         if (isEdit) return;
         onClick(id);
     };

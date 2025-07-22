@@ -5,7 +5,7 @@ export interface Tariff {
     price: number;
     term: number;
     corrections: number;
-    additional_options: unknown[] | null;
+    additional_options: string[] | null;
     freelance_gig_id: number;
     created_at: string;
     updated_at: string;

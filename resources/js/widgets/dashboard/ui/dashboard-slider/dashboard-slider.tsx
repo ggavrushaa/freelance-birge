@@ -1,10 +1,10 @@
+import { Text } from '@/shared/ui/text';
+import { Title } from '@/shared/ui/title';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import "./dashboard-slider.css";
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Title } from '@/shared/ui/title';
-import { Text } from '@/shared/ui/text';
+import './dashboard-slider.css';
 
 interface DashboardSliderSlideProps {
     title: string;
@@ -15,7 +15,10 @@ interface DashboardSliderSlideProps {
 export const DashboardSliderSlide = (props: DashboardSliderSlideProps) => {
     const { title, backgroundUrl, renderText } = props;
     return (
-        <div style={{ backgroundImage: `url('${backgroundUrl}')` }} className={`rounded-xl bg-cover bg-center p-4.5`}>
+        <div
+            style={{ backgroundImage: `url('${backgroundUrl}')` }}
+            className={`rounded-xl bg-cover bg-center p-4.5`}
+        >
             <Title className="font-bold text-white">{title}</Title>
             <Text fontSize={13} className="text-gray2">
                 {renderText()}

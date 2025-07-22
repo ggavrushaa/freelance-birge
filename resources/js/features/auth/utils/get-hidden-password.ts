@@ -1,4 +1,4 @@
-import { PASSWORD_LENGTH } from "@/shared/consts";
+import { PASSWORD_LENGTH } from '@/shared/consts';
 
 export const getHiddenPassword = (password: string) => {
     if (password.length === 0) return ''.padEnd(PASSWORD_LENGTH, '');

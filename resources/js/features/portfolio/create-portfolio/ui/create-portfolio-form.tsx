@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/shared/ui/textarea';
 import { getDayLabel } from '@/shared/utils/get-day-label';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { router } from '@inertiajs/react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { createPortfolioSchema } from '../model/validation/create-portfolio-schema';
@@ -18,7 +19,12 @@ const daySelections = {
     days: Array.from({ length: 90 }, (_, i) => i + 1),
 };
 
-export const CreatePortfolioForm = () => {
+interface CreatePortfolioFormProps {
+    profileId: number;
+}
+
+export const CreatePortfolioForm = (props: CreatePortfolioFormProps) => {
+    const { profileId } = props;
     const { categories } = usePageProps();
     const photoFile = useFile();
     const {
@@ -47,8 +53,10 @@ export const CreatePortfolioForm = () => {
     };
 
     const handleSave = (data: z.infer<typeof createPortfolioSchema>) => {
-        console.log(data);
-        // router.post(ROUTES.portfolio.create,data);
+        router.post('/portfolio', {
+            ...data,
+            profile_id: profileId,
+        });
     };
 
     return (

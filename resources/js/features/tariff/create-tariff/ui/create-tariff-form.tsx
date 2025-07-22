@@ -16,6 +16,8 @@ import { CreateTariffFormLayout } from '../layouts/create-tariff-form.layout';
 import { createTariffSchema } from '../model/validation/create-tariff-schema';
 import { TariffAdditionalsModal } from './tariff-additionals-modal';
 
+const options = ['integration', 'documentation', 'comments', 'testing', 'deployment', 'express'];
+
 const daySelections = {
     days: Array.from({ length: 90 }, (_, i) => i + 1),
 };
@@ -31,9 +33,12 @@ interface CreateTariffFormProps {
 export const CreateTariffForm = (props: CreateTariffFormProps) => {
     const { tariffValues, onSave } = props;
     const additionalOptionsModal = useModal();
+    console.log(tariffValues.additional_options);
     const {
         register,
         control,
+        setValue,
+        watch,
         handleSubmit,
         formState: { isValid },
     } = useForm<z.infer<typeof createTariffSchema>>({
@@ -41,8 +46,22 @@ export const CreateTariffForm = (props: CreateTariffFormProps) => {
         mode: 'onChange',
         defaultValues: {
             ...tariffValues,
+            additional_options: tariffValues.additional_options,
         },
     });
+
+    const additional_options = watch('additional_options');
+
+    const handleSaveAdditionals = (options: string[]) => {
+        setValue('additional_options', options);
+        additionalOptionsModal.close();
+    };
+
+    const choosenIds = additional_options
+        ? additional_options
+              .map((option) => options.indexOf(option))
+              .filter((index) => index !== -1)
+        : [];
 
     return (
         <CreateTariffFormLayout>
@@ -136,7 +155,9 @@ export const CreateTariffForm = (props: CreateTariffFormProps) => {
                     onClick={additionalOptionsModal.open}
                     className="mb-15 flex flex-row items-center gap-0 px-4 py-3"
                 >
-                    <Text fontSize={15}>Добавить дополнения</Text>
+                    <Text fontSize={15}>
+                        {additional_options ? additional_options.join(' ') : 'Добавить дополнения'}
+                    </Text>
                     <Text fontSize={15} className="mr-1 ml-auto">
                         Выбрать
                     </Text>
@@ -146,7 +167,13 @@ export const CreateTariffForm = (props: CreateTariffFormProps) => {
                     Сохранить
                 </Button>
             </form>
-            {additionalOptionsModal.isOpen && <TariffAdditionalsModal />}
+            {additionalOptionsModal.isOpen && (
+                <TariffAdditionalsModal
+                    options={options}
+                    onSave={handleSaveAdditionals}
+                    choosenIds={choosenIds}
+                />
+            )}
         </CreateTariffFormLayout>
     );
 };

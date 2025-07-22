@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('freelance_gigs', function (Blueprint $table) {
             $table->id()->from(1001);
 
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('photo')->nullable();
 
             $table->boolean('is_active')->default(true);

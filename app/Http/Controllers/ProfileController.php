@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LanguageEnum;
+use App\Enums\SkillEnum;
+use App\Models\Language;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Repositories\ProfileRepository;
@@ -21,7 +25,10 @@ class ProfileController extends Controller
 
     public function index()
     {
-        return Inertia::render('profile/index.page');
+        $profile = $this->repository->getProfileWithRelations(auth()->user());
+        return Inertia::render('profile/index.page', [
+            'profile' => $profile,
+        ]);
     }
 
     public function show()
@@ -35,7 +42,10 @@ class ProfileController extends Controller
 
     public function create()
     {
-        return Inertia::render('profile/create.page');
+        return Inertia::render('profile/create.page', [
+            "languages" => Language::all(),
+            "skills" => Skill::all(),
+        ]);
     }
 
     public function store(StoreRequest $request)
@@ -49,7 +59,7 @@ class ProfileController extends Controller
         }
 
         $this->service->create($data);
-        return redirect()->route('profile.show', ['profile' => auth()->user()->profile]);
+        return redirect()->route('profile.show', ['profile' => $this->repository->getProfileWithRelations(auth()->user())]);
     }
 
     public function edit()
@@ -58,8 +68,10 @@ class ProfileController extends Controller
 
         return Inertia::render('profile/edit.page', [
             'profile' => $profile,
+            "allLanguages" => Language::all(),
+            "allSkills" => Skill::all(),
         ]);
-    }       
+    }
 
     public function update(UpdateRequest $request)
     {

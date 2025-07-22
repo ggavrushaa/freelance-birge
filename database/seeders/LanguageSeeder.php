@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\LanguagesEnum;
+use App\Enums\LanguageEnum;
 use App\Models\Language;
 use Illuminate\Database\Seeder;
 
@@ -10,7 +10,7 @@ class LanguageSeeder extends Seeder
 {
     public function run(): void
     {
-        $languages = LanguagesEnum::cases();
+        $languages = LanguageEnum::cases();
 
         foreach ($languages as $language) {
             Language::create([

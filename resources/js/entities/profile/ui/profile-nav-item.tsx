@@ -10,7 +10,7 @@ interface ProfileNavItemProps {
 export const ProfileNavItem = (props: ProfileNavItemProps) => {
     const { imageUrl, text, rightAddon } = props;
     return (
-        <div className="flex items-center border-b border-profile py-1.5">
+        <div className="border-profile flex items-center border-b py-1.5">
             <img src={imageUrl} />
             <Text fontColor="black" className="ml-3">
                 {text}

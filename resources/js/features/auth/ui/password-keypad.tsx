@@ -16,7 +16,7 @@ export const PasswordKeyPad = (props: PasswordKeyPadProps) => {
                     onClick={() => onDigitClick(num)}
                     key={num}
                     className={clsx(
-                        'transition password-num flex h-14 w-14 items-center justify-center rounded-full bg-[#eeeeef] btn-press',
+                        'password-num btn-press flex h-14 w-14 items-center justify-center rounded-full bg-[#eeeeef] transition',
                         {
                             'col-2': num === 0,
                         },
@@ -25,7 +25,10 @@ export const PasswordKeyPad = (props: PasswordKeyPadProps) => {
                     {num}
                 </div>
             ))}
-            <div onClick={onClearClick} className="flex h-14 w-14 items-center justify-center btn-press">
+            <div
+                onClick={onClearClick}
+                className="btn-press flex h-14 w-14 items-center justify-center"
+            >
                 <img src="/icons/clear.svg" />
             </div>
         </div>

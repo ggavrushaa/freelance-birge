@@ -1,15 +1,19 @@
-import { Profile, ProfileNavItem } from '@/entities/profile';
+import { Language } from '@/entities/language';
+import { Profile } from '@/entities/profile';
+import { Skill } from '@/entities/skill';
 import { UserCard, UserCardContent, UserCardHeader } from '@/entities/user';
+import { LogoutButton } from '@/features/auth';
+import { BadgeList } from '@/shared/components/badge-list';
 import { ROUTES } from '@/shared/config/routes';
-import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Card } from '@/shared/ui/card';
-import { Switch } from '@/shared/ui/switch';
+import { CollapsableText } from '@/shared/ui/collapsable-text';
+import { Title } from '@/shared/ui/title';
 import { SharedData } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
 type ProfileShowPageProps = SharedData & {
-    profile: Profile | null;
+    profile: Profile;
 };
 
 const ProfileShowPage = (props: ProfileShowPageProps) => {
@@ -19,11 +23,7 @@ const ProfileShowPage = (props: ProfileShowPageProps) => {
     } = props;
 
     const handleClickArrow = () => {
-        if (profile) {
-            console.log('ture');
-        } else {
-            router.get(ROUTES.profile.create);
-        }
+        router.get(ROUTES.profile.edit(profile.id));
     };
 
     return (
@@ -43,64 +43,59 @@ const ProfileShowPage = (props: ProfileShowPageProps) => {
                 }
                 content={
                     <UserCardContent
+                        rating={user.rating}
                         ordersCount={user.orders_count}
                         completedOrdersCount={user.completed_orders_count}
                     />
                 }
                 className="mb-6"
             />
-            <Card className="mb-4.5 gap-0 px-4 py-0 [&>div:last-of-type]:border-0">
-                <ProfileNavItem
-                    imageUrl="/icons/profile/stats.svg"
-                    text="Статистика"
-                    rightAddon={<img src="/icons/profile/arrow.svg" className="ml-auto" />}
-                />
-                <ProfileNavItem
-                    imageUrl="/icons/profile/wallet.svg"
-                    text="Кошелек"
-                    rightAddon={<img src="/icons/profile/arrow.svg" className="ml-auto" />}
-                />
+            <Link href="/portfolio/" className="mb-4.5 block">
+                <Card className="btn-press flex flex-row items-center justify-between px-4 py-3">
+                    <Title color="black" className="font-medium">
+                        Портфолио
+                    </Title>
+                    <img className="h-4.5 w-4.5" src="/icons/arrow-right.svg" />
+                </Card>
+            </Link>
+            <Card className="mb-4.5 gap-0 p-4">
+                <Title className="font-medium">Обо мне</Title>
+                <CollapsableText text={profile.description} className="text-[13px] text-gray" />
+                {profile.languages && profile.languages.length > 0 && (
+                    <BadgeList
+                        leftIcon={<img src="/icons/language.svg" />}
+                        items={profile.languages}
+                        getItemLabel={(language: Language) => language.name}
+                        className="mb-4"
+                    />
+                )}
+                {profile.skills && profile.skills.length > 0 && (
+                    <>
+                        <Title className="mb-1 block font-medium">Навыки</Title>
+                        <BadgeList
+                            items={profile.skills}
+                            getItemLabel={(skill: Skill) => skill.name}
+                        />
+                    </>
+                )}
             </Card>
-            <Card className="mb-4.5 gap-0 px-4 py-0 [&>div:last-of-type]:border-0">
-                <ProfileNavItem
-                    imageUrl="/icons/profile/friend.svg"
-                    text="Пригласи друга"
-                    rightAddon={<img src="/icons/profile/arrow.svg" className="ml-auto" />}
-                />
+            <Title fontSize={20} className="mb-3 font-medium">
+                Управление аккаунтом
+            </Title>
+            <Card className="btn-press mb-4.5 flex flex-row items-center justify-between px-4 py-3">
+                <Title className="font-medium">Пользовательское соглашение</Title>
+                <img className="h-4.5 w-4.5" src="/icons/arrow-right.svg" />
             </Card>
-            <Card className="mb-4.5 gap-0 px-4 py-0 [&>div:last-of-type]:border-0">
-                <ProfileNavItem
-                    imageUrl="/icons/profile/riki.svg"
-                    text="Riki Premium"
-                    rightAddon={<img src="/icons/profile/arrow.svg" className="ml-auto" />}
-                />
-                <ProfileNavItem
-                    imageUrl="/icons/profile/present.svg"
-                    text="Riki подарок"
-                    rightAddon={<img src="/icons/profile/arrow.svg" className="ml-auto" />}
-                />
-            </Card>
-            <Card className="mb-4.5 gap-0 px-4 py-0 [&>div:last-of-type]:border-0">
-                <ProfileNavItem
-                    imageUrl="/icons/profile/mode.svg"
-                    text="Режим фрилансера"
-                    rightAddon={<Switch className="ml-auto" />}
-                />
-            </Card>
-            <Card className="mb-4.5 gap-0 px-4 py-0 [&>div:last-of-type]:border-0">
-                <ProfileNavItem imageUrl="/icons/profile/folder.svg" text="Добавить каналы" />
-                <ProfileNavItem imageUrl="/icons/profile/support.svg" text="Поддержка" />
-                <ProfileNavItem imageUrl="/icons/profile/faq.svg" text="Riki FAQ" />
-            </Card>
+            <LogoutButton />
         </div>
     );
 };
 
 ProfileShowPage.layout = (page: ReactNode) => (
-    <LayoutWithNavbar>
+    <>
         <Head title="Profile page" />
         {page}
-    </LayoutWithNavbar>
+    </>
 );
 
 export default ProfileShowPage;

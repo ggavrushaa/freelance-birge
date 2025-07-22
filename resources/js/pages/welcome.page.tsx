@@ -5,11 +5,10 @@ import { Head, Link, router } from '@inertiajs/react';
 const Welcome = () => {
     const handleClickRegister = () => {
         router.post(ROUTES.auth.register, {
-            telegram_id: '123',
-            username: 'username',
+            telegram_id: '222',
+            username: 'Bohdan1',
         });
     };
-
     return (
         <>
             <Head title="Welcome"></Head>
@@ -20,7 +19,7 @@ const Welcome = () => {
                     alt="logo"
                 />
                 <div className="flex flex-col gap-3">
-                    <Link href={"login-verification"}>
+                    <Link href={'login-verification'}>
                         <Button className="w-full" variant="ghost">
                             Войти
                         </Button>

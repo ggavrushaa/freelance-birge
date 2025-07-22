@@ -1,6 +1,6 @@
+import { Category } from '@/entities/category';
 import type { Config } from 'ziggy-js';
 import { User as UserType } from './user';
-import { Category } from '@/entities/category';
 export { type User } from './user';
 
 export interface Auth {

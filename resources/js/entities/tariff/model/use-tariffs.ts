@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Tariff } from "./types";
+import { useState } from 'react';
+import { Tariff } from './types';
 
 export const useTariffs = ({ initialValue }: { initialValue: Partial<Tariff>[] }) => {
     const [items, setItems] = useState(initialValue);
@@ -13,7 +13,7 @@ export const useTariffs = ({ initialValue }: { initialValue: Partial<Tariff>[] }
                 description: '',
                 price: 0,
                 term: 1,
-                additional_options: [],
+                additional_options: null,
                 corrections: 0,
             },
         ]);

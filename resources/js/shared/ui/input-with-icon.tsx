@@ -11,7 +11,7 @@ export const InputWithIcon = (props: InputWithIconProps) => {
     return (
         <div className={cn('flex items-center gap-2 bg-input px-3 py-2', className)}>
             {renderIcon()}
-            <input type={type} className='focus:outline-none' data-slot="input" {...rest} />
+            <input type={type} className="focus:outline-none" data-slot="input" {...rest} />
         </div>
     );
 };

@@ -1,7 +1,8 @@
-import { TariffList } from '@/entities/tariff';
-import { useTariffs } from '@/entities/tariff';
+import { TariffList, useTariffs } from '@/entities/tariff';
+import { Tariff } from '@/entities/tariff/model/types';
 import { CreateTariffForm } from '@/features/tariff/create-tariff';
 import { FormImagePreview } from '@/shared/components/FormImagePreview';
+import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
 import { useModal } from '@/shared/hooks/use-modal';
 import { usePageProps } from '@/shared/hooks/use-page-props';
@@ -11,16 +12,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/shared/ui/switch';
 import { Textarea } from '@/shared/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { router } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { createFreelanceGigSchema } from '../model/validation';
-import { Tariff } from '@/entities/tariff/model/types';
 
 export const CreateGigForm = () => {
     const {
-        categories,
         auth: { user },
+        categories,
     } = usePageProps();
     const photoFile = useFile();
     const tariffModal = useModal();
@@ -47,31 +48,37 @@ export const CreateGigForm = () => {
         },
     });
 
+    const watchedCategoryId = useWatch({
+        control,
+        name: 'category_id',
+    });
+
     const handleClickTariff = (id: number) => {
         setSelectedTariffId(id);
         tariffModal.open();
     };
-
-    const handleClickChoosePhoto = () => photoFile.ref.current?.click();
 
     const handleChangePhotoFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         photoFile.onChange(e, (file) => setValue('photo', file, { shouldValidate: true }));
     };
 
     const handleSave = (data: z.infer<typeof createFreelanceGigSchema>) => {
-        console.log(data);
-        console.log(tariffs.items);
+        const request = {
+            ...data,
+            user_id: user.id,
+            tariffs: tariffs.items,
+        };
+        console.log(request);
+        router.post(ROUTES.freelance.gig.create, request);
     };
 
-    const selectedTariff = tariffs.items.find(
-        (tariff) => tariff.id === selectedTariffId,
-    ) as Tariff;
+    const selectedTariff = tariffs.items.find((tariff) => tariff.id === selectedTariffId) as Tariff;
 
     return (
         <>
             <form onSubmit={handleSubmit(handleSave)}>
                 <FormImagePreview preview={photoFile.preview} className="mb-3" />
-                <Button type="button" onClick={handleClickChoosePhoto} className="mb-6 w-full">
+                <Button type="button" onClick={photoFile.onClick} className="mb-6 w-full">
                     Выбрать
                 </Button>
                 <input
@@ -90,7 +97,6 @@ export const CreateGigForm = () => {
                             value={field.value ? String(field.value) : undefined}
                             onValueChange={(value) => {
                                 field.onChange(Number(value));
-                                setValue('sub_category_id', null, { shouldValidate: true });
                             }}
                         >
                             <SelectTrigger className="mb-3">
@@ -110,15 +116,15 @@ export const CreateGigForm = () => {
                 <Controller
                     name="sub_category_id"
                     control={control}
-                    render={({ field, formState }) => {
-                        const categoryId = formState.defaultValues?.category_id || field.value;
+                    render={({ field }) => {
                         const subCategories =
-                            categories.find(({ id }) => id === categoryId)?.sub_categories || [];
+                            categories.find(({ id }) => id === watchedCategoryId)?.sub_categories ||
+                            [];
                         return (
                             <Select
                                 value={field.value ? String(field.value) : undefined}
                                 onValueChange={(value) => field.onChange(Number(value))}
-                                disabled={!categoryId}
+                                disabled={!watchedCategoryId}
                             >
                                 <SelectTrigger className="mb-6">
                                     <SelectValue placeholder="Выбрать подкатегорию (опционально)" />
@@ -215,10 +221,10 @@ export const CreateGigForm = () => {
                         price: selectedTariff?.price,
                         term: selectedTariff?.term,
                         corrections: selectedTariff?.corrections,
-                        additional_options: selectedTariff?.additional_options || [],
+                        additional_options: selectedTariff?.additional_options || null,
                     }}
                     onSave={(data) => {
-                        tariffs.edit(selectedTariff.id,data);
+                        tariffs.edit(selectedTariff.id, data);
                         tariffModal.close();
                     }}
                 />
