@@ -32,3 +32,9 @@ export interface CustomerJob {
     created_at: string;
     updated_at: string;
 }
+
+
+export interface AdditionalOption {
+    value: string;
+    label: string;
+}

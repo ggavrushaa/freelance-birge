@@ -2,7 +2,6 @@ import { TariffList, useTariffs } from '@/entities/tariff';
 import { Tariff } from '@/entities/tariff/model/types';
 import { CreateTariffForm } from '@/features/tariff/create-tariff';
 import { FormImagePreview } from '@/shared/components/FormImagePreview';
-import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
 import { useModal } from '@/shared/hooks/use-modal';
 import { usePageProps } from '@/shared/hooks/use-page-props';
@@ -12,11 +11,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/shared/ui/switch';
 import { Textarea } from '@/shared/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { createFreelanceGigSchema } from '../model/validation';
+import { router } from '@inertiajs/react';
+import { ROUTES } from '@/shared/config/routes';
 
 export const CreateGigForm = () => {
     const {
@@ -58,6 +58,12 @@ export const CreateGigForm = () => {
         tariffModal.open();
     };
 
+    const handleClickAddTariff = () => {
+        const newTariff = tariffs.add();
+        setSelectedTariffId(newTariff.id);
+        tariffModal.open();
+    };
+
     const handleChangePhotoFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         photoFile.onChange(e, (file) => setValue('photo', file, { shouldValidate: true }));
     };
@@ -66,9 +72,11 @@ export const CreateGigForm = () => {
         const request = {
             ...data,
             user_id: user.id,
-            tariffs: tariffs.items,
+            tariffs: tariffs.items.map((tariff) => ({
+                ...tariff,
+                additional_options: tariff.additional_options?.map((option) => option.value) || [],
+            })),
         };
-        console.log(request);
         router.post(ROUTES.freelance.gig.create, request);
     };
 
@@ -161,8 +169,8 @@ export const CreateGigForm = () => {
                 <TariffList
                     tariffs={tariffs.items}
                     onClick={handleClickTariff}
-                    onRemove={() => {}}
-                    onAdd={tariffs.add}
+                    onRemove={tariffs.remove}
+                    onAdd={handleClickAddTariff}
                 />
 
                 <div className="mb-3">
@@ -223,6 +231,7 @@ export const CreateGigForm = () => {
                         corrections: selectedTariff?.corrections,
                         additional_options: selectedTariff?.additional_options || null,
                     }}
+                    tariffIndex={selectedTariff.id}
                     onSave={(data) => {
                         tariffs.edit(selectedTariff.id, data);
                         tariffModal.close();

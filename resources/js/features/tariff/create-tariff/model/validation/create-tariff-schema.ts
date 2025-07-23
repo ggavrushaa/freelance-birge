@@ -6,5 +6,8 @@ export const createTariffSchema = z.object({
     price: z.number().min(0),
     term: z.number().min(1),
     corrections: z.number().min(0),
-    additional_options: z.array(z.string()).nullable(),
+    additional_options: z.array(z.object({
+        value: z.string(),
+        label: z.string(),
+    })).nullable(),
 });

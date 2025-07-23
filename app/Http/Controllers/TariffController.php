@@ -37,13 +37,12 @@ class TariffController extends Controller
         );
     }
 
-    public function update(StoreRequest $request, Tariff $tariff): JsonResponse
+    public function update(StoreRequest $request, Tariff $tariff)
     {
         $tariff->update($request->validated());
 
-        return response()->json([
-            'success' => true,
-            'tariff' => $tariff->load('freelanceGig'),
+        return redirect()->route('freelance-gig.show', [
+            'freelance_gig' => $tariff->freelance_gig_id
         ]);
     }
 

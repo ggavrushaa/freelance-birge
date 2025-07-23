@@ -19,7 +19,7 @@ export const ROUTES = {
     freelance: {
         gig: {
             create: '/freelance-gig',
-            // edit: (id:number) => `/freelance-gig/${id}/edit`,
+            edit: (id: number) => `/freelance-gig/${id}/edit`,
             // update: (id:number) => `/freelance-gig/${id}/update`,
             // publish: (id:number) => `/freelance-gig/${id}/published`,
         },
@@ -32,5 +32,9 @@ export const ROUTES = {
         create: '/portfolio/create',
         edit: (id: number) => `/portfolio/${id}/edit`,
         update: (id: number) => `/portfolio/${id}`,
+    },
+    tariff: {
+        edit: (id: number) => `/tariff/${id}/edit`,
+        update: (id: number) => `/tariff/${id}`
     },
 };

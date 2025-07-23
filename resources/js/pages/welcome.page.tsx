@@ -5,8 +5,8 @@ import { Head, Link, router } from '@inertiajs/react';
 const Welcome = () => {
     const handleClickRegister = () => {
         router.post(ROUTES.auth.register, {
-            telegram_id: '222',
-            username: 'Bohdan1',
+            telegram_id: '1234321',
+            username: 'Bohdan',
         });
     };
     return (

@@ -1,5 +1,4 @@
-import { TariffAdditionals, TariffAdditionalsModal } from '@/entities/tariff';
-import { Tariff } from '@/entities/tariff/model/types';
+import { TariffAdditionals } from '@/entities/tariff';
 import { InputPicker } from '@/shared/components/input-picker/input-picker';
 import { InputPickerTrigger } from '@/shared/components/input-picker/input-picker-trigger';
 import { useModal } from '@/shared/hooks/use-modal';
@@ -12,29 +11,23 @@ import { Title } from '@/shared/ui/title';
 import { getDayLabel } from '@/shared/utils/get-day-label';
 import { AdditionalOption } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { usePage } from '@inertiajs/react';
 import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
-import { CreateTariffFormLayout } from '../layouts/create-tariff-form.layout';
-import { createTariffSchema } from '../model/validation/create-tariff-schema';
+import { TariffAdditionalsModal } from '../../../../entities/tariff/ui/tariff-additionals/tariff-additionals-modal';
+import { editTariffSchema } from '../model/validation/edit-tariff-schema';
 
 const daySelections = {
     days: Array.from({ length: 90 }, (_, i) => i + 1),
 };
 
-interface CreateTariffFormProps {
-    tariffValues: Pick<
-        Tariff,
-        'name' | 'description' | 'price' | 'term' | 'corrections' | 'additional_options'
-    >;
-    tariffIndex: number;
-    onSave: (data: z.infer<typeof createTariffSchema>) => void;
+interface EditTariffFormProps {
+    formValues: z.infer<typeof editTariffSchema>;
+    additionalOptions: AdditionalOption[];
+    onSubmit: (data: z.infer<typeof editTariffSchema>) => void;
 }
 
-export const CreateTariffForm = (props: CreateTariffFormProps) => {
-    const { tariffValues, tariffIndex, onSave } = props;
-    const additionalOptions =
-        (usePage().props as { additionalOptions?: AdditionalOption[] }).additionalOptions ?? [];
+export const EditTariffForm = (props: EditTariffFormProps) => {
+    const { formValues, onSubmit, additionalOptions } = props;
     const additionalOptionsModal = useModal();
     const {
         register,
@@ -43,13 +36,10 @@ export const CreateTariffForm = (props: CreateTariffFormProps) => {
         watch,
         handleSubmit,
         formState: { isValid },
-    } = useForm<z.infer<typeof createTariffSchema>>({
-        resolver: zodResolver(createTariffSchema),
+    } = useForm<z.infer<typeof editTariffSchema>>({
+        resolver: zodResolver(editTariffSchema),
         mode: 'onChange',
-        defaultValues: {
-            ...tariffValues,
-            additional_options: tariffValues.additional_options,
-        },
+        defaultValues: formValues,
     });
 
     const additional_options = watch('additional_options');
@@ -73,6 +63,12 @@ export const CreateTariffForm = (props: CreateTariffFormProps) => {
     const renderAdditionalOptionsLabels = () => {
         if (additional_options && additional_options.length > 0) {
             const values = additional_options.map((item) => item.value);
+            console.log(
+                additionalOptions
+                    .filter((option) => values.includes(option.value))
+                    .map((option) => option.label)
+                    .join(' '),
+            );
             return additionalOptions
                 .filter((option) => values.includes(option.value))
                 .map((option) => option.label)
@@ -83,10 +79,10 @@ export const CreateTariffForm = (props: CreateTariffFormProps) => {
     };
 
     return (
-        <CreateTariffFormLayout>
-            <form onSubmit={handleSubmit(onSave)}>
+        <>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Title fontSize={24} className="mb-7.5 text-center font-bold">
-                    Услуга {tariffIndex}
+                    Услуга 1
                 </Title>
                 <Label htmlFor="name" className="mb-3 block">
                     Название
@@ -194,6 +190,6 @@ export const CreateTariffForm = (props: CreateTariffFormProps) => {
                     />
                 </TariffAdditionalsModal>
             )}
-        </CreateTariffFormLayout>
+        </>
     );
 };
