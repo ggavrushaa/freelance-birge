@@ -37,6 +37,16 @@ class TariffController extends Controller
         );
     }
 
+    public function store(StoreRequest $request): JsonResponse
+    {
+        $tariff = Tariff::create($request->validated());
+
+        return response()->json([
+            'success' => true,
+            'tariff' => $tariff,
+        ]);
+    }
+
     public function update(StoreRequest $request, Tariff $tariff): JsonResponse
     {
         $tariff->update($request->validated());

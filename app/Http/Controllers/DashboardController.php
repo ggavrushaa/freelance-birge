@@ -4,20 +4,31 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Services\SearchService;
 
 class DashboardController extends Controller
 {
-    public function customerDashboard()
+    public function __construct(
+        private SearchService $searchService
+    ) {}
+
+    public function customerDashboard(Request $request)
     {
+        $searchTerm = $request->get('search', '');
+        $jobs = $this->searchService->searchJobs($searchTerm);
+        
         return Inertia::render('customer/dashboard.page', [
-            'jobs' => auth()->user()->customerJobs()->get(),
+            'jobs' => $jobs,
         ]);
     }
 
-    public function freelancerDashboard()
+    public function freelancerDashboard(Request $request)
     {
+        $searchTerm = $request->get('search', '');
+        $gigs = $this->searchService->searchGigs($searchTerm);
+        
         return Inertia::render('freelancer/dashboard.page', [
-            'gigs' => auth()->user()->freelanceGigs()->get(),
+            'gigs' => $gigs,
         ]);
     }
 }
