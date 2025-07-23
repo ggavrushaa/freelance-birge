@@ -13,7 +13,7 @@ class SearchService
     {
         $query = CustomerJob::query();
 
-        $this->applyTextSearch($query, $searchTerm, ['title', 'description',]);
+        $this->applyTextSearch($query, $searchTerm, ['name', 'description',]);
 
         return $query->with(['category', 'subCategory'])
             ->orderBy('created_at', 'desc')
@@ -24,7 +24,7 @@ class SearchService
     {
         $query = FreelanceGig::query();
 
-        $this->applyTextSearch($query, $searchTerm, ['title', 'description',]);
+        $this->applyTextSearch($query, $searchTerm, ['name']);
 
         return $query->with(['category', 'subCategory'])
             ->orderBy('created_at', 'desc')

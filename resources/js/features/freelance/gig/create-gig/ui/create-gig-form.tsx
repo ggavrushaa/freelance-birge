@@ -82,6 +82,8 @@ export const CreateGigForm = () => {
 
     const selectedTariff = tariffs.items.find((tariff) => tariff.id === selectedTariffId) as Tariff;
 
+    const currentCategory = categories.find(category => category.id === watchedCategoryId) || null;
+
     return (
         <>
             <form onSubmit={handleSubmit(handleSave)}>
@@ -236,6 +238,7 @@ export const CreateGigForm = () => {
                         tariffs.edit(selectedTariff.id, data);
                         tariffModal.close();
                     }}
+                    withAdditionals={currentCategory ? (currentCategory.slug === "developing" || currentCategory.slug === "design") : false}
                 />
             )}
         </>

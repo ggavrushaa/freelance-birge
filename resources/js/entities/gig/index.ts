@@ -1,1 +1,1 @@
-export { type Gig } from './model/types';
+export { type Gig, type PaginatedGigs } from './model/types';

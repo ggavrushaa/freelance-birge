@@ -1,30 +1,30 @@
-import { PaginatedJobs } from '@/entities/job';
+import { PaginatedGigs } from '@/entities/gig';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Button } from '@/shared/ui/button';
 import { SharedData } from '@/types';
-import { DashboardCustomer } from '@/widgets/dashboard/ui/dashboard-customer';
+import DashboardFreelance from '@/widgets/dashboard/ui/dashboard-freelance';
 import { Head } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
-type CustomerDashboardPageProps = SharedData & {
-    jobs: PaginatedJobs;
+type FreelanceDashboardPageProps = SharedData & {
+    gigs: PaginatedGigs;
 };
 
-const CustomerDashboardPage = (props: CustomerDashboardPageProps) => {
-    const { categories, jobs } = props;
+const FreelanceDashboardPage = (props: FreelanceDashboardPageProps) => {
+    const { gigs, categories } = props;
     return (
-        <DashboardCustomer
+        <DashboardFreelance
             categories={categories}
-            jobs={jobs.data || []}
+            gigs={gigs.data || []}
             buttons={
                 <div className="mb-4.5 grid grid-cols-2 gap-2 px-6">
                     <Button variant="secondary">
                         <img src="/icons/plus.svg" alt="plus" />
-                        Создать заказ
+                        Создать услугу
                     </Button>
                     <Button variant="secondary">
-                        <img src="/icons/arrow-down.svg" alt="plus" />
-                        Пополнить
+                        <img className='rotate-180' src="/icons/arrow-down.svg" alt="plus" />
+                        Вывод
                     </Button>
                 </div>
             }
@@ -32,11 +32,11 @@ const CustomerDashboardPage = (props: CustomerDashboardPageProps) => {
     );
 };
 
-CustomerDashboardPage.layout = (page: ReactNode) => (
+FreelanceDashboardPage.layout = (page: ReactNode) => (
     <LayoutWithNavbar>
         <Head title="Customer dashboard" />
         {page}
     </LayoutWithNavbar>
 );
 
-export default CustomerDashboardPage;
+export default FreelanceDashboardPage;

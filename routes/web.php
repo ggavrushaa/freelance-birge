@@ -15,7 +15,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('customer/dashboard', [DashboardController::class, 'customerDashboard'])->name('customer.dashboard');
-Route::get('freelancer/dashboard', [DashboardController::class, 'freelancerDashboard'])->name('freelancer.dashboard');
+Route::get('freelance/dashboard', [DashboardController::class, 'freelancerDashboard'])->name('freelancer.dashboard');
 
 Route::resource('customer-job', CustomerJobController::class)->except('update');
 Route::post('customer-job/{id}/update', [CustomerJobController::class, 'update'])->name('customer-job.update');

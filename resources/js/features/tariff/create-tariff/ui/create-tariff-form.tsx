@@ -28,11 +28,12 @@ interface CreateTariffFormProps {
         'name' | 'description' | 'price' | 'term' | 'corrections' | 'additional_options'
     >;
     tariffIndex: number;
+    withAdditionals?: boolean;
     onSave: (data: z.infer<typeof createTariffSchema>) => void;
 }
 
 export const CreateTariffForm = (props: CreateTariffFormProps) => {
-    const { tariffValues, tariffIndex, onSave } = props;
+    const { tariffValues, tariffIndex, onSave, withAdditionals } = props;
     const additionalOptions =
         (usePage().props as { additionalOptions?: AdditionalOption[] }).additionalOptions ?? [];
     const additionalOptionsModal = useModal();
@@ -169,22 +170,27 @@ export const CreateTariffForm = (props: CreateTariffFormProps) => {
                         />
                     </div>
                 </Card>
-                <Label className="mb-3 block">Параметры</Label>
-                <Card
-                    onClick={additionalOptionsModal.open}
-                    className="mb-15 flex flex-row items-center gap-0 px-4 py-3"
-                >
-                    <Text fontSize={15}>{renderAdditionalOptionsLabels()}</Text>
-                    <Text fontSize={15} className="mr-1 ml-auto">
-                        Выбрать
-                    </Text>
-                    <img className="h-4.5 w-4.5" src="/icons/arrow-right.svg" />
-                </Card>
+                {withAdditionals && (
+                    <>
+                        <Label className="mb-3 block">Параметры</Label>
+                        <Card
+                            onClick={additionalOptionsModal.open}
+                            className="mb-15 flex flex-row items-center gap-0 px-4 py-3"
+                        >
+                            <Text fontSize={15}>{renderAdditionalOptionsLabels()}</Text>
+                            <Text fontSize={15} className="mr-1 ml-auto">
+                                Выбрать
+                            </Text>
+                            <img className="h-4.5 w-4.5" src="/icons/arrow-right.svg" />
+                        </Card>
+                    </>
+                )}
+
                 <Button type="submit" disabled={!isValid} className="w-full">
                     Сохранить
                 </Button>
             </form>
-            {additionalOptionsModal.isOpen && (
+            {withAdditionals && additionalOptionsModal.isOpen && (
                 <TariffAdditionalsModal>
                     <TariffAdditionals
                         additionalOptions={additionalOptions}

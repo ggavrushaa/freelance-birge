@@ -1,44 +1,45 @@
 import { CategoryCard } from '@/entities/category';
-import { Job, jobIconsUrls } from '@/entities/job';
+import { Gig } from '@/entities/gig';
 import { useFocus } from '@/shared/hooks/use-focus';
 import { InputWithIcon } from '@/shared/ui/input-with-icon';
 import { Logo } from '@/shared/ui/logo';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
 import { SharedData } from '@/types';
-import cls from 'classnames';
 import { ChangeEvent, ReactNode, useState } from 'react';
 import { DashboardBalance } from './dashboard-balance';
-import { DashboardOrder } from './dashboard-order';
 import { DashboardOrdersWidget } from './dashboard-orders-widget';
 import { DashboardSlider } from './dashboard-slider/dashboard-slider';
+import { jobIconsUrls } from '@/entities/job';
+import { DashboardOrder } from './dashboard-order';
+import cls from 'classnames';
 import { dashboardService } from '@/entities/dashboard';
 
-interface DashboardCustomerProps {
+
+interface DashboardFreelanceProps {
     categories: SharedData['categories'];
-    jobs: Job[];
+    gigs: Gig[];
     buttons: ReactNode;
 }
 
-export const DashboardCustomer = (props: DashboardCustomerProps) => {
-    const { categories = [], jobs = [], buttons } = props;
+const DashboardFreelance = (props: DashboardFreelanceProps) => {
+    const { categories, gigs, buttons } = props;
     const searchInput = useFocus();
-    const [showAllJobs, setShowAllJobs] = useState(false);
+    const [showAllGigs, setShowAllGigs] = useState(false);
     const params = new URLSearchParams(window.location.search);
     const [searchQuery, setSearchQuery] = useState(params.get('search') ?? '');
 
     const toggleShowAllJobs = () => {
-        setShowAllJobs((prev) => !prev);
+        setShowAllGigs((prev) => !prev);
     };
 
     const handleChangeSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setSearchQuery(value);
-        dashboardService.getCustomerDashboard(value);
+        dashboardService.getFreelanceDashboard(value);
     };
 
-    const visibleJobs = showAllJobs ? jobs : jobs.slice(0, 3);
-
+    const visibleGigs = showAllGigs ? gigs : gigs.slice(0, 3);
     return (
         <main className="flex-1 bg-[#efeff4] pt-20">
             <Logo className="mx-auto mb-7 h-12.5 w-28" />
@@ -84,11 +85,11 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
                             className="cursor-pointer font-medium text-gray select-none"
                             onClick={toggleShowAllJobs}
                         >
-                            {showAllJobs ? 'Свернуть' : 'Все'}
+                            {showAllGigs ? 'Свернуть' : 'Все'}
                         </Text>
                     </div>
                 }
-                orders={visibleJobs}
+                orders={visibleGigs}
                 renderOrder={(order) => (
                     <DashboardOrder
                         imageUrl={jobIconsUrls[order.status]}
@@ -101,3 +102,5 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
         </main>
     );
 };
+
+export default DashboardFreelance;

@@ -27,7 +27,7 @@ class DashboardController extends Controller
         $searchTerm = $request->get('search', '');
         $gigs = $this->searchService->searchGigs($searchTerm);
         
-        return Inertia::render('freelancer/dashboard.page', [
+        return Inertia::render('freelance/dashboard.page', [
             'gigs' => $gigs,
         ]);
     }
