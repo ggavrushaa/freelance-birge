@@ -16,13 +16,13 @@ type CustomerJobShowPageProps = SharedData & {
 const MAX_DESCRIPTION_LENGTH = 140;
 
 const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
-    const { job , categories } = props;
+    const { job, categories } = props;
     const description = useVisibility();
 
     const getCategoryName = () => {
         return categories.find((category) => category.id === job.category_id)?.name;
     };
-    
+
     const handleClickEdit = () => {
         router.visit(ROUTES.customer.job.edit(job.id));
     };
@@ -37,10 +37,15 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
                 <div className="mb-4">
                     {job.photo && (
                         <div className="relative">
-                            <img className="h-48 w-full object-cover" src={job.photo} />
+                            <img
+                                className="h-48 w-full rounded-tl-xl rounded-tr-xl object-cover"
+                                src={job.photo}
+                            />
                             <div className="absolute bottom-2 left-2 flex flex-col gap-1">
                                 {Boolean(job.premium_mode) && <Badge variant="gray">Pro</Badge>}
-                                {Boolean(job.express_mode) && <Badge variant="gray">Экспресс-режим</Badge>}
+                                {Boolean(job.express_mode) && (
+                                    <Badge variant="gray">Экспресс-режим</Badge>
+                                )}
                             </div>
                         </div>
                     )}

@@ -23,7 +23,7 @@ export const CopyButton = (props: CopyButtonProps) => {
                 setTimeout(() => setIsCopied(false), 2000);
                 return true;
             }
-            
+
             const textArea = document.createElement('textarea');
             textArea.value = textToCopy;
             textArea.style.position = 'fixed';
@@ -32,17 +32,17 @@ export const CopyButton = (props: CopyButtonProps) => {
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-            
+
             const successful = document.execCommand('copy');
             document.body.removeChild(textArea);
-            
+
             if (successful) {
                 setIsCopied(true);
                 onCopy?.(true);
                 setTimeout(() => setIsCopied(false), 2000);
                 return true;
             }
-            
+
             onCopy?.(false);
             return false;
         } catch (error) {
@@ -57,15 +57,13 @@ export const CopyButton = (props: CopyButtonProps) => {
     };
 
     return (
-        <button 
-            {...rest} 
+        <button
+            {...rest}
             onClick={handleClick}
             className={clsx('flex items-center justify-center gap-2', props.className)}
         >
             <img src="/icons/copy.svg" alt="copy" />
-            <p className="text-accent">
-                {isCopied ? 'Скопировано!' : text}
-            </p>
+            <p className="text-accent">{isCopied ? 'Скопировано!' : text}</p>
         </button>
     );
 };

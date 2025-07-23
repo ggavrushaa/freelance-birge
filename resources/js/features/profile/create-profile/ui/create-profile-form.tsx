@@ -1,3 +1,5 @@
+import { Language } from '@/entities/language';
+import { Skill } from '@/entities/skill';
 import { MultiSelect } from '@/shared/components/multi-select/multi-select';
 import { usePageProps } from '@/shared/hooks/use-page-props';
 import { Button } from '@/shared/ui/button';
@@ -11,25 +13,18 @@ import z from 'zod';
 import { createProfileSchema } from '../model/validation/create-profile-schema';
 import { getIds } from '../utils/getIds';
 
-type Language = { id: number; name: string };
-type Skill = { id: number; name: string };
+interface CreateProfileFormProps {
+    languages: Language[];
+    skills: Skill[];
+}
 
-const languagesArray: Language[] = [
-    { id: 1, name: 'English' },
-    { id: 2, name: 'Russian' },
-    { id: 3, name: 'Ukrainian' },
-];
+export const CreateProfileForm = (props: CreateProfileFormProps) => {
+    const { languages, skills } = props;
 
-const skillsArray: Skill[] = [
-    { id: 1, name: 'Web' },
-    { id: 2, name: 'Mobile Design' },
-    { id: 3, name: 'Motion' },
-];
-
-export const CreateProfileForm = () => {
     const {
         auth: { user },
     } = usePageProps();
+
     const {
         handleSubmit,
         control,
@@ -43,6 +38,7 @@ export const CreateProfileForm = () => {
             skills: null,
         },
     });
+
     const handleSave = (data: z.infer<typeof createProfileSchema>) => {
         router.post('/profile', {
             ...data,
@@ -78,8 +74,8 @@ export const CreateProfileForm = () => {
                 name="languages"
                 control={control}
                 render={({ field }) => {
-                    const selectedItems = field.value ?? [];
-                    const availableItems = languagesArray.filter(
+                    const selectedItems: Language[] = field.value ?? [];
+                    const availableItems = languages.filter(
                         (item) => !selectedItems.some((i: Language) => i.id === item.id),
                     );
                     const handleAdd = (item: Language) => {
@@ -114,8 +110,8 @@ export const CreateProfileForm = () => {
                 name="skills"
                 control={control}
                 render={({ field }) => {
-                    const selectedItems = field.value ?? [];
-                    const availableItems = skillsArray.filter(
+                    const selectedItems: Skill[] = field.value ?? [];
+                    const availableItems = skills.filter(
                         (item) => !selectedItems.some((i: Skill) => i.id === item.id),
                     );
                     const handleAdd = (item: Skill) => {

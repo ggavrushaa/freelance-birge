@@ -12,17 +12,30 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-            'telegram_id', 'username', 'first_name',
-            'last_name', 'avatar', 'bio',
+        'telegram_id',
+        'username',
+        'first_name',
+        'last_name',
+        'avatar',
+        'bio',
 
-            'balance', 'rating',
+        'balance',
+        'rating',
 
-            'orders_count', 'completed_orders_count', 'canceled_orders_count',
-            'disputes_count', 'win_disputes_count', 'lose_disputes_count',
-            'referrals_count',
+        'orders_count',
+        'completed_orders_count',
+        'canceled_orders_count',
+        'disputes_count',
+        'win_disputes_count',
+        'lose_disputes_count',
+        'referrals_count',
 
-            'seed_phrase', 'pin_code', 'pin_code_attempts',
-            'pin_code_blocked_until', 'email', 'email_verified_at',
+        'seed_phrase',
+        'pin_code',
+        'pin_code_attempts',
+        'pin_code_blocked_until',
+        'email',
+        'email_verified_at',
     ];
 
     protected function casts(): array
@@ -83,6 +96,6 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(Profile::class, "id", "user_id");
     }
 }

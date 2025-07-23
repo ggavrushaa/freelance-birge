@@ -23,8 +23,8 @@ class UpdateRequest extends FormRequest
             'completed_orders_count' => 'nullable|numeric|min:0',
             'languages' => 'nullable|array',
             'skills' => 'nullable|array',
-            'languages.*' => 'string',
-            'skills.*' => 'string',
+            'languages.*' => 'exists:languages,id',
+            'skills.*' => 'exists:skills,id',
         ];
     }
 }

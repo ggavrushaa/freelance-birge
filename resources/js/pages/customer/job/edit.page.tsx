@@ -194,7 +194,7 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
                         }
                         selections={daySelections}
                         pickedValue={{ days: 3 }}
-                        renderTrigger={(value) => <InputPickerTrigger name='Дни' value={value} />}
+                        renderTrigger={(value) => <InputPickerTrigger name="Дни" value={value} />}
                         renderLabel={(option) => getDayLabel(option as number)}
                     />
                 </div>

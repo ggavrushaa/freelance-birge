@@ -11,8 +11,8 @@
 
 @theme {
     --font-sans:
-        'SF Pro Display', sans-serif, 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+        'SF Pro Display', sans-serif, 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -161,6 +161,8 @@
 
 #app {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 html {
     background-color: rgb(255, 255, 255) !important;
@@ -171,10 +173,9 @@ input {
     width: -webkit-fill-available;
 }
 
-p{
+p {
     word-wrap: break-word;
 }
-
 
 @import './typography.css';
 @import './text.css';

@@ -70,29 +70,37 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
                     Пополнить
                 </Button>
             </div>
-            <div className="px-6 mb-4">
+            <div className="mb-4 px-6">
                 <DashboardSlider />
             </div>
-            <Card className='mx-6 px-4 py-3 gap-3 mb-5'>
-                <div className='flex items-center justify-between'>
-                    <Title className='text-primary font-medium'>Активные</Title>
-                    <Text className="text-gray font-medium">Все</Text>
+            <Card className="mx-6 mb-5 gap-3 px-4 py-3">
+                <div className="flex items-center justify-between">
+                    <Title className="font-medium text-primary">Активные</Title>
+                    <Text className="font-medium text-gray">Все</Text>
                 </div>
-                <div className='flex border-b border-gray pb-3'>
-                    <img className='mr-4' src="/icons/status/created.svg" />
+                <div className="flex border-b border-gray pb-3">
+                    <img className="mr-4" src="/icons/status/created.svg" />
                     <div>
-                        <Title className='text-primary font-medium'>Parsing Telegram</Title>
-                        <Text fontSize={13} className="text-gray font-medium">Заказ создан</Text>
+                        <Title className="font-medium text-primary">Parsing Telegram</Title>
+                        <Text fontSize={13} className="font-medium text-gray">
+                            Заказ создан
+                        </Text>
                     </div>
-                    <Text fontSize={13} as='span' className="text-gray font-medium ml-auto">00.12.53</Text>
+                    <Text fontSize={13} as="span" className="ml-auto font-medium text-gray">
+                        00.12.53
+                    </Text>
                 </div>
-                <div className='flex border-b border-gray pb-3'>
-                    <img className='mr-4' src="/icons/status/created.svg" />
+                <div className="flex border-b border-gray pb-3">
+                    <img className="mr-4" src="/icons/status/created.svg" />
                     <div>
-                        <Title className='text-primary font-medium'>Parsing Telegram</Title>
-                        <Text fontSize={13} className="text-gray font-medium">Заказ создан</Text>
+                        <Title className="font-medium text-primary">Parsing Telegram</Title>
+                        <Text fontSize={13} className="font-medium text-gray">
+                            Заказ создан
+                        </Text>
                     </div>
-                    <Text fontSize={13} as='span' className="text-gray font-medium ml-auto">00.12.53</Text>
+                    <Text fontSize={13} as="span" className="ml-auto font-medium text-gray">
+                        00.12.53
+                    </Text>
                 </div>
             </Card>
         </main>

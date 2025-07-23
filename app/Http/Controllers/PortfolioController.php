@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LanguageEnum;
+use App\Enums\SkillEnum;
 use App\Repositories\PortfolioRepository;
+use App\Repositories\ProfileRepository;
 use Inertia\Inertia;
 use App\Models\Portfolio;
 use App\Http\Requests\Portfolio\StoreRequest;
@@ -13,6 +16,7 @@ class PortfolioController extends Controller
 {
     public function __construct(
         private PortfolioRepository $repository,
+        private ProfileRepository $profileRepository,
         private PortfolioService $service,
         private JobAttachmentService $attachmentService,
     ) {
@@ -34,7 +38,9 @@ class PortfolioController extends Controller
 
     public function create()
     {
-        return Inertia::render('portfolio/create.page');
+        return Inertia::render('portfolio/create.page',[
+            "profile" => $this->profileRepository->getProfile(auth()->user()),
+        ]);
     }
 
     public function store(StoreRequest $request)
@@ -56,6 +62,7 @@ class PortfolioController extends Controller
     {
         return Inertia::render('portfolio/edit.page', [
             'portfolio' => $this->repository->getPortfolio($portfolio),
+            "profile" => $this->profileRepository->getProfile(auth()->user()),
         ]);
     }
 

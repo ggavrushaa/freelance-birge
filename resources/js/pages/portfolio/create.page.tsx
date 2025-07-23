@@ -1,8 +1,14 @@
+import { Profile } from '@/entities/profile';
 import { CreatePortfolioForm } from '@/features/portfolio/create-portfolio';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
 
-const PortfolioCreatePage = () => {
+type PortfolioCreatePageProps = ShareData & {
+    profile: Profile;
+};
+
+const PortfolioCreatePage = (props: PortfolioCreatePageProps) => {
+    const { profile } = props;
     return (
         <main className="min-h-[100svh] px-6 pt-20 pb-12">
             <div className="mb-6 flex flex-col items-center">
@@ -14,7 +20,7 @@ const PortfolioCreatePage = () => {
                     Добавьте портфолио — заказчикам будет проще оценить ваши работы и выбрать вас
                 </Text>
             </div>
-            <CreatePortfolioForm />
+            <CreatePortfolioForm profileId={profile.id} />
         </main>
     );
 };

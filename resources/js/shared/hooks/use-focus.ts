@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export const useFocus = () => {
     const [isFocused, setIsFocused] = useState(false);
@@ -15,5 +15,5 @@ export const useFocus = () => {
         isFocused,
         focus,
         blur,
-    }
+    };
 };

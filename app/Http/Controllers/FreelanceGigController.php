@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TariffAdditionalOptionsEnum;
 use Inertia\Inertia;
 use App\Services\JobAttachmentService;
 use App\Repositories\FreelanceGigRepository;
@@ -28,6 +29,7 @@ class FreelanceGigController extends Controller
     {
         return Inertia::render('freelance/gig/create.page', [
             'categories' => $this->repository->getCategories(),
+            'additionalOptions' => TariffAdditionalOptionsEnum::toArray(),
         ]);
     }
 
@@ -58,7 +60,7 @@ class FreelanceGigController extends Controller
     {
         $gig = auth()->user()->freelanceGigs()->with('tariffs')->findOrFail($id);
 
-        return Inertia::render('freelance/edit.page', [
+        return Inertia::render('freelance/gig/edit.page', [
             'gig' => $gig,
             'categories' => $this->repository->getCategories(),
         ]);
@@ -69,7 +71,7 @@ class FreelanceGigController extends Controller
         $gig = auth()->user()->freelanceGigs()->findOrFail($id);
         $gig->update($request->validated());
 
-        return redirect()->route('freelance.show', $gig)->with('success', 'Работа успешно обновлена.');
+        return redirect()->route('freelance-gig.show', $gig)->with('success', 'Работа успешно обновлена.');
     }
 
     public function destroy($id)

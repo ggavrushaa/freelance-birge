@@ -6,7 +6,7 @@ export const useVisibility = () => {
     const show = useCallback(() => setIsVisible(true), []);
     const hide = useCallback(() => setIsVisible(false), []);
     const toggle = useCallback(() => setIsVisible((prev) => !prev), []);
-    
+
     return {
         isVisible,
         show,

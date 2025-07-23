@@ -30,13 +30,10 @@ export const InputPicker = <T extends Record<string, (string | number)[]>>({
 
     const columnKey = Object.keys(selections)[0];
 
-
     return (
         <Drawer>
             <DrawerTrigger asChild>
-                <div>
-                    {renderTrigger(value)}
-                </div>
+                <div>{renderTrigger(value)}</div>
             </DrawerTrigger>
             <DrawerContent>
                 <div className="mx-auto w-full max-w-sm">

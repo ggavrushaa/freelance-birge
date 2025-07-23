@@ -23,8 +23,8 @@ const RegisterPage = (props: RegisterPageProps) => {
     };
 
     const handleClickContinue = () => {
-        router.visit(ROUTES.auth.registerConfirm)
-    }
+        router.visit(ROUTES.auth.registerConfirm);
+    };
 
     return (
         <>
@@ -47,11 +47,7 @@ const RegisterPage = (props: RegisterPageProps) => {
                 )}
                 className="mb-6 grid grid-cols-2 gap-3 text-center text-muted"
             />
-            <CopyButton
-                text="Копировать"
-                copyText={seed.join(' ')}
-                onCopy={handleCopySuccess}
-            />
+            <CopyButton text="Копировать" copyText={seed.join(' ')} onCopy={handleCopySuccess} />
             <Button
                 disabled={!continueButton.isActive}
                 onClick={handleClickContinue}

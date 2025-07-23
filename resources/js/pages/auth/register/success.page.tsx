@@ -13,7 +13,7 @@ const RegisterSuccessPage = () => {
                 text="Регистрация прошла успешно"
                 className="mb-6"
             />
-            <Link href={ROUTES.auth.createPassword} className='w-full mt-auto'>
+            <Link href={ROUTES.auth.createPassword} className="mt-auto w-full">
                 <Button className="w-full">Продолжить</Button>
             </Link>
         </>
