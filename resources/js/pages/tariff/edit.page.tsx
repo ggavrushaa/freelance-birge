@@ -13,6 +13,8 @@ interface TariffEditpageProps {
 
 const TariffEditpage = (props: TariffEditpageProps) => {
     const { tariff, additionalOptions } = props;
+    const searchParams = new URLSearchParams(window.location.search);
+    const tariffIndex = searchParams.get('tariffIndex');
     const getChoosenOptions = () => {
         if (tariff.additional_options && tariff.additional_options.length > 0) {
             const values = tariff.additional_options.map((item) => item);
@@ -41,6 +43,7 @@ const TariffEditpage = (props: TariffEditpageProps) => {
                 formValues={defaultformValues}
                 onSubmit={onSubmit}
                 additionalOptions={additionalOptions}
+                tariffIndex={tariffIndex}
             />
         </main>
     );

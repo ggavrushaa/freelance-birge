@@ -21,13 +21,14 @@ const daySelections = {
 };
 
 interface EditTariffFormProps {
+    tariffIndex: number;
     formValues: z.infer<typeof editTariffSchema>;
     additionalOptions: AdditionalOption[];
     onSubmit: (data: z.infer<typeof editTariffSchema>) => void;
 }
 
 export const EditTariffForm = (props: EditTariffFormProps) => {
-    const { formValues, onSubmit, additionalOptions } = props;
+    const { tariffIndex,formValues, onSubmit, additionalOptions } = props;
     const additionalOptionsModal = useModal();
     const {
         register,
@@ -63,12 +64,6 @@ export const EditTariffForm = (props: EditTariffFormProps) => {
     const renderAdditionalOptionsLabels = () => {
         if (additional_options && additional_options.length > 0) {
             const values = additional_options.map((item) => item.value);
-            console.log(
-                additionalOptions
-                    .filter((option) => values.includes(option.value))
-                    .map((option) => option.label)
-                    .join(' '),
-            );
             return additionalOptions
                 .filter((option) => values.includes(option.value))
                 .map((option) => option.label)
@@ -82,7 +77,7 @@ export const EditTariffForm = (props: EditTariffFormProps) => {
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Title fontSize={24} className="mb-7.5 text-center font-bold">
-                    Услуга 1
+                    Услуга {tariffIndex}
                 </Title>
                 <Label htmlFor="name" className="mb-3 block">
                     Название

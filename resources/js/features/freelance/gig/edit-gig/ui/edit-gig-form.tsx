@@ -1,6 +1,7 @@
 import { TariffList } from '@/entities/tariff';
 import { Tariff } from '@/entities/tariff/model/types';
 import { FormImagePreview } from '@/shared/components/FormImagePreview';
+import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
 import { usePageProps } from '@/shared/hooks/use-page-props';
 import { Button } from '@/shared/ui/button';
@@ -9,20 +10,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/shared/ui/switch';
 import { Textarea } from '@/shared/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { router } from '@inertiajs/react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { editFreelanceGigSchema } from '../model/validation/edit-freelance-gig-schema';
-import { router } from '@inertiajs/react';
-import { ROUTES } from '@/shared/config/routes';
 
 interface EditGigFormProps {
     formValues: z.infer<typeof editFreelanceGigSchema>;
     tariffs: Tariff[];
     onSubmit: (data: z.infer<typeof editFreelanceGigSchema>) => void;
+    gigId?: number;
 }
 
 export const EditGigForm = (props: EditGigFormProps) => {
-    const { formValues, tariffs, onSubmit } = props;
+    const { formValues, tariffs, onSubmit, gigId } = props;
     const { categories } = usePageProps();
     const photoFile = useFile();
     const {
@@ -45,13 +46,19 @@ export const EditGigForm = (props: EditGigFormProps) => {
         photoFile.onChange(e, (file) => setValue('photo', file, { shouldValidate: true }));
     };
 
-    const handleClickTariff = (id:number) => {
-        router.get(ROUTES.tariff.edit(id));
-    }
+    const handleClickTariff = (id: number, index?: number) => {
+        router.get(ROUTES.tariff.edit(id), { tariffIndex: index! + 1 });
+    };
 
-     const handleRemoveTariff = (id:number) => {
-        console.log(id);
-    }
+    const handleRemoveTariff = (id: number) => {
+        router.delete(ROUTES.tariff.delete(id),{
+            preserveScroll: true,
+        });
+    };
+
+    const handleAddTariff = () => {
+        router.get(ROUTES.tariff.create, { tariffIndex: tariffs.length + 1, gigId: gigId });
+    };
 
     const photoFilePreview = photoFile.preview ?? formValues.photo ?? '';
 
@@ -91,7 +98,6 @@ export const EditGigForm = (props: EditGigFormProps) => {
                     </Select>
                 )}
             />
-
             <Controller
                 name="sub_category_id"
                 control={control}
@@ -118,7 +124,6 @@ export const EditGigForm = (props: EditGigFormProps) => {
                     );
                 }}
             />
-
             <Label htmlFor="name" className="mb-3 block">
                 Название
             </Label>
@@ -135,7 +140,12 @@ export const EditGigForm = (props: EditGigFormProps) => {
                     />
                 )}
             />
-            <TariffList tariffs={tariffs} onClick={handleClickTariff} onRemove={handleRemoveTariff} onAdd={() => {}} />
+            <TariffList
+                tariffs={tariffs}
+                onClick={handleClickTariff}
+                onRemove={handleRemoveTariff}
+                onAdd={handleAddTariff}
+            />
             <div className="mb-3">
                 <div className="mb-3 flex items-center">
                     <h4 className="title-4 mr-0.5">Premium Функции</h4>

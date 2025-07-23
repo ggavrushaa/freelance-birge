@@ -25,7 +25,6 @@ const FreelanceGigEditPage = (props: FreelanceGigEditPageProps) => {
     const onSubmit = (data: z.infer<typeof editFreelanceGigSchema>) => {
         const { photo , ...rest} = data;
         const isNewPhoto = typeof photo !== 'string';
-        console.log(typeof photo);
         router.put(`/freelance-gig/${gig.id}`, {
             ...rest,
             ...(isNewPhoto && { photo }),
@@ -34,7 +33,7 @@ const FreelanceGigEditPage = (props: FreelanceGigEditPageProps) => {
     };
     return (
         <main className="bg-[#efeff4] px-6 pt-25 pb-12">
-            <EditGigForm formValues={formValues} tariffs={gig.tariffs} onSubmit={onSubmit} />
+            <EditGigForm formValues={formValues} tariffs={gig.tariffs} onSubmit={onSubmit} gigId={gig.id} />
         </main>
     );
 };

@@ -37,13 +37,12 @@ class TariffController extends Controller
         );
     }
 
-    public function store(StoreRequest $request): JsonResponse
+    public function store(StoreRequest $request)
     {
         $tariff = Tariff::create($request->validated());
 
-        return response()->json([
-            'success' => true,
-            'tariff' => $tariff,
+        return redirect()->route('freelance-gig.edit', [
+            'freelance_gig' => $tariff->freelance_gig_id
         ]);
     }
 
@@ -51,18 +50,22 @@ class TariffController extends Controller
     {
         $tariff->update($request->validated());
 
-        return redirect()->route('freelance-gig.show', [
+        return redirect()->route('freelance-gig.edit', [
             'freelance_gig' => $tariff->freelance_gig_id
         ]);
     }
 
-    public function destroy(Tariff $tariff): JsonResponse
+    public function destroy(Tariff $tariff)
     {
         $tariff->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Тариф успешно удален',
+        return redirect()->route('freelance-gig.edit', [
+            'freelance_gig' => $tariff->freelance_gig_id
         ]);
+
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Тариф успешно удален',
+        // ]);
     }
 }

@@ -34,7 +34,9 @@ export const ROUTES = {
         update: (id: number) => `/portfolio/${id}`,
     },
     tariff: {
+        create: '/tariff/create',
         edit: (id: number) => `/tariff/${id}/edit`,
-        update: (id: number) => `/tariff/${id}`
+        update: (id: number) => `/tariff/${id}`,
+        delete: (id: number) => `/tariff/${id}`,
     },
 };

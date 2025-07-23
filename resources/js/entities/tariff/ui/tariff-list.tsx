@@ -7,7 +7,7 @@ import { useState } from 'react';
 interface TariffListProps<T extends { id: number }> {
     tariffs: T[];
     onAdd: () => void;
-    onClick: (id: number) => void;
+    onClick: (id: number,index?:number) => void;
     onRemove: (id: number) => void;
 }
 
@@ -19,9 +19,9 @@ export const TariffList = <T extends { id: number },>(props: TariffListProps<T>)
         setIsEdit((prev) => !prev);
     };
 
-    const handleClick = (id: number) => {
+    const handleClick = (id: number,index:number) => {
         if (isEdit) return;
-        onClick(id);
+        onClick(id,index);
     };
 
     return (
@@ -37,7 +37,7 @@ export const TariffList = <T extends { id: number },>(props: TariffListProps<T>)
             <Card className="gap-0 px-4 py-3">
                 {tariffs.map((tariff, index) => (
                     <div
-                        onClick={() => handleClick(tariff.id)}
+                        onClick={() => handleClick(tariff.id,index)}
                         key={tariff.id}
                         className={classNames(
                             'flex items-center justify-between border-b border-gray pb-2.5',

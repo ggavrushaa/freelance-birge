@@ -1,4 +1,5 @@
 import { CategoryCard } from '@/entities/category';
+import { Job, jobIconsUrls } from '@/entities/job';
 import { useFocus } from '@/shared/hooks/use-focus';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -7,17 +8,22 @@ import { InputWithIcon } from '@/shared/ui/input-with-icon';
 import { Logo } from '@/shared/ui/logo';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
+import { formatTime } from '@/shared/utils/format-time';
 import { SharedData } from '@/types';
 import cls from 'classnames';
+import { useState } from 'react';
 import { DashboardSlider } from './dashboard-slider/dashboard-slider';
 
 interface DashboardCustomerProps {
     categories: SharedData['categories'];
+    jobs: Job[];
 }
 
 export const DashboardCustomer = (props: DashboardCustomerProps) => {
-    const { categories } = props;
+    const { categories, jobs = [] } = props;
+    const [showAllJobs, setShowAllJobs] = useState(false);
     const searchInput = useFocus();
+    const visibleJobs = showAllJobs ? jobs : jobs.slice(0, 3);
     return (
         <main className="flex-1 bg-[#efeff4] pt-20">
             <Logo className="mx-auto mb-7 h-12.5 w-28" />
@@ -35,7 +41,11 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
             </div>
             <div className="mb-3 flex items-center justify-between px-6">
                 <Title>Популярные услуги</Title>
-                <Text className="text-gray">Все</Text>
+                <Text
+                    className="cursor-pointer font-medium text-gray select-none"
+                >
+                    Все
+                </Text>
             </div>
             <ul className="scrollbar-hide mb-3 flex gap-3 overflow-auto px-6">
                 {categories.map((category) => (
@@ -76,32 +86,27 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
             <Card className="mx-6 mb-5 gap-3 px-4 py-3">
                 <div className="flex items-center justify-between">
                     <Title className="font-medium text-primary">Активные</Title>
-                    <Text className="font-medium text-gray">Все</Text>
-                </div>
-                <div className="flex border-b border-gray pb-3">
-                    <img className="mr-4" src="/icons/status/created.svg" />
-                    <div>
-                        <Title className="font-medium text-primary">Parsing Telegram</Title>
-                        <Text fontSize={13} className="font-medium text-gray">
-                            Заказ создан
-                        </Text>
-                    </div>
-                    <Text fontSize={13} as="span" className="ml-auto font-medium text-gray">
-                        00.12.53
+                    <Text
+                        className="font-medium text-gray cursor-pointer select-none"
+                        onClick={() => setShowAllJobs(!showAllJobs)}
+                    >
+                        {showAllJobs ? 'Свернуть' : 'Все'}
                     </Text>
                 </div>
-                <div className="flex border-b border-gray pb-3">
-                    <img className="mr-4" src="/icons/status/created.svg" />
-                    <div>
-                        <Title className="font-medium text-primary">Parsing Telegram</Title>
-                        <Text fontSize={13} className="font-medium text-gray">
-                            Заказ создан
+                {visibleJobs.map((job) => (
+                    <div className="flex border-b border-gray pb-3">
+                        <img className="mr-4" src={jobIconsUrls[job.status]} />
+                        <div>
+                            <Title className="font-medium text-primary">{job.name}</Title>
+                            <Text fontSize={13} className="font-medium text-gray">
+                                {job.status}
+                            </Text>
+                        </div>
+                        <Text fontSize={13} as="span" className="ml-auto font-medium text-gray">
+                            {formatTime(job.created_at)}
                         </Text>
                     </div>
-                    <Text fontSize={13} as="span" className="ml-auto font-medium text-gray">
-                        00.12.53
-                    </Text>
-                </div>
+                ))}
             </Card>
         </main>
     );
