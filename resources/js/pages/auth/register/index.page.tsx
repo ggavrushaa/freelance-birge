@@ -15,9 +15,7 @@ const RegisterPage = (props: RegisterPageProps) => {
     const continueButton = useActive();
 
     const handleCopySuccess = (success: boolean) => {
-        console.log('Copy callback triggered with success:', success);
         if (success) {
-            console.log('Activating continue button');
             continueButton.activate();
         }
     };

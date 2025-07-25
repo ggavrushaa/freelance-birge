@@ -19,7 +19,7 @@ class CustomerJobController extends Controller
 
     public function index()
     {
-        return Inertia::render('job/index.page', [
+        return Inertia::render('customer/job/index.page', [
             'jobs' => $this->repository->getForUser(auth()->user()),
         ]);
     }

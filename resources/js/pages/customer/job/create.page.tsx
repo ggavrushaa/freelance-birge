@@ -155,7 +155,7 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
             <Card className="flex flex-col gap-3 p-4">
                 <div className="flex items-center justify-between">
                     <Label htmlFor="title">Бюджет</Label>
-                    <div className="input-bg flex max-w-[110px] items-center gap-2 overflow-hidden rounded-[10px] border px-4 py-2.5">
+                    <div className="input-bg flex max-w-[110px] items-center gap-2 overflow-hidden rounded-[10px] border px-4 py-1">
                         <span className="text-xs text-[#242424]">US$</span>
                         <input
                             className="max-w-[70%] focus:outline-none"

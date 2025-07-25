@@ -14,6 +14,10 @@ Route::get('/', function () {
     return Inertia::render('welcome.page');
 })->name('home');
 
+Route::get('/jobs', function () {
+    return Inertia::render('jobs.page');
+})->name('jobs');
+
 Route::get('customer/dashboard', [DashboardController::class, 'customerDashboard'])->name('customer.dashboard');
 Route::get('freelance/dashboard', [DashboardController::class, 'freelancerDashboard'])->name('freelancer.dashboard');
 

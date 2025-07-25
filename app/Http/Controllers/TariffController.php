@@ -62,10 +62,5 @@ class TariffController extends Controller
         return redirect()->route('freelance-gig.edit', [
             'freelance_gig' => $tariff->freelance_gig_id
         ]);
-
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => 'Тариф успешно удален',
-        // ]);
     }
 }

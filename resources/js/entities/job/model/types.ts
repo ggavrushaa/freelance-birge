@@ -1,8 +1,11 @@
+import { Category } from "@/entities/category";
+
 export interface Job {
     id: number;
     user_id: number;
     author_id: number;
     category_id: number;
+    category: Category;
     sub_category_id: number;
     name: string;
     description: string;
