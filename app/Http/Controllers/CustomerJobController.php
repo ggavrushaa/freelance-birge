@@ -7,20 +7,22 @@ use App\Http\Requests\CustomerJob\StoreRequest;
 use App\Http\Requests\CustomerJob\UpdateRequest;
 use App\Repositories\CustomerJobRepository;
 use App\Services\JobAttachmentService;
-
+use App\Services\SearchService;
+use Illuminate\Http\Request;
 
 class CustomerJobController extends Controller
 {
     public function __construct(
         private CustomerJobRepository $repository,
         private JobAttachmentService $attachmentService,
+        private SearchService $searchService,
     ) {
     }
 
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('customer/job/index.page', [
-            'jobs' => $this->repository->getForUser(auth()->user()),
+            'jobs' => $this->searchService->searchJobs( $request->get('search', '')),
         ]);
     }
 

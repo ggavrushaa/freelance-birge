@@ -8,6 +8,8 @@ use App\Services\JobAttachmentService;
 use App\Repositories\FreelanceGigRepository;
 use App\Http\Requests\FreelanceGig\StoreRequest;
 use App\Services\FreelanceGigService;
+use Illuminate\Http\Request;
+use App\Services\SearchService;
 
 class FreelanceGigController extends Controller
 {
@@ -15,13 +17,14 @@ class FreelanceGigController extends Controller
         private FreelanceGigRepository $repository,
         private JobAttachmentService $attachmentService,
         private FreelanceGigService $service,
+        private SearchService $searchService,
     ) {
     }
 
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('freelance/index.page', [
-            'gigs' => $this->repository->getForUser(auth()->user()),
+            'gigs' => $this->searchService->searchGigs( $request->get('search', '')),
         ]);
     }
 
