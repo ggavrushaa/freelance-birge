@@ -4,9 +4,11 @@ import { Head, Link, router } from '@inertiajs/react';
 
 const Welcome = () => {
     const handleClickRegister = () => {
+        // TEST 
+        const uniqueSuffix = Date.now();
         router.post(ROUTES.auth.register, {
-            telegram_id: '123aaa',
-            username: 'Bohdan12',
+            telegram_id: '123aaa_' + uniqueSuffix,
+            username: 'user' + uniqueSuffix,
         });
     };
     return (
