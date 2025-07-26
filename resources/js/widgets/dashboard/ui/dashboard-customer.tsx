@@ -12,7 +12,7 @@ import { DashboardBalance } from './dashboard-balance';
 import { DashboardOrder } from './dashboard-order';
 import { DashboardOrdersWidget } from './dashboard-orders-widget';
 import { DashboardSlider } from './dashboard-slider/dashboard-slider';
-import { dashboardService } from '@/entities/dashboard';
+import { router } from '@inertiajs/react';
 
 interface DashboardCustomerProps {
     categories: SharedData['categories'];
@@ -22,10 +22,10 @@ interface DashboardCustomerProps {
 
 export const DashboardCustomer = (props: DashboardCustomerProps) => {
     const { categories = [], jobs = [], buttons } = props;
-    const searchInput = useFocus();
-    const [showAllJobs, setShowAllJobs] = useState(false);
     const params = new URLSearchParams(window.location.search);
+    const [showAllJobs, setShowAllJobs] = useState(false);
     const [searchQuery, setSearchQuery] = useState(params.get('search') ?? '');
+    const searchInput = useFocus();
 
     const toggleShowAllJobs = () => {
         setShowAllJobs((prev) => !prev);
@@ -34,8 +34,13 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
     const handleChangeSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setSearchQuery(value);
-        dashboardService.getCustomerDashboard(value);
     };
+
+    const redirectToJobsPage = () => {
+        router.get('/freelance-gig', {
+            search: searchQuery,
+        });
+    }
 
     const visibleJobs = showAllJobs ? jobs : jobs.slice(0, 3);
 
@@ -50,6 +55,11 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
                     onChange={handleChangeSearchInput}
                     onFocus={searchInput.focus}
                     onBlur={searchInput.blur}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            redirectToJobsPage();
+                        }
+                    }}
                     className={cls(
                         'rounded-xl py-1 pl-[40%] transition-all duration-300',
                         searchInput.isFocused && 'pl-3',

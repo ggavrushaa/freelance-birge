@@ -23,7 +23,7 @@ class FreelanceGigController extends Controller
 
     public function index(Request $request)
     {
-        return Inertia::render('freelance/index.page', [
+        return Inertia::render('freelance/gig/index.page', [
             'gigs' => $this->searchService->searchGigs( $request->get('search', '')),
         ]);
     }

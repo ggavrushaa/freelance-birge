@@ -1,20 +1,19 @@
 import { CategoryCard } from '@/entities/category';
 import { Gig } from '@/entities/gig';
+import { jobIconsUrls } from '@/entities/job';
 import { useFocus } from '@/shared/hooks/use-focus';
 import { InputWithIcon } from '@/shared/ui/input-with-icon';
 import { Logo } from '@/shared/ui/logo';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
 import { SharedData } from '@/types';
+import { router } from '@inertiajs/react';
+import cls from 'classnames';
 import { ChangeEvent, ReactNode, useState } from 'react';
 import { DashboardBalance } from './dashboard-balance';
+import { DashboardOrder } from './dashboard-order';
 import { DashboardOrdersWidget } from './dashboard-orders-widget';
 import { DashboardSlider } from './dashboard-slider/dashboard-slider';
-import { jobIconsUrls } from '@/entities/job';
-import { DashboardOrder } from './dashboard-order';
-import cls from 'classnames';
-import { dashboardService } from '@/entities/dashboard';
-
 
 interface DashboardFreelanceProps {
     categories: SharedData['categories'];
@@ -36,10 +35,16 @@ const DashboardFreelance = (props: DashboardFreelanceProps) => {
     const handleChangeSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setSearchQuery(value);
-        dashboardService.getFreelanceDashboard(value);
+    };
+
+    const redirectToJobsPage = () => {
+        router.get('/customer-job', {
+            search: searchQuery,
+        });
     };
 
     const visibleGigs = showAllGigs ? gigs : gigs.slice(0, 3);
+    
     return (
         <main className="flex-1 bg-[#efeff4] pt-20">
             <Logo className="mx-auto mb-7 h-12.5 w-28" />
@@ -51,6 +56,11 @@ const DashboardFreelance = (props: DashboardFreelanceProps) => {
                     onChange={handleChangeSearchInput}
                     onFocus={searchInput.focus}
                     onBlur={searchInput.blur}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            redirectToJobsPage();
+                        }
+                    }}
                     className={cls(
                         'rounded-xl py-1 pl-[40%] transition-all duration-300',
                         searchInput.isFocused && 'pl-3',

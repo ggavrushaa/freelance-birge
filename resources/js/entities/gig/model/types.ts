@@ -1,3 +1,4 @@
+import { Category } from '@/entities/category';
 import { Tariff } from '@/entities/tariff/model/types';
 
 export interface Gig {
@@ -8,6 +9,7 @@ export interface Gig {
     status: string;
     tariffs: Tariff[];
     category_id: number;
+    category: Category;
     sub_category_id: number;
     is_active: boolean;
     express_mode: boolean;

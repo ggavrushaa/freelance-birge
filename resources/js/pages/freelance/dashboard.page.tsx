@@ -1,9 +1,10 @@
 import { PaginatedGigs } from '@/entities/gig';
+import { ROUTES } from '@/shared/config/routes';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Button } from '@/shared/ui/button';
 import { SharedData } from '@/types';
 import DashboardFreelance from '@/widgets/dashboard/ui/dashboard-freelance';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
 type FreelanceDashboardPageProps = SharedData & {
@@ -18,12 +19,14 @@ const FreelanceDashboardPage = (props: FreelanceDashboardPageProps) => {
             gigs={gigs.data || []}
             buttons={
                 <div className="mb-4.5 grid grid-cols-2 gap-2 px-6">
+                    <Link href={`${ROUTES.freelance.gig.create}/create`}>
+                        <Button variant="secondary">
+                            <img src="/icons/plus.svg" alt="plus" />
+                            Создать услугу
+                        </Button>
+                    </Link>
                     <Button variant="secondary">
-                        <img src="/icons/plus.svg" alt="plus" />
-                        Создать услугу
-                    </Button>
-                    <Button variant="secondary">
-                        <img className='rotate-180' src="/icons/arrow-down.svg" alt="plus" />
+                        <img className="rotate-180" src="/icons/arrow-down.svg" alt="plus" />
                         Вывод
                     </Button>
                 </div>

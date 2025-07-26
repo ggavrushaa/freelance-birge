@@ -20,7 +20,11 @@ const FreelanceGigShowPage = (props: FreelanceGigShowPageProps) => {
 
     const handleClickEdit = () => {
         router.get(ROUTES.freelance.gig.edit(gig.id));
-    }
+    };
+
+    const handleClickPublish = () => {
+        router.get("/freelance/dashboard");
+    };
 
     return (
         <main className="flex min-h-[100svh] flex-col bg-[#efeff4]">
@@ -62,11 +66,11 @@ const FreelanceGigShowPage = (props: FreelanceGigShowPageProps) => {
                     </div>
                     <img className="ml-auto" src="/icons/arrow-right.svg" />
                 </Link>
-                <TariffSwitcher tariffs={gig.tariffs}/>
+                {gig.tariffs.length > 0 && <TariffSwitcher tariffs={gig.tariffs} />}
             </section>
             <div className="grid grid-cols-2 gap-2 bg-white px-6 pt-6 pb-12">
                 <Button onClick={handleClickEdit}>Изменить</Button>
-                <Button>Опубликовать</Button>
+                <Button onClick={handleClickPublish}>Опубликовать</Button>
             </div>
         </main>
     );

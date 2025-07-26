@@ -10,6 +10,7 @@ export const ROUTES = {
     },
     customer: {
         job: {
+            index: 'customer-job',
             create: 'customer-job',
             edit: (id: number) => `/customer-job/${id}/edit`,
             update: (id: number) => `/customer-job/${id}/update`,

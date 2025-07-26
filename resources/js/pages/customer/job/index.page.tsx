@@ -2,8 +2,8 @@ import { JobCard, PaginatedJobs } from '@/entities/job';
 import { JobFilters } from '@/features/customer/job/job-filters';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { SharedData } from '@/types';
-import { Head } from '@inertiajs/react';
-import { ReactNode } from 'react';
+import { Head, router } from '@inertiajs/react';
+import { ReactNode, useState } from 'react';
 
 type CustomerJobIndexPageProps = SharedData & {
     jobs: PaginatedJobs;
@@ -11,12 +11,28 @@ type CustomerJobIndexPageProps = SharedData & {
 
 const CustomerJobIndexPage = (props: CustomerJobIndexPageProps) => {
     const { jobs } = props;
+    const params = new URLSearchParams(window.location.search);
+    const [searchQuery, setSearchQuery] = useState(params.get('search') ?? '');
+
+    const onChangeSearchQuery = (value: string) => {
+        setSearchQuery(value);
+        router.get('/customer-job', value ? { search: value } : {}, {
+            replace: true,
+            preserveScroll: true,
+            preserveState: true,
+        });
+    };
+
     return (
         <main className="flex-1 bg-[#efeff4] px-6 pt-29">
-            <JobFilters />
-            <div className='mt-3 flex flex-col gap-3'>
+            <JobFilters searchQuery={searchQuery} onChangeSearchQuery={onChangeSearchQuery} />
+            <div className="mt-3 flex flex-col gap-3">
                 {jobs.data.map((job) => (
-                    <JobCard imageUrl={job.photo} categoryName={job.category.name} price={job.price}/>
+                    <JobCard
+                        imageUrl={job.photo}
+                        categoryName={job.category.name}
+                        price={job.price}
+                    />
                 ))}
             </div>
         </main>

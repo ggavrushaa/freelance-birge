@@ -3,7 +3,7 @@ import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Button } from '@/shared/ui/button';
 import { SharedData } from '@/types';
 import { DashboardCustomer } from '@/widgets/dashboard/ui/dashboard-customer';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
 type CustomerDashboardPageProps = SharedData & {
@@ -18,10 +18,12 @@ const CustomerDashboardPage = (props: CustomerDashboardPageProps) => {
             jobs={jobs.data || []}
             buttons={
                 <div className="mb-4.5 grid grid-cols-2 gap-2 px-6">
-                    <Button variant="secondary">
-                        <img src="/icons/plus.svg" alt="plus" />
-                        Создать заказ
-                    </Button>
+                    <Link href={`/customer-job/create`}>
+                        <Button variant="secondary">
+                            <img src="/icons/plus.svg" alt="plus" />
+                            Создать заказ
+                        </Button>
+                    </Link>
                     <Button variant="secondary">
                         <img src="/icons/arrow-down.svg" alt="plus" />
                         Пополнить
