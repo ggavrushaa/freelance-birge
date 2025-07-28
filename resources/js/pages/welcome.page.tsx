@@ -4,12 +4,12 @@ import { Head, Link, router } from '@inertiajs/react';
 
 const Welcome = () => {
     const handleClickRegister = () => {
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
         router.post(ROUTES.auth.register, {
-            telegram_id: '123aaa',
-            username: 'Bohdan12',
+            telegram_id: user.id,
+            username: user.username,
         });
     };
-   alert("Welcome page loaded");
     return (
         <>
             <Head title="Welcome"></Head>
