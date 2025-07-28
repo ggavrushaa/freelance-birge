@@ -9,6 +9,7 @@ const Welcome = () => {
             username: 'Bohdan12',
         });
     };
+    console.log("Welcome page loaded");
     return (
         <>
             <Head title="Welcome"></Head>
