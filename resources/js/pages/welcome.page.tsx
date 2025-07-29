@@ -6,7 +6,7 @@ const Welcome = () => {
     const handleClickRegister = () => {
         const user = window.Telegram.WebApp.initDataUnsafe.user;
         router.post(ROUTES.auth.register, {
-            telegram_id: user.id,
+            telegram_id: String(user.id),
             username: user.username,
         });
     };
