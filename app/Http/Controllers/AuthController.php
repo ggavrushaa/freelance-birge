@@ -18,7 +18,6 @@ class AuthController extends Controller
 
     public function create()
     {
-        dd(213);
         return Inertia::render('auth/register/index.page');
     }
 
