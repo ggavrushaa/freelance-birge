@@ -3,6 +3,7 @@ import { Profile } from '@/entities/profile';
 import { Skill } from '@/entities/skill';
 import { UserCard, UserCardContent, UserCardHeader } from '@/entities/user';
 import { LogoutButton } from '@/features/auth';
+import { useRoleContext } from '@/features/role';
 import { BadgeList } from '@/shared/components/badge-list';
 import { ROUTES } from '@/shared/config/routes';
 import { Card } from '@/shared/ui/card';
@@ -21,6 +22,8 @@ const ProfileShowPage = (props: ProfileShowPageProps) => {
         profile,
         auth: { user },
     } = props;
+
+    const { role } = useRoleContext();
 
     const handleClickArrow = () => {
         router.get(ROUTES.profile.edit(profile.id));
@@ -50,14 +53,16 @@ const ProfileShowPage = (props: ProfileShowPageProps) => {
                 }
                 className="mb-6"
             />
-            <Link href="/portfolio/" className="mb-4.5 block">
-                <Card className="btn-press flex flex-row items-center justify-between px-4 py-3">
-                    <Title color="black" className="font-medium">
-                        Портфолио
-                    </Title>
-                    <img className="h-4.5 w-4.5" src="/icons/arrow-right.svg" />
-                </Card>
-            </Link>
+            {role === 'freelancer' && (
+                <Link href="/portfolio/" className="mb-4.5 block">
+                    <Card className="btn-press flex flex-row items-center justify-between px-4 py-3">
+                        <Title color="black" className="font-medium">
+                            Портфолио
+                        </Title>
+                        <img className="h-4.5 w-4.5" src="/icons/arrow-right.svg" />
+                    </Card>
+                </Link>
+            )}
             <Card className="mb-4.5 gap-0 p-4">
                 <Title className="font-medium">Обо мне</Title>
                 <CollapsableText text={profile.description} className="text-[13px] text-gray" />

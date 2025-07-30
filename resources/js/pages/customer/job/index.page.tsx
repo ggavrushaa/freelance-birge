@@ -2,7 +2,7 @@ import { JobCard, PaginatedJobs } from '@/entities/job';
 import { JobFilters } from '@/features/customer/job/job-filters';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { SharedData } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { ReactNode, useState } from 'react';
 
 type CustomerJobIndexPageProps = SharedData & {
@@ -28,11 +28,13 @@ const CustomerJobIndexPage = (props: CustomerJobIndexPageProps) => {
             <JobFilters searchQuery={searchQuery} onChangeSearchQuery={onChangeSearchQuery} />
             <div className="mt-3 flex flex-col gap-3">
                 {jobs.data.map((job) => (
-                    <JobCard
-                        imageUrl={job.photo}
-                        categoryName={job.category.name}
-                        price={job.price}
-                    />
+                    <Link href={`/customer-job/${job.id}`} key={job.id}>
+                        <JobCard
+                            imageUrl={job.photo}
+                            categoryName={job.category.name}
+                            price={job.price}
+                        />
+                    </Link>
                 ))}
             </div>
         </main>

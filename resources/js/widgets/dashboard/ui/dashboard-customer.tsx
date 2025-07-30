@@ -101,6 +101,7 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
                 orders={visibleJobs}
                 renderOrder={(order) => (
                     <DashboardOrder
+                        key={order.id}
                         imageUrl={jobIconsUrls[order.status]}
                         name={order.name}
                         status={order.status}

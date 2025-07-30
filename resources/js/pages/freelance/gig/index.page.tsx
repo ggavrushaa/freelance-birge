@@ -1,6 +1,7 @@
 import { GigCard, PaginatedGigs } from '@/entities/gig';
 import { JobFilters } from '@/features/customer/job/job-filters';
 import { SharedData } from '@/types';
+import { Link } from '@inertiajs/react';
 import { useState } from 'react';
 
 type FreelanceGigIndexPageProps = SharedData & {
@@ -26,7 +27,9 @@ const FreelanceGigIndexPage = (props: FreelanceGigIndexPageProps) => {
             <JobFilters searchQuery={searchQuery} onChangeSearchQuery={onChangeSearchQuery} />
             <div className="mt-3 flex flex-col gap-3">
                 {gigs.data.map((gig) => (
-                    <GigCard imageUrl={gig.photo} categoryName={gig.category.name} />
+                    <Link key={gig.id} href={`/freelance-gig/${gig.id}`}>
+                        <GigCard imageUrl={gig.photo} categoryName={gig.category.name} />
+                    </Link>
                 ))}
             </div>
         </main>

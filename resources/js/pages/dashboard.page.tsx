@@ -1,7 +1,7 @@
 import { PaginatedGigs } from '@/entities/gig';
 import { PaginatedJobs } from '@/entities/job';
+import { useRoleContext } from '@/features/role';
 import { ROUTES } from '@/shared/config/routes';
-import { useFetch } from '@/shared/hooks/use-fetch';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Button } from '@/shared/ui/button';
 import { SharedData } from '@/types';
@@ -16,10 +16,10 @@ type DashboardPageProps = SharedData & {
 
 const DashboardPage = (props: DashboardPageProps) => {
     const { categories, jobs, gigs } = props;
-    const { data } = useFetch<{ role: string }>('/user/role');
+    const { role } = useRoleContext();
 
     const renderBoard = () => {
-        switch (data?.role) {
+        switch (role) {
             case 'customer':
                 return (
                     <DashboardCustomer

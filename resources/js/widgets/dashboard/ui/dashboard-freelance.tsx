@@ -102,6 +102,7 @@ const DashboardFreelance = (props: DashboardFreelanceProps) => {
                 orders={visibleGigs}
                 renderOrder={(order) => (
                     <DashboardOrder
+                        key={order.id}
                         imageUrl={jobIconsUrls[order.status]}
                         name={order.name}
                         status={order.status}

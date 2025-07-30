@@ -28,6 +28,8 @@ const ProfileEditPage = (props: ProfileEditPageProps) => {
         auth: { user },
     } = props;
 
+    const [description, setDescription] = useState(profile.description);
+
     const languagesSelection = useLanguagesSelection({
         initialItems: profile.languages,
         allItems: allLanguages,
@@ -38,7 +40,7 @@ const ProfileEditPage = (props: ProfileEditPageProps) => {
         allItems: allSkills,
     });
 
-    const [description, setDescription] = useState(profile.description);
+    
 
     const handleChangeDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(event.target.value);
