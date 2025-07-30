@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\RoleController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
@@ -20,6 +21,13 @@ Route::get('/jobs', function () {
 
 Route::get('customer/dashboard', [DashboardController::class, 'customerDashboard'])->name('customer.dashboard');
 Route::get('freelance/dashboard', [DashboardController::class, 'freelancerDashboard'])->name('freelancer.dashboard');
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/user/role', [RoleController::class, 'getUserRole'])->name('user.role');
+    Route::post('/user/switch-role', [RoleController::class, 'switchRole'])->name('user.switch.role');
+    Route::post('/user/assign-role', [RoleController::class, 'assignRole'])->name('user.assign.role');
+});
 
 Route::resource('customer-job', CustomerJobController::class)->except('update');
 Route::post('customer-job/{id}/update', [CustomerJobController::class, 'update'])->name('customer-job.update');

@@ -7,6 +7,7 @@ use Database\Seeders\CategorySeeder;
 use Database\Seeders\SubCategorySeeder;
 use Database\Seeders\LanguageSeeder;
 use Database\Seeders\SkillSeeder;
+use Database\Seeders\RoleSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
             SubCategorySeeder::class,
             LanguageSeeder::class,
             SkillSeeder::class,
+            RoleSeeder::class,
         ]);
     }
 }

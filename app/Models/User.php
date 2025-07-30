@@ -98,4 +98,20 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Profile::class, "id", "user_id");
     }
+
+    public function getRoleAttribute()
+    {
+        $role = $this->roles()->first();
+        return $role ? $role->slug : null;
+    }
+
+    public function getIsCustomerAttribute()
+    {
+        return $this->hasRole('customer');
+    }
+
+    public function getIsFreelancerAttribute()
+    {
+        return $this->hasRole('freelancer');
+    }
 }

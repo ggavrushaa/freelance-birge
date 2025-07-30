@@ -3,6 +3,7 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
+use App\Models\Role;
 use FurqanSiddiqui\BIP39\BIP39;
 use Illuminate\Support\Facades\Auth;
 use FurqanSiddiqui\BIP39\Language\English;
@@ -12,10 +13,17 @@ class UserRegistrationService
 {
     public function register(array $data)
     {
-        return User::create([
+        $user = User::create([
             ...$data,
             'seed_phrase' => $this->generateSeedPhrase(),
         ]);
+
+        $customerRole = Role::where('slug', 'customer')->first();
+        if ($customerRole) {
+            $user->roles()->attach($customerRole->id);
+        }
+
+        return $user;
     }
 
     public function validateSeedPhrase(User $user, array $words): bool
