@@ -14,6 +14,7 @@ export interface SharedData {
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
     categories: Category[];
+    csrf_token: string;
 }
 
 export interface CustomerJob {

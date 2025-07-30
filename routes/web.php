@@ -24,7 +24,7 @@ Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashb
 
 Route::middleware('auth')->group(function () {
     Route::get('/user/role', [RoleController::class, 'getUserRole'])->name('user.role');
-    Route::post('/user/switch-role', [RoleController::class, 'switchRole'])->name('user.switch.role');
+    Route::post('/user/{id}/switch-role', [RoleController::class, 'switchRole'])->name('user.switch.role');
     Route::post('/user/assign-role', [RoleController::class, 'assignRole'])->name('user.assign.role');
 });
 

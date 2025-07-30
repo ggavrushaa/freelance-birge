@@ -34,9 +34,9 @@ class RoleController extends Controller
         ]);
     }
 
-    public function switchRole(SwitchRoleRequest $request): JsonResponse
+    public function switchRole(SwitchRoleRequest $request,$id): JsonResponse
     {
-        $user = auth()->user();
+        $user = User::findOrFail($id);
         $roleSlug = $request->role_slug;
 
         if ($this->roleService->getUserRole($user) === $roleSlug) {

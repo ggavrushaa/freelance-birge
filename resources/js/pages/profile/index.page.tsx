@@ -1,5 +1,6 @@
 import { Profile, ProfileNavItem } from '@/entities/profile';
 import { UserCard, UserCardContent, UserCardHeader } from '@/entities/user';
+import { useRoleContext } from '@/features/role';
 import { ROUTES } from '@/shared/config/routes';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Card } from '@/shared/ui/card';
@@ -17,7 +18,7 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
         profile,
         auth: { user },
     } = props;
-
+    const { role , switchRole } = useRoleContext();
     const handleClickArrow = () => {
         if (profile) {
             router.get(`/profile/${profile.id}`);
@@ -25,6 +26,8 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
             router.get(ROUTES.profile.create);
         }
     };
+
+    const isFreelancer = role === 'freelancer';
 
     return (
         <div className="flex-1 bg-[#efeff4] px-6 pt-20">
@@ -85,7 +88,13 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
                 <ProfileNavItem
                     imageUrl="/icons/profile/mode.svg"
                     text="Режим фрилансера"
-                    rightAddon={<Switch className="ml-auto" />}
+                    rightAddon={
+                        <Switch
+                            checked={isFreelancer}
+                            onClick={switchRole}
+                            className="ml-auto"
+                        />
+                    }
                 />
             </Card>
             <Card className="mb-4.5 gap-0 px-4 py-0 [&>div:last-of-type]:border-0">

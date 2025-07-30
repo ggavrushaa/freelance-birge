@@ -13,6 +13,9 @@ type FreelanceDashboardPageProps = SharedData & {
 
 const FreelanceDashboardPage = (props: FreelanceDashboardPageProps) => {
     const { gigs, categories } = props;
+
+    
+
     return (
         <DashboardFreelance
             categories={categories}
