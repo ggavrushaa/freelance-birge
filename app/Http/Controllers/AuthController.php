@@ -87,8 +87,7 @@ class AuthController extends Controller
                 ->withErrors(['pin_code' => 'Неверный ПИН-код или аккаунт заблокирован']);
         }
 
-
-        return redirect()->route('customer.dashboard');
+        return redirect()->route('dashboard');
     }
 
 

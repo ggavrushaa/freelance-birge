@@ -19,8 +19,7 @@ Route::get('/jobs', function () {
     return Inertia::render('jobs.page');
 })->name('jobs');
 
-Route::get('customer/dashboard', [DashboardController::class, 'customerDashboard'])->name('customer.dashboard');
-Route::get('freelance/dashboard', [DashboardController::class, 'freelancerDashboard'])->name('freelancer.dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
