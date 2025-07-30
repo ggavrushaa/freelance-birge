@@ -23,7 +23,7 @@ const FreelanceGigShowPage = (props: FreelanceGigShowPageProps) => {
     };
 
     const handleClickPublish = () => {
-        router.get("/freelance/dashboard");
+        router.get("/dashboard");
     };
 
     return (
