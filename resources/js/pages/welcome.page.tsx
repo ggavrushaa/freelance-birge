@@ -1,12 +1,13 @@
 import { ROUTES } from '@/shared/config/routes';
+import { useWebApp } from '@/shared/hooks/use-web-app';
 import { Button } from '@/shared/ui/button';
 import { Head, Link, router } from '@inertiajs/react';
 
 const Welcome = () => {
+    const { user } = useWebApp();
     const handleClickRegister = () => {
-        const user = window.Telegram.WebApp.initDataUnsafe.user;
         router.post(ROUTES.auth.register, {
-            telegram_id: user.id,
+            telegram_id: String(user.id),
             username: user.username,
         });
     };

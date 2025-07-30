@@ -4,9 +4,9 @@ import { ChatIcon, CreateIcon, HomeIcon, OrderIcon, ProfileIcon } from '../icons
 
 const tabs = [
     { key: 'home', label: 'Главная', Icon: HomeIcon, href: '/customer/dashboard' },
-    { key: 'chat', label: 'Чат', Icon: ChatIcon, href: '/chat' },
-    { key: 'create', label: 'Создать', Icon: CreateIcon, href: '/create' },
-    { key: 'order', label: 'Заказы', Icon: OrderIcon, href: '/orders' },
+    { key: 'chat', label: 'Чат', Icon: ChatIcon, href: '#' },
+    { key: 'create', label: 'Создать', Icon: CreateIcon, href: '/customer-job/create' },
+    { key: 'order', label: 'Заказы', Icon: OrderIcon, href: '/customer-job' },
     { key: 'profile', label: 'Профиль', Icon: ProfileIcon, href: '/profile' },
 ];
 
