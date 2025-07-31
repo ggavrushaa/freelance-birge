@@ -6,13 +6,13 @@ import { Logo } from '@/shared/ui/logo';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
 import { SharedData } from '@/types';
+import { Link, router } from '@inertiajs/react';
 import cls from 'classnames';
 import { ChangeEvent, ReactNode, useState } from 'react';
 import { DashboardBalance } from './dashboard-balance';
 import { DashboardOrder } from './dashboard-order';
 import { DashboardOrdersWidget } from './dashboard-orders-widget';
 import { DashboardSlider } from './dashboard-slider/dashboard-slider';
-import { router } from '@inertiajs/react';
 
 interface DashboardCustomerProps {
     categories: SharedData['categories'];
@@ -40,7 +40,7 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
         router.get('/freelance-gig', {
             search: searchQuery,
         });
-    }
+    };
 
     const visibleJobs = showAllJobs ? jobs : jobs.slice(0, 3);
 
@@ -100,13 +100,18 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
                 }
                 orders={visibleJobs}
                 renderOrder={(order) => (
-                    <DashboardOrder
+                    <Link
                         key={order.id}
-                        imageUrl={jobIconsUrls[order.status]}
-                        name={order.name}
-                        status={order.status}
-                        createdAt={order.created_at}
-                    />
+                        href={`/customer-job/${order.id}`}
+                        className="border-b border-gray"
+                    >
+                        <DashboardOrder
+                            imageUrl={jobIconsUrls[order.status]}
+                            name={order.name}
+                            status={order.status}
+                            createdAt={order.created_at}
+                        />
+                    </Link>
                 )}
             />
         </main>

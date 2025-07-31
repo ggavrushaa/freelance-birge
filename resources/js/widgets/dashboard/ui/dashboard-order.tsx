@@ -11,7 +11,7 @@ interface DashboardOrderProps {
 export const DashboardOrder = (props: DashboardOrderProps) => {
     const { imageUrl, name, status, createdAt } = props;
     return (
-        <div className="flex border-b border-gray pb-3">
+        <div className="flex pb-3">
             <img className="mr-4" src={imageUrl} />
             <div>
                 <Title className="font-medium text-primary">{name}</Title>

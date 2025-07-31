@@ -12,7 +12,7 @@ export const DashboardOrdersWidget = <T,>(props: DashboardOrdersWidget<T>) => {
     return (
         <Card className="mx-6 mb-5 gap-3 px-4 py-3">
             {header}
-            <div className="flex flex-col gap-3 [&>div:last-of-type]:border-0">
+            <div className="flex flex-col gap-3 [&>a:last-of-type]:border-0">
                 {orders.map((order) => renderOrder(order))}
             </div>
         </Card>
