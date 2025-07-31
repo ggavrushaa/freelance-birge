@@ -1,6 +1,6 @@
 import { useFetch } from '@/shared/hooks/use-fetch';
 import { usePageProps } from '@/shared/hooks/use-page-props';
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { Role } from './types';
 
 type RoleContext = {
@@ -14,10 +14,13 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
     const { data, refetch } = useFetch<{ role: Role }>('/user/role');
     const { auth, csrf_token } = usePageProps();
 
-    const role = data?.role || 'customer';
+    const [localRole, setLocalRole] = useState<Role | null>(null);
+
+    const role = localRole ?? data?.role ?? 'customer';
 
     const switchRole = async () => {
         const newRole = role === 'freelancer' ? 'customer' : 'freelancer';
+        setLocalRole(newRole);
         try {
             await fetch(`/user/${auth.user.id}/switch-role`, {
                 headers: {
