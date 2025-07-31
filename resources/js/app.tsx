@@ -84,7 +84,9 @@ createInertiaApp({
         const root = createRoot(el);
         (async () => {
             init();
+            window.Telegram.WebApp.ready();
             viewport.mount();
+            console.log(viewport.requestFullscreen.isAvailable);
             if (
                 viewport.requestFullscreen.isAvailable &&
                 viewport.requestFullscreen.isAvailable()
@@ -97,12 +99,7 @@ createInertiaApp({
             } else {
                 console.log('Fullscreen not available, skipping request.');
             }
-            root.render(
-                <>
-                    <div>mount</div>
-                    <App {...props} />
-                </>,
-            );
+            root.render(<App {...props} />);
         })();
     },
     progress: {
