@@ -8,6 +8,8 @@ import { SharedData } from '@/types';
 import { DashboardCustomer } from '@/widgets/dashboard/ui/dashboard-customer';
 import DashboardFreelance from '@/widgets/dashboard/ui/dashboard-freelance';
 import { Link } from '@inertiajs/react';
+import { viewport } from '@telegram-apps/sdk';
+import { useEffect } from 'react';
 
 type DashboardPageProps = SharedData & {
     jobs: PaginatedJobs;
@@ -18,6 +20,11 @@ const DashboardPage = (props: DashboardPageProps) => {
     const { categories, jobs, gigs } = props;
     const { role } = useRoleContext();
 
+    useEffect(() => {
+        viewport.mount()
+        console.log(viewport.isMounted());
+        console.log(viewport.expand.isAvailable());
+    }, []);
     const renderBoard = () => {
         switch (role) {
             case 'customer':
@@ -33,11 +40,17 @@ const DashboardPage = (props: DashboardPageProps) => {
                                         Создать заказ
                                     </Button>
                                 </Link>
-                                <Button variant="secondary" onClick={() => {
-                                    // console.log('Open top-up modal');
-                                    // window.Telegram.WebApp.ready()
-                                    // window.Telegram.WebApp.expand();
-                                }}>
+                                <Button
+                                    variant="secondary"
+                                    onClick={ async () => {
+                                        console.log("Requesting fullscreen...");
+                                        viewport.expand();
+                                        console.log("Viewport is fullscreen:", viewport.isFullscreen());
+                                        // console.log('Open top-up modal');
+                                        // window.Telegram.WebApp.ready()
+                                        // window.Telegram.WebApp.expand();
+                                    }}
+                                >
                                     <img src="/icons/arrow-down.svg" alt="plus" />
                                     Пополнить
                                 </Button>
