@@ -31,7 +31,6 @@ const DashboardPage = (props: DashboardPageProps) => {
                 console.error('Error initializing viewport:', e);
             }
         }
-
         initSDK();
     }, []);
     const renderBoard = () => {
@@ -52,15 +51,10 @@ const DashboardPage = (props: DashboardPageProps) => {
                                 <Button
                                     variant="secondary"
                                     onClick={async () => {
-                                        console.log('Requesting fullscreen...');
                                         viewport.expand();
-                                        console.log(
-                                            'Viewport is fullscreen:',
-                                            viewport.isFullscreen(),
-                                        );
-                                        // console.log('Open top-up modal');
-                                        // window.Telegram.WebApp.ready()
-                                        // window.Telegram.WebApp.expand();
+                                        console.log(viewport.isExpanded(),"isExpanded");
+                                        await viewport.requestFullscreen();
+                                        console.log(viewport.isFullscreen(),"isFullscreen");
                                     }}
                                 >
                                     <img src="/icons/arrow-down.svg" alt="plus" />
