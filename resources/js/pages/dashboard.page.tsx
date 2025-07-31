@@ -8,7 +8,7 @@ import { SharedData } from '@/types';
 import { DashboardCustomer } from '@/widgets/dashboard/ui/dashboard-customer';
 import DashboardFreelance from '@/widgets/dashboard/ui/dashboard-freelance';
 import { Link } from '@inertiajs/react';
-import { viewport } from '@telegram-apps/sdk';
+import { viewport , init} from '@telegram-apps/sdk';
 import { useEffect } from 'react';
 
 type DashboardPageProps = SharedData & {
@@ -21,9 +21,18 @@ const DashboardPage = (props: DashboardPageProps) => {
     const { role } = useRoleContext();
 
     useEffect(() => {
-        viewport.mount()
-        console.log(viewport.isMounted());
-        console.log(viewport.expand.isAvailable());
+        async function initSDK() {
+            try {
+                init();
+                viewport.mount();
+                console.log('Mounted:', viewport.isMounted());
+                console.log('Expand available:', viewport.expand.isAvailable());
+            } catch (e) {
+                console.error('Error initializing viewport:', e);
+            }
+        }
+
+        initSDK();
     }, []);
     const renderBoard = () => {
         switch (role) {
@@ -42,10 +51,13 @@ const DashboardPage = (props: DashboardPageProps) => {
                                 </Link>
                                 <Button
                                     variant="secondary"
-                                    onClick={ async () => {
-                                        console.log("Requesting fullscreen...");
+                                    onClick={async () => {
+                                        console.log('Requesting fullscreen...');
                                         viewport.expand();
-                                        console.log("Viewport is fullscreen:", viewport.isFullscreen());
+                                        console.log(
+                                            'Viewport is fullscreen:',
+                                            viewport.isFullscreen(),
+                                        );
                                         // console.log('Open top-up modal');
                                         // window.Telegram.WebApp.ready()
                                         // window.Telegram.WebApp.expand();
