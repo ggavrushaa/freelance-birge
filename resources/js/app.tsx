@@ -2,7 +2,7 @@
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/react';
-import { emitEvent, init, mockTelegramEnv, viewport } from '@telegram-apps/sdk';
+import { init, viewport } from '@telegram-apps/sdk';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import { RoleProvider } from './features/role';
@@ -82,15 +82,28 @@ createInertiaApp({
     },
     setup({ el, App, props }) {
         const root = createRoot(el);
-        init();
-        viewport.mount();
-        viewport.requestFullscreen();
-        root.render(
-            <>
-                <div>mount</div>
-                <App {...props} />
-            </>,
-        );
+        (async () => {
+            init();
+            viewport.mount();
+            if (
+                viewport.requestFullscreen.isAvailable &&
+                viewport.requestFullscreen.isAvailable()
+            ) {
+                try {
+                    await viewport.requestFullscreen();
+                } catch (e) {
+                    console.warn('Fullscreen request failed:', e);
+                }
+            } else {
+                console.log('Fullscreen not available, skipping request.');
+            }
+            root.render(
+                <>
+                    <div>mount</div>
+                    <App {...props} />
+                </>,
+            );
+        })();
     },
     progress: {
         color: '#4B5563',
