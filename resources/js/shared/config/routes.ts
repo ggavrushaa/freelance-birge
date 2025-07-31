@@ -19,6 +19,7 @@ export const ROUTES = {
     },
     freelance: {
         gig: {
+            index: 'freelance-gig',
             create: '/freelance-gig',
             edit: (id: number) => `/freelance-gig/${id}/edit`,
             // update: (id:number) => `/freelance-gig/${id}/update`,

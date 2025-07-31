@@ -1,5 +1,6 @@
 import { useRoleContext } from '@/features/role';
 import { ChatIcon, CreateIcon, HomeIcon, OrderIcon, ProfileIcon } from '../icons';
+import { ROUTES } from '@/shared/config/routes';
 
 export const useNavbarTabs = () => {
     const { role } = useRoleContext();
@@ -10,13 +11,13 @@ export const useNavbarTabs = () => {
             key: 'create',
             label: 'Создать',
             Icon: CreateIcon,
-            href: role === 'customer' ? '/customer-job/create' : '/freelance-gig/create',
+            href: role === 'customer' ? `/${ROUTES.customer.job.index}/create` : `${ROUTES.freelance.gig.index}/create`,
         },
         {
             key: 'order',
             label: 'Заказы',
             Icon: OrderIcon,
-            href: role === 'customer' ? '/customer-job' : '/freelance-gig',
+            href: role === 'customer' ? '/freelance-gig' : '/customer-job',
         },
         { key: 'profile', label: 'Профиль', Icon: ProfileIcon, href: '/profile' },
     ];

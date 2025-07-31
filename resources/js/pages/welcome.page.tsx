@@ -7,7 +7,7 @@ const Welcome = () => {
     const { user } = useWebApp();
     const handleClickRegister = () => {
         router.post(ROUTES.auth.register, {
-            telegram_id: String(user.id),
+            telegram_id: String(user.telegram_id),
             username: user.username,
         });
     };

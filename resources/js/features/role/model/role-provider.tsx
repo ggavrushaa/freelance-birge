@@ -16,10 +16,10 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
 
     const role = data?.role || 'customer';
 
-    const switchRole = () => {
+    const switchRole = async () => {
         const newRole = role === 'freelancer' ? 'customer' : 'freelancer';
         try {
-            fetch(`/user/${auth.user.id}/switch-role`, {
+            await fetch(`/user/${auth.user.id}/switch-role`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrf_token,

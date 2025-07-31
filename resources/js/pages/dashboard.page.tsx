@@ -24,7 +24,7 @@ const DashboardPage = (props: DashboardPageProps) => {
                 return (
                     <DashboardCustomer
                         categories={categories}
-                        jobs={jobs.data || []}
+                        jobs={jobs?.data || []}
                         buttons={
                             <div className="mb-4.5 grid grid-cols-2 gap-2 px-6">
                                 <Link href={`/customer-job/create`}>
@@ -33,7 +33,7 @@ const DashboardPage = (props: DashboardPageProps) => {
                                         Создать заказ
                                     </Button>
                                 </Link>
-                                <Button variant="secondary">
+                                <Button variant="secondary" onClick={() => window.Telegram.WebApp.expand()}>
                                     <img src="/icons/arrow-down.svg" alt="plus" />
                                     Пополнить
                                 </Button>
@@ -45,7 +45,7 @@ const DashboardPage = (props: DashboardPageProps) => {
                 return (
                     <DashboardFreelance
                         categories={categories}
-                        gigs={gigs.data || []}
+                        gigs={gigs?.data || []}
                         buttons={
                             <div className="mb-4.5 grid grid-cols-2 gap-2 px-6">
                                 <Link href={`${ROUTES.freelance.gig.create}/create`}>
