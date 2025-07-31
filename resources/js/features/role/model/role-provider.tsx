@@ -23,6 +23,7 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
         const initApp = async () => {
             init();
             backButton.mount();
+            viewport.mount();
             window.Telegram.WebApp.ready();
             await viewport.requestFullscreen();
         };
