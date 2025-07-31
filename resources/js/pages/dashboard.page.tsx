@@ -8,8 +8,6 @@ import { SharedData } from '@/types';
 import { DashboardCustomer } from '@/widgets/dashboard/ui/dashboard-customer';
 import DashboardFreelance from '@/widgets/dashboard/ui/dashboard-freelance';
 import { Link } from '@inertiajs/react';
-import { viewport , init} from '@telegram-apps/sdk';
-import { useEffect } from 'react';
 
 type DashboardPageProps = SharedData & {
     jobs: PaginatedJobs;
@@ -19,20 +17,6 @@ type DashboardPageProps = SharedData & {
 const DashboardPage = (props: DashboardPageProps) => {
     const { categories, jobs, gigs } = props;
     const { role } = useRoleContext();
-
-    useEffect(() => {
-        async function initSDK() {
-            try {
-                init();
-                viewport.mount();
-                console.log('Mounted:', viewport.isMounted());
-                console.log('Expand available:', viewport.expand.isAvailable());
-            } catch (e) {
-                console.error('Error initializing viewport:', e);
-            }
-        }
-        initSDK();
-    }, []);
     const renderBoard = () => {
         switch (role) {
             case 'customer':
@@ -50,12 +34,6 @@ const DashboardPage = (props: DashboardPageProps) => {
                                 </Link>
                                 <Button
                                     variant="secondary"
-                                    onClick={async () => {
-                                        viewport.expand();
-                                        console.log(viewport.isExpanded(),"isExpanded");
-                                        await viewport.requestFullscreen();
-                                        console.log(viewport.isFullscreen(),"isFullscreen");
-                                    }}
                                 >
                                     <img src="/icons/arrow-down.svg" alt="plus" />
                                     Пополнить
