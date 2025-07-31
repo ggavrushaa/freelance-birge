@@ -33,7 +33,10 @@ const DashboardPage = (props: DashboardPageProps) => {
                                         Создать заказ
                                     </Button>
                                 </Link>
-                                <Button variant="secondary" onClick={() => window.Telegram.WebApp.expand()}>
+                                <Button variant="secondary" onClick={() => {
+                                    console.log('Open top-up modal');
+                                    window.Telegram.WebApp.expand();
+                                }}>
                                     <img src="/icons/arrow-down.svg" alt="plus" />
                                     Пополнить
                                 </Button>
