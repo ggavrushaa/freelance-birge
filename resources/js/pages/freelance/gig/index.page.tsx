@@ -1,8 +1,9 @@
 import { GigCard, PaginatedGigs } from '@/entities/gig';
 import { JobFilters } from '@/features/customer/job/job-filters';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { SharedData } from '@/types';
-import { Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { Head, Link, router } from '@inertiajs/react';
+import { ReactNode, useState } from 'react';
 
 type FreelanceGigIndexPageProps = SharedData & {
     gigs: PaginatedGigs;
@@ -15,11 +16,10 @@ const FreelanceGigIndexPage = (props: FreelanceGigIndexPageProps) => {
 
     const onChangeSearchQuery = (value: string) => {
         setSearchQuery(value);
-        // router.get('/customer-job', value ? { search: value } : {}, {
-        //     replace: true,
-        //     preserveScroll: true,
-        //     preserveState: true,
-        // });
+        router.get('/freelance-gig', value ? { search: value } : {}, {
+            preserveScroll: true,
+            preserveState: true,
+        });
     };
 
     return (
@@ -35,5 +35,12 @@ const FreelanceGigIndexPage = (props: FreelanceGigIndexPageProps) => {
         </main>
     );
 };
+
+FreelanceGigIndexPage.layout = (page: ReactNode) => (
+    <LayoutWithNavbar>
+        <Head title="Gigs page" />
+        {page}
+    </LayoutWithNavbar>
+);
 
 export default FreelanceGigIndexPage;
