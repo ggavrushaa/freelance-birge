@@ -35,6 +35,7 @@ const DashboardPage = (props: DashboardPageProps) => {
                                 </Link>
                                 <Button variant="secondary" onClick={() => {
                                     console.log('Open top-up modal');
+                                    window.Telegram.WebApp.ready()
                                     window.Telegram.WebApp.expand();
                                 }}>
                                     <img src="/icons/arrow-down.svg" alt="plus" />
