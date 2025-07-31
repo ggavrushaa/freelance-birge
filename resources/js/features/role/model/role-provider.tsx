@@ -1,6 +1,7 @@
 import { useFetch } from '@/shared/hooks/use-fetch';
 import { usePageProps } from '@/shared/hooks/use-page-props';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { backButton, init, viewport } from '@telegram-apps/sdk';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Role } from './types';
 
 type RoleContext = {
@@ -17,6 +18,16 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
     const [localRole, setLocalRole] = useState<Role | null>(null);
 
     const role = localRole ?? data?.role ?? 'customer';
+
+    useEffect(() => {
+        const initApp = async () => {
+            init();
+            backButton.mount();
+            window.Telegram.WebApp.ready();
+            await viewport.requestFullscreen();
+        };
+        initApp();
+    }, []);
 
     const switchRole = async () => {
         const newRole = role === 'freelancer' ? 'customer' : 'freelancer';
