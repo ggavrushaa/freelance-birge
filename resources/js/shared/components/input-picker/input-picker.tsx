@@ -31,7 +31,7 @@ export const InputPicker = <T extends Record<string, (string | number)[]>>({
     const columnKey = Object.keys(selections)[0];
 
     return (
-        <Drawer>
+        <Drawer modal={false}>
             <DrawerTrigger asChild>
                 <div>{renderTrigger(value)}</div>
             </DrawerTrigger>
