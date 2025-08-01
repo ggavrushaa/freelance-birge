@@ -21,7 +21,7 @@ const Welcome = () => {
                     alt="logo"
                 />
                 <div className="flex flex-col gap-3">
-                    <Link href={'login-verification'}>
+                    <Link href={'login'}>
                         <Button className="w-full" variant="ghost">
                             Войти
                         </Button>

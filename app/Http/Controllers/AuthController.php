@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +31,21 @@ class AuthController extends Controller
         return Inertia::render('auth/register/index.page', [
             'seed' => $user->seed_phrase,
         ]);
+    }
+
+    public function login(Request $request)
+    {
+        $telegramId = $request->input('telegram_id');
+        $user = User::where('telegram_id', $telegramId)->firstOrFail();
+        if ($request->has('pin_code')) {
+            if (!$this->registrationService->verifyPinCode($user, $request->input('pin_code'))) {
+                throw ValidationException::withMessages([
+                    'pin_code' => 'Неверный ПИН-код или аккаунт заблокирован',
+                ]);
+            }
+            Auth::login($user);
+            return redirect()->route('dashboard');
+        }
     }
 
     public function confirm()

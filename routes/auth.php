@@ -47,7 +47,7 @@ Route::get('register-confirm', [AuthController::class, 'confirm'])
     Route::get('login', [LoginController::class, 'create'])
         ->name('login');
 
-    Route::post('login', [LoginController::class, 'store']);
+    Route::post('login', [AuthController::class, 'login']);
 
     Route::get('login-verification', [LoginController::class, 'verification'])
         ->name('login.verification');
