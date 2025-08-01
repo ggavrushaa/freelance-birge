@@ -169,6 +169,11 @@ html {
     font-family: var(--font-family);
 }
 
+body {
+    overscroll-behavior: none;
+    touch-action: manipulation;
+}
+
 input {
     width: -webkit-fill-available;
 }
