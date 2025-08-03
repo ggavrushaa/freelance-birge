@@ -1,7 +1,9 @@
 import { useFetch } from '@/shared/hooks/use-fetch';
 import { usePageProps } from '@/shared/hooks/use-page-props';
-import { backButton, init, viewport } from '@telegram-apps/sdk';
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { init, viewport } from '@telegram-apps/sdk';
+import WebApp from '@twa-dev/sdk';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Role } from './types';
 
 type RoleContext = {
@@ -14,6 +16,11 @@ const roleContext = createContext<RoleContext | null>(null);
 export const RoleProvider = ({ children }: { children: ReactNode }) => {
     const { data, refetch } = useFetch<{ role: Role }>('/user/role');
     const { auth, csrf_token } = usePageProps();
+    const navigate = useNavigate();
+    const backButton = WebApp.BackButton;
+    const onBackButtonClick = useCallback(() => {
+        navigate(-1);
+    }, [navigate]);
 
     const [localRole, setLocalRole] = useState<Role | null>(null);
 
@@ -22,11 +29,19 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const initApp = async () => {
             init();
-            backButton.mount();
             viewport.mount();
             window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.BackButton.setParams({is_visible: true});
             await viewport.requestFullscreen();
+
+            if (location.pathname === '/' && backButton.isVisible) {
+                backButton.hide();
+            } else if (location.pathname !== '/' && !backButton.isVisible) {
+                backButton.show();
+            }
+            backButton.onClick(onBackButtonClick);
+            return () => {
+                backButton.offClick(onBackButtonClick);
+            };
         };
         initApp();
     }, []);
