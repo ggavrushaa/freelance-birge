@@ -4,6 +4,7 @@ import { usePage } from '@inertiajs/react';
 import { init, viewport } from '@telegram-apps/sdk';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { Role } from './types';
+import WebApp from "@twa-dev/sdk";
 
 type RoleContext = {
     role: Role;
@@ -31,7 +32,7 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
         const initApp = async () => {
             init();
             viewport.mount();
-            window.Telegram.WebApp.ready();
+            WebApp.ready();
             await viewport.requestFullscreen();
             if (url === '/' && backButton.isVisible) {
                 backButton.hide();
