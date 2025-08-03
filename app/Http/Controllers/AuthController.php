@@ -52,7 +52,7 @@ class AuthController extends Controller
     {
         $index = $this->registrationService->generateIndexes();
         return Inertia::render('auth/register/confirm.page', [
-            'index' => $index,
+            'wordIndices' => $index,
         ]);
 
     }

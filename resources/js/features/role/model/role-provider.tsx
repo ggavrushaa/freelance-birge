@@ -25,6 +25,7 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
             backButton.mount();
             viewport.mount();
             window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.BackButton.setParams({is_visible: true});
             await viewport.requestFullscreen();
         };
         initApp();

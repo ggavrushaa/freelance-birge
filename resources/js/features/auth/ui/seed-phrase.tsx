@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { ChangeEvent } from 'react';
+import React, { forwardRef } from 'react';
 
 interface SeedPhraseProps {
     seedPhrase: string[];
@@ -10,6 +10,8 @@ interface SeedPhraseProps {
 
 interface SeedPhraseInputProps {
     index: number;
+    orderNumber?: number;
+    onKeyDown: (e: React.KeyboardEvent, idx: number) => void;
     value: string;
     error?: string;
     disabled?: boolean;
@@ -19,7 +21,6 @@ interface SeedPhraseInputProps {
 
 export const SeedPhrase = (props: SeedPhraseProps) => {
     const { seedPhrase, error, renderInput } = props;
-
     return (
         <div className={clsx('flex w-full flex-col gap-3', props.className)}>
             {seedPhrase.map((word, index) => renderInput(word, index))}
@@ -28,32 +29,42 @@ export const SeedPhrase = (props: SeedPhraseProps) => {
     );
 };
 
-SeedPhrase.Input = (props: SeedPhraseInputProps) => {
-    const { index, value, onChange, error, disabled = false } = props;
+SeedPhrase.Input = forwardRef<HTMLInputElement, SeedPhraseInputProps>((props, ref) => {
+    const {
+        index,
+        orderNumber,
+        value,
+        onChange,
+        error,
+        disabled = false,
+        className,
+        onKeyDown,
+    } = props;
 
-    const handleChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange?.(index, event.target.value);
     };
 
     return (
         <div
-            key={index}
             className={clsx(
                 'relative flex items-center rounded-[10px] bg-input px-4 py-3.5',
-                props.className,
+                className,
                 error && 'border border-red',
             )}
         >
             <span className="absolute top-[50%] left-4 mr-2.5 inline-block translate-y-[-50%] text-gray">
-                {index + 1}.
+                {orderNumber ?? index + 1}.
             </span>
             <input
+                ref={ref}
                 disabled={disabled}
                 value={value ?? ''}
-                onChange={(e) => handleChange(index, e)}
+                onChange={handleChange}
+                onKeyDown={(e) => onKeyDown?.(e, index)}
                 className="ml-5 focus:outline-none"
                 type="text"
             />
         </div>
     );
-};
+});
