@@ -48,7 +48,10 @@ const RegisterConfirmPage = (props: RegisterConfirmPageProps) => {
         if (isValidForm()) {
             router.post(
                 ROUTES.auth.registerConfirm,
-                { words: phrase },
+                { 
+                    words: phrase,
+                    indices: wordIndices
+                },
                 {
                     preserveState: true,
                 },

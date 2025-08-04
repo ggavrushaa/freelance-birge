@@ -15,7 +15,9 @@ class ConfirmSeedPhraseRequest extends FormRequest
     {
         return [
             'words' => ['required', 'array', 'size:3'],
-            'words.*' => ['required', 'string',],
+            'words.*' => ['required', 'string'],
+            'indices' => ['required', 'array', 'size:3'],
+            'indices.*' => ['required', 'integer', 'min:0', 'max:11'],
         ];
     }
 }

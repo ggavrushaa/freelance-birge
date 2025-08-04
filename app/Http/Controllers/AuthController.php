@@ -62,7 +62,8 @@ class AuthController extends Controller
         if (
             !$this->registrationService->validateSeedPhrase(
                 auth()->user(),
-                words: $request->input('words')
+                words: $request->input('words'),    
+                indices: $request->input('indices')
             )
         ) {
             throw ValidationException::withMessages([

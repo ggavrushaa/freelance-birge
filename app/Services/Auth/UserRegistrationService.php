@@ -26,14 +26,15 @@ class UserRegistrationService
         return $user;
     }
 
-    public function validateSeedPhrase(User $user, array $words): bool
+    public function validateSeedPhrase(User $user, array $words, array $indices): bool
     {
         if (!$user->seed_phrase) {
             return false;
         }
 
-        foreach ($words as $word) {
-            if (!in_array($word, $user->seed_phrase)) {
+        foreach ($indices as $index => $expectedIndex) {
+            $actualIndex = $expectedIndex - 1;
+            if (!isset($user->seed_phrase[$actualIndex]) || $user->seed_phrase[$actualIndex] !== $words[$index]) {
                 return false;
             }
         }
@@ -61,7 +62,10 @@ class UserRegistrationService
 
     public function generateIndexes(): array
     {
-        return array_rand(range(1, 12), 3);
+        $randomIndices = array_rand(range(0, 11), 3);
+        return array_map(function ($index) {
+            return $index + 1;
+        }, $randomIndices);
     }
 
     protected function generateSeedPhrase(): array

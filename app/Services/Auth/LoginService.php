@@ -19,6 +19,7 @@ class LoginService
 
     public function verifySeed(array $data): bool
     {
+        dd($data);
         $isValid = $this->checkSeedPhrase($data['words']);
 
         if ($isValid) {
@@ -35,6 +36,7 @@ class LoginService
 
     protected function checkSeedPhrase(array $words): bool
     {
+        dd($words);
         $user = auth()->user();
 
         if (!$user || !$user->seed_phrase) {
