@@ -7,6 +7,7 @@ import { Card } from '@/shared/ui/card';
 import { Switch } from '@/shared/ui/switch';
 import { SharedData } from '@/types';
 import { Head, router } from '@inertiajs/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
 type ProfileShowPageProps = SharedData & {
@@ -55,13 +56,25 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
                 className="mb-6"
             />
             <Card className="mb-4.5 gap-0 px-4 py-0 [&>div:last-of-type]:border-0">
-                {isFreelancer && (
-                    <ProfileNavItem
-                        imageUrl="/icons/profile/stats.svg"
-                        text="Статистика"
-                        rightAddon={<img src="/icons/profile/arrow.svg" className="ml-auto" />}
-                    />
-                )}
+                <AnimatePresence>
+                    {isFreelancer && (
+                        <motion.div
+                            key="statistics"
+                            initial={{ opacity: 0, maxHeight: 0 }}
+                            animate={{ opacity: 1, maxHeight: 100 }}
+                            exit={{ opacity: 0, maxHeight: 0 }}
+                            transition={{ duration: 0.4, ease: 'easeIn' }}
+                        >
+                            <ProfileNavItem
+                                imageUrl="/icons/profile/stats.svg"
+                                text="Статистика"
+                                rightAddon={
+                                    <img src="/icons/profile/arrow.svg" className="ml-auto" />
+                                }
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 <ProfileNavItem
                     imageUrl="/icons/profile/wallet.svg"
                     text="Кошелек"
