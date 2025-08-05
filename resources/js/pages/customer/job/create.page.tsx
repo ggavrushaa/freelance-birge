@@ -16,7 +16,7 @@ import { SharedData } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from '@inertiajs/react';
 import { ChangeEvent } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const daySelections = {
@@ -36,6 +36,7 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
     const {
         register,
         handleSubmit,
+        control,
         setValue,
         watch,
         formState: { isValid },
@@ -45,7 +46,7 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
         defaultValues: {
             name: '',
             description: '',
-            price: '0',
+            price: 0,
             express_mode: false,
             premium_mode: false,
             photo: null,
@@ -73,6 +74,8 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
             user_id: user.id,
         });
     };
+
+    console.log()
 
     return (
         <form
@@ -145,7 +148,7 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
                 <Textarea
                     id="description"
                     placeholder="Опишите детали, сроки, требования, ожидаемый результат и тд."
-                    maxLength={120}
+                    maxLength={1200}
                     value={description}
                     className="h-34"
                     {...register('description')}
@@ -155,12 +158,19 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
             <Card className="flex flex-col gap-3 p-4">
                 <div className="flex items-center justify-between">
                     <Label htmlFor="title">Бюджет</Label>
-                    <div className="input-bg flex max-w-[110px] items-center gap-2 overflow-hidden rounded-[10px] border px-4 py-1">
+                    <div className="input-bg flex max-w-[110px] items-center gap-2 overflow-hidden rounded-[10px] border px-4 py-2">
                         <span className="text-xs text-[#242424]">US$</span>
-                        <input
-                            className="max-w-[70%] focus:outline-none"
-                            type="number"
-                            {...register('price')}
+                        <Controller
+                            name="price"
+                            control={control}
+                            render={({ field }) => (
+                                <input
+                                    className="max-w-[70%] text-[11px] focus:outline-none"
+                                    type="number"
+                                    value={String(field.value)}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                />
+                            )}
                         />
                     </div>
                 </div>

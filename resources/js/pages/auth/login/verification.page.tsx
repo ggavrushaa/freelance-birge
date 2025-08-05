@@ -3,12 +3,33 @@ import { ROUTES } from '@/shared/config/routes';
 import { SEED_PHRASE_LENGTH } from '@/shared/consts';
 import { Button } from '@/shared/ui/button';
 import { Head, router } from '@inertiajs/react';
-import { ReactNode } from 'react';
+import { ReactNode, useRef } from 'react';
 
 const LoginVerificationPage = () => {
-    const { phrase, onChangePhrase, isPhraseFilled } = useSeedPhrase({
+    const { phrase, onChangePhrase, setPhraseFromClipboard, isPhraseFilled } = useSeedPhrase({
         length: SEED_PHRASE_LENGTH,
     });
+
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+    const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const nextInput = inputRefs.current[idx + 1];
+            if (nextInput) {
+                nextInput.focus();
+            } else {
+                const currentInput = inputRefs.current[idx];
+                currentInput?.blur();
+            }
+        }
+        if (e.key === ' ') {
+            e.preventDefault();
+            console.log('space');
+            setPhraseFromClipboard();
+        }
+    };
+
     const handleClickContinue = () => {
         router.post(ROUTES.auth.loginVerification, { words: phrase });
     };
@@ -28,6 +49,10 @@ const LoginVerificationPage = () => {
                         index={index}
                         value={word}
                         onChange={onChangePhrase}
+                        onKeyDown={handleKeyDown}
+                        ref={(el) => {
+                            inputRefs.current[index] = el;
+                        }}
                     />
                 )}
                 className="mb-18"

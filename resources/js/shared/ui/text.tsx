@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 
 type AllowedText = 'p' | 'span';
-type fontSize = 11 | 12 | 13 | 15 | 17 | 21 | 24;
-type FontColor = 'gray' | 'primary' | 'black';
+type fontSize = 8 | 11 | 12 | 13 | 15 | 17 | 21 | 24;
+type FontColor = 'gray' | 'primary' | 'black' | 'white';
 
 type TextProps<E extends AllowedText = 'p'> = {
     as?: E;
@@ -23,6 +23,7 @@ export function Text<E extends AllowedText = 'p'>({
     const Component = as || 'p';
 
     const fontSizeClass = {
+        8: 'text-[8px]',
         11: 'text-[11px]',
         12: 'text-[12px]',
         13: 'text-[13px]',
@@ -36,6 +37,7 @@ export function Text<E extends AllowedText = 'p'>({
         gray: 'text-gray',
         primary: 'text-primary',
         black: 'text-[#242424]',
+        white: 'text-[#fff]',
     }[fontColor];
 
     return (

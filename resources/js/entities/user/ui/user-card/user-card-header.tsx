@@ -1,16 +1,16 @@
-import { Badge } from '@/shared/ui/badge';
 import { Title } from '@/shared/ui/title';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 
 interface UserCardHeaderProps {
     userName: string;
+    badges: ReactNode;
     rightAddon?: ReactNode;
     className?: string;
 }
 
 export const UserCardHeader = (props: UserCardHeaderProps) => {
-    const { userName, rightAddon } = props;
+    const { userName, rightAddon, badges } = props;
     return (
         <div className={classNames('flex items-center', props.className)}>
             <div
@@ -20,8 +20,7 @@ export const UserCardHeader = (props: UserCardHeaderProps) => {
             <div className="ml-2">
                 <Title className="font-medium">{userName}</Title>
                 <div className="flex gap-1">
-                    <Badge>Новый</Badge>
-                    <Badge>Premium</Badge>
+                    {badges}
                 </div>
             </div>
             {rightAddon}

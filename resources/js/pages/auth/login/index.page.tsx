@@ -1,9 +1,12 @@
 import { AuthInfoCard, AuthLayout, PasswordKeyPad } from '@/features/auth';
 import { getHiddenPassword } from '@/features/auth/utils/get-hidden-password';
+import { ROUTES } from '@/shared/config/routes';
 import { PASSWORD_LENGTH } from '@/shared/consts';
 import { useWebApp } from '@/shared/hooks/use-web-app';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/shared/ui/input-otp';
+import { Text } from '@/shared/ui/text';
 import { Head, router } from '@inertiajs/react';
+import classNames from 'classnames';
 import { ReactNode, useState } from 'react';
 
 interface LoginIndexPageProps {
@@ -28,6 +31,10 @@ const LoginIndexPage = (props: LoginIndexPageProps) => {
         const newPassword = password.slice(0, -1);
         setPassword(newPassword);
     };
+
+    const handleClickForgetPassword = () => {
+        router.get(ROUTES.auth.loginVerification);
+    }
 
     const onComplete = () => {
         router.post('login', {
@@ -57,7 +64,9 @@ const LoginIndexPage = (props: LoginIndexPageProps) => {
                             <InputOTPSlot
                                 key={index}
                                 index={index}
-                                className="password-star h-[60px] w-[50px] rounded-md border-l border-[#242424] bg-secondary"
+                                className={classNames("password-star h-[60px] w-[50px] rounded-md border-l border-[#242424] bg-secondar",{
+                                    "border-red-500": errors.pin_code,
+                                })}
                             />
                         ))}
                     </InputOTPGroup>
@@ -69,6 +78,7 @@ const LoginIndexPage = (props: LoginIndexPageProps) => {
                 )}
             </div>
             <PasswordKeyPad onDigitClick={handleDigitClick} onClearClick={handleClearClick} />
+            <Text onClick={handleClickForgetPassword} fontColor="primary" className='mt-7 font-semibold'>Забыли PIN-код?</Text>
         </>
     );
 };

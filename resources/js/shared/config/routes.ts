@@ -27,6 +27,7 @@ export const ROUTES = {
         },
     },
     profile: {
+        index: `profile`,
         create: '/profile/create',
         edit: (id: number) => `/profile/${id}/edit`,
     },

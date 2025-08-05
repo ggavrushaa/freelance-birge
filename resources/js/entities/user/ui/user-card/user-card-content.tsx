@@ -20,7 +20,7 @@ export const UserCardContent = (props: UserCardContentProps) => {
                 </div>
                 <div className="flex justify-between">
                     <Title className="font-medium">Выполнено</Title>
-                    <Text className="font-medium">{completedOrdersCount}</Text>
+                    <Text fontColor="primary" className="font-medium">{completedOrdersCount}</Text>
                 </div>
             </div>
             <div className="flex justify-end">

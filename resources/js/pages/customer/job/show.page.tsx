@@ -1,4 +1,5 @@
 import { ROUTES } from '@/shared/config/routes';
+import { usePageProps } from '@/shared/hooks/use-page-props';
 import { useVisibility } from '@/shared/hooks/use-visibility';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -16,6 +17,9 @@ type CustomerJobShowPageProps = SharedData & {
 const MAX_DESCRIPTION_LENGTH = 140;
 
 const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
+    const {
+        auth: { user },
+    } = usePageProps();
     const { job, categories } = props;
     const description = useVisibility();
 
@@ -63,9 +67,9 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
                     <Avatar className="bg-avatar mr-2.5 h-10 w-10 rounded-full"></Avatar>
                     <div className="flex flex-col">
                         <div className="mb-[2px] flex items-center">
-                            <p className="mr-2.5">Andrew</p>
+                            <p className="mr-2.5">{user.username}</p>
                             <img src="/icons/star2.svg" />
-                            <span className="text-14 font-medium">4.9</span>
+                            <span className="text-14 font-medium">{user.rating}</span>
                             <span className="text-8 mt-1 ml-1 text-gray">(777)</span>
                         </div>
                         <div className="flex items-center gap-1">

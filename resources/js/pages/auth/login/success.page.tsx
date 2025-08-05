@@ -1,10 +1,15 @@
+import { UserCard, UserCardContent, UserCardHeader } from '@/entities/user';
 import { AuthInfoCard, AuthLayout } from '@/features/auth';
 import { ROUTES } from '@/shared/config/routes';
+import { usePageProps } from '@/shared/hooks/use-page-props';
 import { Button } from '@/shared/ui/button';
 import { Head, Link } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
 const LoginSuccessPage = () => {
+    const {
+        auth: { user },
+    } = usePageProps();
     return (
         <>
             <AuthInfoCard
@@ -12,6 +17,25 @@ const LoginSuccessPage = () => {
                 title="С возвращением!"
                 text="Вы успешно ввели seed-фразу"
                 className="mb-6"
+            />
+            <UserCard
+                header={
+                    <UserCardHeader
+                        userName={user.username}
+                        badges={null}
+                        rightAddon={
+                            <img src="/icons/arrow-right.svg" className="btn-press ml-auto" />
+                        }
+                    />
+                }
+                content={
+                    <UserCardContent
+                        rating={user.rating}
+                        ordersCount={user.orders_count}
+                        completedOrdersCount={user.completed_orders_count}
+                    />
+                }
+                className="w-full bg-[#eeeeef]"
             />
             <Link href={ROUTES.auth.confirmPassword} className="mt-auto w-full">
                 <Button className="w-full">Продолжить</Button>

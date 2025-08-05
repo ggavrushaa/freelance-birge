@@ -18,7 +18,7 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
         profile,
         auth: { user },
     } = props;
-    const { role , switchRole } = useRoleContext();
+    const { role, switchRole } = useRoleContext();
     const handleClickArrow = () => {
         if (profile) {
             router.get(`/profile/${profile.id}`);
@@ -35,6 +35,7 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
                 header={
                     <UserCardHeader
                         userName={user.username}
+                        badges={null}
                         rightAddon={
                             <img
                                 onClick={handleClickArrow}
@@ -54,11 +55,13 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
                 className="mb-6"
             />
             <Card className="mb-4.5 gap-0 px-4 py-0 [&>div:last-of-type]:border-0">
-                <ProfileNavItem
-                    imageUrl="/icons/profile/stats.svg"
-                    text="Статистика"
-                    rightAddon={<img src="/icons/profile/arrow.svg" className="ml-auto" />}
-                />
+                {isFreelancer && (
+                    <ProfileNavItem
+                        imageUrl="/icons/profile/stats.svg"
+                        text="Статистика"
+                        rightAddon={<img src="/icons/profile/arrow.svg" className="ml-auto" />}
+                    />
+                )}
                 <ProfileNavItem
                     imageUrl="/icons/profile/wallet.svg"
                     text="Кошелек"
@@ -89,11 +92,7 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
                     imageUrl="/icons/profile/mode.svg"
                     text="Режим фрилансера"
                     rightAddon={
-                        <Switch
-                            checked={isFreelancer}
-                            onClick={switchRole}
-                            className="ml-auto"
-                        />
+                        <Switch checked={isFreelancer} onClick={switchRole} className="ml-auto" />
                     }
                 />
             </Card>
