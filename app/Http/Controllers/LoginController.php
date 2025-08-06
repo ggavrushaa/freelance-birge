@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Login;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\VerifySeedPhraseRequest;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -33,13 +35,28 @@ class LoginController extends Controller
 
     public function verification()
     {
+        $telegramId = request()->input('telegram_id');
+        if ($telegramId) {
+            session(['telegram_id_for_recovery' => $telegramId]);
+        }
+
         return Inertia::render('auth/login/verification.page');
     }
 
     public function verificationStore(VerifySeedPhraseRequest $request)
     {
-        $this->loginService->verifySeed($request->validated());
-        return redirect()->route('login.success');
+        $telegramId = $request->input('telegram_id');
+        $user = User::where('telegram_id', $telegramId)->firstOrFail();
+
+        if (!$this->loginService->validateCompleteSeedPhrase($user, $request->input('words'), $request->input('indices'))) {
+            throw ValidationException::withMessages([
+                'error' => 'Сид-фраза не совпадает с вашей.',
+            ]);
+        }
+
+        session(['user_for_pin_recovery' => $user->id]);
+
+        return redirect()->route('password.create');
     }
 
     public function success()

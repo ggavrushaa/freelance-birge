@@ -2,16 +2,15 @@ import { AuthInfoCard, AuthLayout, SeedPhrase, useSeedPhrase } from '@/features/
 import { ROUTES } from '@/shared/config/routes';
 import { SEED_PHRASE_LENGTH } from '@/shared/consts';
 import { Button } from '@/shared/ui/button';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { ReactNode, useRef } from 'react';
 
 const LoginVerificationPage = () => {
     const { phrase, onChangePhrase, setPhraseFromClipboard, isPhraseFilled } = useSeedPhrase({
         length: SEED_PHRASE_LENGTH,
     });
-
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-
+    const telegramId = usePage().props.auth.user.telegram_id;
     const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -31,7 +30,12 @@ const LoginVerificationPage = () => {
     };
 
     const handleClickContinue = () => {
-        router.post(ROUTES.auth.loginVerification, { words: phrase });
+        const indices = Array.from({ length: 12 }, (_, i) => i + 1);
+        router.post(ROUTES.auth.loginVerification, { 
+            words: phrase, 
+            indices: indices,
+            telegram_id: telegramId
+        });
     };
     return (
         <>

@@ -37,6 +37,7 @@ class AuthController extends Controller
     {
         $telegramId = $request->input('telegram_id');
         $user = User::where('telegram_id', $telegramId)->firstOrFail();
+
         if ($request->has('pin_code')) {
             if (!$this->registrationService->verifyPinCode($user, $request->input('pin_code'))) {
                 throw ValidationException::withMessages([
@@ -45,6 +46,8 @@ class AuthController extends Controller
             }
             Auth::login($user);
             return redirect()->route('dashboard');
+        } else {
+            return redirect()->route('login.verification.store', ['telegram_id' => $telegramId]);
         }
     }
 
@@ -62,7 +65,7 @@ class AuthController extends Controller
         if (
             !$this->registrationService->validateSeedPhrase(
                 auth()->user(),
-                words: $request->input('words'),    
+                words: $request->input('words'),
                 indices: $request->input('indices')
             )
         ) {
@@ -81,11 +84,25 @@ class AuthController extends Controller
 
     public function storePassword(StorePasswordRequest $request)
     {
-        $this->registrationService->createPinCode(
-            auth()->user(),
-            $request->input('pin_code')
-        );
-        return redirect()->route('confirm.password.show');
+        $userForRecovery = session('user_for_pin_recovery');
+
+        if ($userForRecovery) {
+            $user = User::findOrFail($userForRecovery);
+            $this->registrationService->createPinCode($user, $request->input('pin_code'));
+
+            session()->forget('user_for_pin_recovery');
+            session()->forget('telegram_id_for_recovery');
+
+            Auth::login($user);
+
+            return redirect()->route('confirm.password.show');
+        } else {
+            $this->registrationService->createPinCode(
+                auth()->user(),
+                $request->input('pin_code')
+            );
+            return redirect()->route('confirm.password.show');
+        }
     }
 
     public function confirmPasswordShow()
