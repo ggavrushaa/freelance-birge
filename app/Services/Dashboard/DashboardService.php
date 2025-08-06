@@ -21,11 +21,11 @@ class DashboardService
         ];
     }
 
-    public function getDashboardData(User $user, string $searchTerm = ''): array
+    public function getDashboardData(User $user, string $searchTerm = '', ?int $categoryId = null): array
     {
         $role = $user->role;
         $strategy = $this->strategies[$role] ?? $this->strategies['customer'];
 
-        return $strategy->getData($searchTerm);
+        return $strategy->getData($searchTerm, $categoryId);
     }
 }

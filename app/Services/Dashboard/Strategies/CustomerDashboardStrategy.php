@@ -12,10 +12,10 @@ class CustomerDashboardStrategy implements DashboardStrategyInterface
     ) {
     }
 
-    public function getData(string $searchTerm = ''): array
+    public function getData(string $searchTerm = '', ?int $categoryId = null): array
     {
         return [
-            'jobs' => $this->searchService->searchJobs($searchTerm),
+            'jobs' => $this->searchService->searchJobs($searchTerm, 10, $categoryId),
             'user_role' => 'customer',
         ];
     }

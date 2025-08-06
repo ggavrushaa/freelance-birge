@@ -17,8 +17,9 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         $searchTerm = $request->get('search', '');
+        $categoryId = $request->get('category_id', null);
 
-        $dashboardData = $this->dashboardService->getDashboardData($user, $searchTerm);
+        $dashboardData = $this->dashboardService->getDashboardData($user, $searchTerm, $categoryId);
 
         return Inertia::render('dashboard.page', $dashboardData);
     }
