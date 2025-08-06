@@ -5,6 +5,7 @@ import { InputPicker } from '@/shared/components/input-picker/input-picker';
 import { InputPickerTrigger } from '@/shared/components/input-picker/input-picker-trigger';
 import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Label } from '@/shared/ui/label';
@@ -14,8 +15,8 @@ import { Textarea } from '@/shared/ui/textarea';
 import { getDayLabel } from '@/shared/utils/get-day-label';
 import { SharedData } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from '@inertiajs/react';
-import { ChangeEvent } from 'react';
+import { Head, router } from '@inertiajs/react';
+import { ChangeEvent, ReactNode } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -32,6 +33,8 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
         categories,
         auth: { user },
     } = props;
+
+    console.log("create");
 
     const {
         register,
@@ -74,8 +77,6 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
             user_id: user.id,
         });
     };
-
-    console.log()
 
     return (
         <form
@@ -231,5 +232,12 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
         </form>
     );
 };
+
+CustomerJobCreatePage.layout = (page: ReactNode) => (
+    <LayoutWithNavbar>
+        <Head title="Customer Job create page" />
+        {page}
+    </LayoutWithNavbar>
+);
 
 export default CustomerJobCreatePage;

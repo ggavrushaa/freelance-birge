@@ -6,11 +6,12 @@ import { LogoutButton } from '@/features/auth';
 import { useRoleContext } from '@/features/role';
 import { BadgeList } from '@/shared/components/badge-list';
 import { ROUTES } from '@/shared/config/routes';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Card } from '@/shared/ui/card';
 import { CollapsableText } from '@/shared/ui/collapsable-text';
 import { Title } from '@/shared/ui/title';
 import { SharedData } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
 type ProfileShowPageProps = SharedData & {
@@ -35,6 +36,7 @@ const ProfileShowPage = (props: ProfileShowPageProps) => {
                 header={
                     <UserCardHeader
                         userName={user.username}
+                        badges={null}
                         rightAddon={
                             <img
                                 onClick={handleClickArrow}
@@ -96,11 +98,6 @@ const ProfileShowPage = (props: ProfileShowPageProps) => {
     );
 };
 
-ProfileShowPage.layout = (page: ReactNode) => (
-    <>
-        <Head title="Profile page" />
-        {page}
-    </>
-);
+ProfileShowPage.layout = (page: ReactNode) => <LayoutWithNavbar>{page}</LayoutWithNavbar>;
 
 export default ProfileShowPage;

@@ -1,9 +1,11 @@
 import { Language } from '@/entities/language';
 import { Skill } from '@/entities/skill';
 import { CreateProfileForm } from '@/features/profile/create-profile';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
 import { SharedData } from '@/types';
+import { ReactNode } from 'react';
 
 type ProfileCreatePage = SharedData & {
     languages: Language[];
@@ -27,5 +29,7 @@ const ProfileCreatePage = (props: ProfileCreatePage) => {
         </main>
     );
 };
+
+ProfileCreatePage.layout = (page: ReactNode) => <LayoutWithNavbar>{page}</LayoutWithNavbar>;
 
 export default ProfileCreatePage;

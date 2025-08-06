@@ -6,7 +6,7 @@ export const Navbar = () => {
     const { url } = usePage();
     const tabs = useNavbarTabs();
     return (
-        <div className="grid grid-cols-5 justify-between gap-2 rounded-xl bg-white px-6 py-2 pb-8">
+        <div className="grid grid-cols-5 justify-between gap-2 bg-white px-6 py-2 pb-8 border-t-1 border-gray">
             {tabs.map(({ key, label, Icon, href }) => {
                 const isActive = url.includes(href);
                 return (

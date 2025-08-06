@@ -6,7 +6,7 @@ import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Card } from '@/shared/ui/card';
 import { Switch } from '@/shared/ui/switch';
 import { SharedData } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
@@ -120,7 +120,6 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
 
 ProfileIndexPage.layout = (page: ReactNode) => (
     <LayoutWithNavbar>
-        <Head title="Profile page" />
         {page}
     </LayoutWithNavbar>
 );

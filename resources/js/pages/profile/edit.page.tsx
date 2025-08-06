@@ -3,11 +3,12 @@ import { Profile } from '@/entities/profile';
 import { Skill, SkillsSelection, useSkillsSelection } from '@/entities/skill';
 import { UserCard, UserCardContent, UserCardHeader } from '@/entities/user';
 import { LogoutButton } from '@/features/auth';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Card } from '@/shared/ui/card';
 import { Textarea } from '@/shared/ui/textarea';
 import { Title } from '@/shared/ui/title';
 import { SharedData } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { ChangeEvent, ReactNode, useState } from 'react';
 
 type ProfileEditPageProps = SharedData & {
@@ -40,8 +41,6 @@ const ProfileEditPage = (props: ProfileEditPageProps) => {
         allItems: allSkills,
     });
 
-    
-
     const handleChangeDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(event.target.value);
     };
@@ -61,6 +60,7 @@ const ProfileEditPage = (props: ProfileEditPageProps) => {
                 header={
                     <UserCardHeader
                         userName={user.username}
+                        badges={null}
                         rightAddon={
                             <img
                                 onClick={handleClickClose}
@@ -122,11 +122,6 @@ const ProfileEditPage = (props: ProfileEditPageProps) => {
     );
 };
 
-ProfileEditPage.layout = (page: ReactNode) => (
-    <>
-        <Head title="Profile page" />
-        {page}
-    </>
-);
+ProfileEditPage.layout = (page: ReactNode) => <LayoutWithNavbar>{page}</LayoutWithNavbar>;
 
 export default ProfileEditPage;

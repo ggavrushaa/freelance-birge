@@ -1,7 +1,9 @@
 import { Profile } from '@/entities/profile';
 import { CreatePortfolioForm } from '@/features/portfolio/create-portfolio';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
+import { ReactNode } from 'react';
 
 type PortfolioCreatePageProps = ShareData & {
     profile: Profile;
@@ -24,5 +26,7 @@ const PortfolioCreatePage = (props: PortfolioCreatePageProps) => {
         </main>
     );
 };
+
+PortfolioCreatePage.layout = (page: ReactNode) => <LayoutWithNavbar>{page}</LayoutWithNavbar>;
 
 export default PortfolioCreatePage;

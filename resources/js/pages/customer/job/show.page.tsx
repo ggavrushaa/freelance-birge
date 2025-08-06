@@ -1,14 +1,16 @@
 import { ROUTES } from '@/shared/config/routes';
 import { usePageProps } from '@/shared/hooks/use-page-props';
 import { useVisibility } from '@/shared/hooks/use-visibility';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { getDayLabel } from '@/shared/utils/get-day-label';
 import { truncateText } from '@/shared/utils/truncate-text';
 import { CustomerJob, SharedData } from '@/types';
-import { router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Avatar } from '@radix-ui/react-avatar';
 import clsx from 'clsx';
+import { ReactNode } from 'react';
 
 type CustomerJobShowPageProps = SharedData & {
     job: CustomerJob;
@@ -36,8 +38,8 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
     };
 
     return (
-        <main className="flex min-h-[100svh] flex-col bg-[#efeff4]">
-            <section className="flex-1 p-6 pt-25">
+        <>
+            <section className="flex-1 p-6 pt-25 bg-[#efeff4]">
                 <div className="mb-4">
                     {job.photo && (
                         <div className="relative">
@@ -103,12 +105,19 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
                     </div>
                 </div>
             </section>
-            <div className="grid grid-cols-2 gap-2 bg-white px-6 pt-6 pb-12">
+            <div className="grid grid-cols-2 gap-2 bg-white px-6 pt-6 pb-12 mt-auto">
                 <Button onClick={handleClickEdit}>Изменить</Button>
                 <Button onClick={handleClickPublish}>Опубликовать</Button>
             </div>
-        </main>
+        </>
     );
 };
+
+CustomerJobShowPage.layout = (page: ReactNode) => (
+    <LayoutWithNavbar>
+        <Head title="Profile page" />
+        {page}
+    </LayoutWithNavbar>
+);
 
 export default CustomerJobShowPage;

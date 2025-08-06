@@ -13,7 +13,6 @@ const CustomerJobIndexPage = (props: CustomerJobIndexPageProps) => {
     const { jobs } = props;
     const params = new URLSearchParams(window.location.search);
     const [searchQuery, setSearchQuery] = useState(params.get('search') ?? '');
-
     const onChangeSearchQuery = (value: string) => {
         setSearchQuery(value);
         router.get('/customer-job', value ? { search: value } : {}, {
@@ -22,7 +21,6 @@ const CustomerJobIndexPage = (props: CustomerJobIndexPageProps) => {
             preserveState: true,
         });
     };
-
     return (
         <main className="flex-1 bg-[#efeff4] px-6 pt-29">
             <JobFilters searchQuery={searchQuery} onChangeSearchQuery={onChangeSearchQuery} />

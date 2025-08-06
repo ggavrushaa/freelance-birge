@@ -1,8 +1,10 @@
 import { Gig } from '@/entities/gig';
 import { EditGigForm } from '@/features/freelance/gig/edit-gig';
 import { editFreelanceGigSchema } from '@/features/freelance/gig/edit-gig/model/validation/edit-freelance-gig-schema';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { SharedData } from '@/types';
 import { router } from '@inertiajs/react';
+import { ReactNode } from 'react';
 import z from 'zod';
 
 type FreelanceGigEditPageProps = SharedData & {
@@ -37,5 +39,11 @@ const FreelanceGigEditPage = (props: FreelanceGigEditPageProps) => {
         </main>
     );
 };
+
+FreelanceGigEditPage.layout = (page: ReactNode) => (
+    <LayoutWithNavbar>
+        {page}
+    </LayoutWithNavbar>
+);
 
 export default FreelanceGigEditPage;

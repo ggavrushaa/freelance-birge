@@ -2,8 +2,10 @@ import { Portfolio } from '@/entities/portfolio';
 import { Profile } from '@/entities/profile';
 import { EditPortfolioForm, EditPortfolioRequest } from '@/features/portfolio/edit-portfolio';
 import { ROUTES } from '@/shared/config/routes';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { SharedData } from '@/types';
 import { router } from '@inertiajs/react';
+import { ReactNode } from 'react';
 
 type PortfolioEditPageProps = SharedData & {
     portfolio: Portfolio;
@@ -38,5 +40,7 @@ const PortfolioEditPage = (props: PortfolioEditPageProps) => {
         </main>
     );
 };
+
+PortfolioEditPage.layout = (page: ReactNode) => <LayoutWithNavbar>{page}</LayoutWithNavbar>;
 
 export default PortfolioEditPage;

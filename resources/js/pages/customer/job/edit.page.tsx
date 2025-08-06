@@ -4,6 +4,7 @@ import { InputPicker } from '@/shared/components/input-picker/input-picker';
 import { InputPickerTrigger } from '@/shared/components/input-picker/input-picker-trigger';
 import { ROUTES } from '@/shared/config/routes';
 import { useFile } from '@/shared/hooks/use-file';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Label } from '@/shared/ui/label';
@@ -13,8 +14,8 @@ import { Textarea } from '@/shared/ui/textarea';
 import { getDayLabel } from '@/shared/utils/get-day-label';
 import { CustomerJob, SharedData } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from '@inertiajs/react';
-import { ChangeEvent } from 'react';
+import { Head, router } from '@inertiajs/react';
+import { ChangeEvent, ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -241,5 +242,12 @@ const CustomerJobEditPage = (props: CustomerJobEditPageProps) => {
         </form>
     );
 };
+
+CustomerJobEditPage.layout = (page: ReactNode) => (
+    <LayoutWithNavbar>
+        <Head title="Customer Job create page" />
+        {page}
+    </LayoutWithNavbar>
+);
 
 export default CustomerJobEditPage;

@@ -1,6 +1,7 @@
 import { Portfolio } from '@/entities/portfolio';
 import { ROUTES } from '@/shared/config/routes';
 import { useVisibility } from '@/shared/hooks/use-visibility';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Avatar } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -8,6 +9,7 @@ import { truncateText } from '@/shared/utils/truncate-text';
 import { SharedData } from '@/types';
 import { Link, router } from '@inertiajs/react';
 import clsx from 'clsx';
+import { ReactNode } from 'react';
 
 type PortfolioShowPageProps = SharedData & {
     portfolio: Portfolio;
@@ -31,8 +33,8 @@ const PortfolioShowPage = (props: PortfolioShowPageProps) => {
     };
 
     return (
-        <main className="flex min-h-[100svh] flex-col bg-[#efeff4]">
-            <section className="flex-1 p-6 pt-25">
+        <>
+            <section className="flex-1 bg-[#efeff4] p-6 pt-25">
                 <div className="mb-4">
                     {portfolio.image && (
                         <div className="relative">
@@ -91,8 +93,10 @@ const PortfolioShowPage = (props: PortfolioShowPageProps) => {
                 <Button onClick={handleClickEdit}>Изменить</Button>
                 <Button onClick={handleClickArchive}>Архивировать</Button>
             </div>
-        </main>
+        </>
     );
 };
+
+PortfolioShowPage.layout = (page: ReactNode) => <LayoutWithNavbar>{page}</LayoutWithNavbar>;
 
 export default PortfolioShowPage;

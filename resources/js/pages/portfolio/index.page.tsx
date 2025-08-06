@@ -1,11 +1,12 @@
 import { Portfolio, PortfolioCard } from '@/entities/portfolio';
 import { ROUTES } from '@/shared/config/routes';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Title } from '@/shared/ui/title';
 import { router } from '@inertiajs/react';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 type PortfolioIndexPageProps = ShareData & {
     portfolios: Portfolio[];
@@ -64,7 +65,7 @@ const PortfolioIndexPage = (props: PortfolioIndexPageProps) => {
                     ))}
                 </div>
             </main>
-            <footer className="px-6 pt-6 pb-12">
+            <footer className="p-6">
                 <Button onClick={handleClickAddButton} className="w-full">
                     Добавить
                 </Button>
@@ -72,5 +73,8 @@ const PortfolioIndexPage = (props: PortfolioIndexPageProps) => {
         </>
     );
 };
+
+PortfolioIndexPage.layout = (page: ReactNode) => <LayoutWithNavbar>{page}</LayoutWithNavbar>;
+
 
 export default PortfolioIndexPage;

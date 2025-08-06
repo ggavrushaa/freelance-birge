@@ -1,12 +1,14 @@
 import { Gig } from '@/entities/gig';
 import { TariffSwitcher } from '@/entities/tariff';
 import { ROUTES } from '@/shared/config/routes';
+import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Avatar } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { SharedData } from '@/types';
 import { Link, router } from '@inertiajs/react';
 import clsx from 'clsx';
+import { ReactNode } from 'react';
 
 type FreelanceGigShowPageProps = SharedData & {
     gig: Gig;
@@ -23,12 +25,12 @@ const FreelanceGigShowPage = (props: FreelanceGigShowPageProps) => {
     };
 
     const handleClickPublish = () => {
-        router.get("/dashboard");
+        router.get('/dashboard');
     };
 
     return (
-        <main className="flex min-h-[100svh] flex-col bg-[#efeff4]">
-            <section className="flex-1 p-6 pt-25">
+        <>
+            <section className="flex-1 bg-[#efeff4] p-6 pt-25">
                 <div className="mb-4">
                     {gig.photo && (
                         <div className="relative">
@@ -72,8 +74,10 @@ const FreelanceGigShowPage = (props: FreelanceGigShowPageProps) => {
                 <Button onClick={handleClickEdit}>Изменить</Button>
                 <Button onClick={handleClickPublish}>Опубликовать</Button>
             </div>
-        </main>
+        </>
     );
 };
+
+FreelanceGigShowPage.layout = (page: ReactNode) => <LayoutWithNavbar>{page}</LayoutWithNavbar>;
 
 export default FreelanceGigShowPage;
