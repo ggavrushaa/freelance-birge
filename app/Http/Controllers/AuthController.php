@@ -9,13 +9,16 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StorePasswordRequest;
 use App\Services\Auth\UserRegistrationService;
+use App\Services\NotificationService;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Http\Requests\ConfirmSeedPhraseRequest;
 
 class AuthController extends Controller
 {
-    public function __construct(protected UserRegistrationService $registrationService)
-    {
+    public function __construct(
+        protected UserRegistrationService $registrationService,
+        protected NotificationService $notificationService
+    ) {
     }
 
     public function create()
@@ -45,6 +48,9 @@ class AuthController extends Controller
                 ]);
             }
             Auth::login($user);
+
+            $this->notificationService->createWelcomeNotification($user);
+
             return redirect()->route('dashboard');
         } else {
             return redirect()->route('login.verification.store', ['telegram_id' => $telegramId]);

@@ -99,6 +99,11 @@ class User extends Authenticatable
         return $this->belongsTo(Profile::class, "id", "user_id");
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
     public function getRoleAttribute()
     {
         $role = $this->roles()->first();

@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomerJobController;
 use App\Http\Controllers\FreelanceGigController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TariffController;
+use App\Http\Controllers\NotificationController;
 
 
 Route::get('/', function () {
@@ -21,23 +22,37 @@ Route::get('/jobs', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
+// Notification routes
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/unread', [NotificationController::class, 'unread'])->name('notifications.unread');
+    Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
+    Route::patch('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+});
 
+// Role routes
 Route::middleware('auth')->group(function () {
     Route::get('/user/role', [RoleController::class, 'getUserRole'])->name('user.role');
     Route::post('/user/{id}/switch-role', [RoleController::class, 'switchRole'])->name('user.switch.role');
     Route::post('/user/assign-role', [RoleController::class, 'assignRole'])->name('user.assign.role');
 });
 
+// Customer job routes
 Route::resource('customer-job', CustomerJobController::class)->except('update');
 Route::post('customer-job/{id}/update', [CustomerJobController::class, 'update'])->name('customer-job.update');
 Route::post('customer-job/{id}/published', [CustomerJobController::class, 'published'])->name('customer-job.published');
 
+// Freelance gig routes
 Route::resource('freelance-gig', FreelanceGigController::class);
 
+// Tariff routes
 Route::resource('tariff', TariffController::class);
 
+// Profile routes
 Route::resource('profile', ProfileController::class);
 
+// Portfolio routes
 Route::resource('portfolio', PortfolioController::class);
 
 require __DIR__ . '/settings.php';
