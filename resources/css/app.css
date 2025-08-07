@@ -176,6 +176,12 @@ html {
     display: none;
 }
 
+*::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 0;
+    height: 0;
+}
+
 body {
     overscroll-behavior: none;
     touch-action: manipulation;
