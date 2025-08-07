@@ -11,7 +11,7 @@ interface TariffEditpageProps {
     additionalOptions: AdditionalOption[];
 }
 
-const TariffEditpage = (props: TariffEditpageProps) => {
+const TariffEditPage = (props: TariffEditpageProps) => {
     const { tariff, additionalOptions } = props;
     const searchParams = new URLSearchParams(window.location.search);
     const tariffIndex = searchParams.get('tariffIndex');
@@ -49,4 +49,4 @@ const TariffEditpage = (props: TariffEditpageProps) => {
     );
 };
 
-export default TariffEditpage;
+export default TariffEditPage;

@@ -1,7 +1,9 @@
 import { NotificationBadge } from '@/entities/notification';
+import { ROUTES } from '@/shared/config/routes';
 import { useFocus } from '@/shared/hooks/use-focus';
 import { InputWithIcon } from '@/shared/ui/input-with-icon';
 import { Logo } from '@/shared/ui/logo';
+import { router } from '@inertiajs/react';
 import cls from 'classnames';
 import { ChangeEvent } from 'react';
 
@@ -14,10 +16,16 @@ interface DashboardHeaderProps {
 export const DashboardHeader = (props: DashboardHeaderProps) => {
     const { searchQuery, setSearchQuery, onEnter } = props;
     const searchInput = useFocus();
+
     const handleChangeSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setSearchQuery(value);
     };
+
+    const handleClickNotificationBadge = () => {
+        router.get(ROUTES.notifications);
+    }
+
     return (
         <>
             <Logo className="mx-auto mb-7 h-12.5 w-28" />
@@ -39,7 +47,7 @@ export const DashboardHeader = (props: DashboardHeaderProps) => {
                         searchInput.isFocused && 'pl-3',
                     )}
                 />
-                <NotificationBadge notificationsCount={0} className="shrink-0" />
+                <NotificationBadge onClick={handleClickNotificationBadge} notificationsCount={0} className="shrink-0" />
             </div>
         </>
     );

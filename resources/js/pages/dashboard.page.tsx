@@ -5,8 +5,7 @@ import { ROUTES } from '@/shared/config/routes';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Button } from '@/shared/ui/button';
 import { SharedData } from '@/types';
-import { DashboardCustomer } from '@/widgets/dashboard/ui/dashboard-customer';
-import DashboardFreelance from '@/widgets/dashboard/ui/dashboard-freelance';
+import { DashboardCustomer, DashboardFreelance } from '@/widgets/dashboard';
 import { Link } from '@inertiajs/react';
 
 type DashboardPageProps = SharedData & {
@@ -32,9 +31,7 @@ const DashboardPage = (props: DashboardPageProps) => {
                                         Создать заказ
                                     </Button>
                                 </Link>
-                                <Button
-                                    variant="secondary"
-                                >
+                                <Button variant="secondary">
                                     <img src="/icons/arrow-down.svg" alt="plus" />
                                     Пополнить
                                 </Button>

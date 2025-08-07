@@ -17,8 +17,8 @@ interface DashboardFreelanceProps {
     gigs: Gig[];
     buttons: ReactNode;
 }
-
-const DashboardFreelance = (props: DashboardFreelanceProps) => {
+ 
+export const DashboardFreelance = (props: DashboardFreelanceProps) => {
     const { categories, gigs = [], buttons } = props;
     const params = new URLSearchParams(window.location.search);
     const [searchQuery, setSearchQuery] = useState(params.get('search') ?? '');
@@ -96,5 +96,3 @@ const DashboardFreelance = (props: DashboardFreelanceProps) => {
         </main>
     );
 };
-
-export default DashboardFreelance;

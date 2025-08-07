@@ -168,10 +168,14 @@ html {
     background-color: rgb(255, 255, 255) !important;
     font-family: var(--font-family);
 }
+* {
+    scrollbar-width: none;
+}
 
 body {
     overscroll-behavior: none;
     touch-action: manipulation;
+    scrollbar-width: none;
 }
 
 input {

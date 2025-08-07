@@ -42,4 +42,5 @@ export const ROUTES = {
         update: (id: number) => `/tariff/${id}`,
         delete: (id: number) => `/tariff/${id}`,
     },
+    notifications : "notifications",
 };

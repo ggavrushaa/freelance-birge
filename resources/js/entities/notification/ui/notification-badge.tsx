@@ -6,16 +6,18 @@ interface NotificationBadgeProps extends React.ComponentProps<'div'> {
 }
 
 export const NotificationBadge = (props: NotificationBadgeProps) => {
-    const { notificationsCount = 0 } = props;
-
-    const notificationsCountText = notificationsCount < 100 ? notificationsCount : "99+";
-
+    const { notificationsCount = 0, ...rest } = props;
+    const notificationsCountText = notificationsCount < 100 ? notificationsCount : '99+';
     return (
-        <div className={classNames('relative', props.className)}>
+        <div {...rest} className={classNames('relative', props.className)}>
             <img src="/icons/notification.svg" />
-            <div className="absolute top-0 right-0 h-4 w-4 rounded-full bg-red flex items-center justify-center">
-                <Text fontSize={8} fontColor="white" as="span" className='font-medium'>{notificationsCountText}</Text>
-            </div>
+            {notificationsCount > 0 && (
+                <div className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-red">
+                    <Text fontSize={8} fontColor="white" as="span" className="font-medium">
+                        {notificationsCountText}
+                    </Text>
+                </div>
+            )}
         </div>
     );
 };

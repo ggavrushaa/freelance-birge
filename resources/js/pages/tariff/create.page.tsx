@@ -3,7 +3,7 @@ import { createTariffSchema } from '@/features/tariff/create-tariff/model/valida
 import { router } from '@inertiajs/react';
 import z from 'zod';
 
-const TariffCreatepage = () => {
+const TariffCreatePage = () => {
     const searchParams = new URLSearchParams(window.location.search);
     const tariffIndex = searchParams.get('tariffIndex');
     const gigId = searchParams.get('gigId');
@@ -15,7 +15,6 @@ const TariffCreatepage = () => {
         corrections: 0,
         additional_options: null,
     };
-
     const onSubmit = (data: z.infer<typeof createTariffSchema>) => {
         router.post('/tariff', {
             ...data,
@@ -25,7 +24,6 @@ const TariffCreatepage = () => {
             freelance_gig_id: gigId,
         });
     };
-
     return (
         <main className="min-h-[100svh] bg-[#efeff4] px-6 pt-22 pb-12">
             <CreateTariffForm
@@ -37,4 +35,4 @@ const TariffCreatepage = () => {
     );
 };
 
-export default TariffCreatepage;
+export default TariffCreatePage;

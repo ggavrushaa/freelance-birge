@@ -8,6 +8,7 @@ interface DashboardOrderProps {
     status: string;
     createdAt: string;
 }
+
 export const DashboardOrder = (props: DashboardOrderProps) => {
     const { imageUrl, name, status, createdAt } = props;
     return (
