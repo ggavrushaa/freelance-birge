@@ -172,6 +172,10 @@ html {
     scrollbar-width: none;
 }
 
+*::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     overscroll-behavior: none;
     touch-action: manipulation;
