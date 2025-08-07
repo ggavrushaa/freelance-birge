@@ -29,7 +29,7 @@ export const DashboardHeader = (props: DashboardHeaderProps) => {
     return (
         <>
             <Logo className="mx-auto mb-7 h-12.5 w-28" />
-            <div className="mb-4 flex flex-row items-center gap-3 px-6">
+            <div className="mb-4 grid grid-cols-[1fr_28px] items-center gap-3 px-6">
                 <InputWithIcon
                     value={searchQuery}
                     placeholder="Поиск"

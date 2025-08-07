@@ -19,7 +19,7 @@ const NotificationsIndexPage = (props: NotificationsIndexPageProps) => {
     const { notifications } = props;
     const groupedNotifications = groupNotificationsByDate(notifications);
     return (
-        <section className="flex-1 bg-[#efeff4] px-6 pt-25">
+        <section className="flex-1 bg-[#efeff4] px-6 pt-25 pb-6">
             <div className="mb-8 flex items-end justify-between">
                 <Title fontSize={28} className="font-medium">
                     Уведомления
