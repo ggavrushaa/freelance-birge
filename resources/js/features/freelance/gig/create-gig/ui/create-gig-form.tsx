@@ -151,7 +151,7 @@ export const CreateGigForm = () => {
                     }}
                 />
 
-                <Label onClick={tariffModal.open} htmlFor="name" className="mb-3 block">
+                <Label htmlFor="name" className="mb-3 block">
                     Название
                 </Label>
                 <Controller
@@ -233,7 +233,7 @@ export const CreateGigForm = () => {
                         corrections: selectedTariff?.corrections,
                         additional_options: selectedTariff?.additional_options || null,
                     }}
-                    tariffIndex={selectedTariff.id}
+                    tariffIndex={selectedTariff?.id}
                     onSave={(data) => {
                         tariffs.edit(selectedTariff.id, data);
                         tariffModal.close();
