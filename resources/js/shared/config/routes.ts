@@ -43,4 +43,6 @@ export const ROUTES = {
         delete: (id: number) => `/tariff/${id}`,
     },
     notifications : "notifications",
+    notificationsMarkAllRead: "notifications/mark-all-read",
+    dashboard: "dashboard"
 };

@@ -1,16 +1,13 @@
 import { Job, JobSimilarCard } from '@/entities/job';
 import { ReviewList } from '@/entities/review';
+import { ExpandableText } from '@/shared/components/expandable-text';
 import { usePageProps } from '@/shared/hooks/use-page-props';
-import { useVisibility } from '@/shared/hooks/use-visibility';
 import { Avatar } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Title } from '@/shared/ui/title';
 import { getDayLabel } from '@/shared/utils/get-day-label';
-import { truncateText } from '@/shared/utils/truncate-text';
 import clsx from 'clsx';
-
-const MAX_DESCRIPTION_LENGTH = 140;
 
 interface JobGuestViewProps {
     job: Job;
@@ -22,7 +19,6 @@ export const JobGuestView = (props: JobGuestViewProps) => {
         auth: { user },
         categories,
     } = usePageProps();
-    const description = useVisibility();
     const getCategoryName = (categoryId: number) => {
         return categories.find((category) => category.id === categoryId)?.name;
     };
@@ -71,17 +67,7 @@ export const JobGuestView = (props: JobGuestViewProps) => {
                     <img className="ml-auto" src="/icons/arrow-right.svg" />
                 </div>
                 <div className="mb-4 border-input bg-white px-4 py-3">
-                    <p className="mb-2.5" onClick={description.toggle}>
-                        {description.isVisible
-                            ? job.description
-                            : truncateText(job.description, MAX_DESCRIPTION_LENGTH)}
-                        &nbsp;
-                        {MAX_DESCRIPTION_LENGTH < job.description.length && (
-                            <span className="text-15 text-500 text-accent">
-                                {description.isVisible ? 'Скрыть' : 'Еще'}
-                            </span>
-                        )}
-                    </p>
+                    <ExpandableText text={job.description} />
                     <div className="flex items-center justify-between">
                         <p className="text-15 text-500 text-gray">Срок</p>
                         <span className="text-17 text-accent">

@@ -4,7 +4,9 @@ import {
     NotificationCard,
     NotificationList,
 } from '@/entities/notification';
-import { groupNotificationsByDate } from '@/entities/notification/model/utils/group-notifications-by-date';
+import { groupNotificationsByDate } from '@/entities/notification';
+import { NotificationClearButton } from '@/features/notification/clear-notification';
+import { ROUTES } from '@/shared/config/routes';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
@@ -21,7 +23,7 @@ const NotificationsIndexPage = (props: NotificationsIndexPageProps) => {
     const groupedNotifications = groupNotificationsByDate(notifications);
 
     const handleClickClear = () => {
-        router.patch('notifications/mark-all-read');
+        router.patch(`${ROUTES.notificationsMarkAllRead}`);
     };
 
     return (
@@ -30,19 +32,19 @@ const NotificationsIndexPage = (props: NotificationsIndexPageProps) => {
                 <Title fontSize={28} className="font-medium">
                     Уведомления
                 </Title>
-                <Text fontColor="primary" onClick={handleClickClear}>
-                    Очистить
-                </Text>
+                <NotificationClearButton onClear={handleClickClear} />
             </div>
             <div className="flex flex-col gap-2">
                 {groupedNotifications.map((notificationGroup) => (
                     <NotificationList
                         header={
-                            <div className='flex items-center gap-2 mb-3'>
+                            <div className="mb-3 flex items-center gap-2">
                                 <Text fontSize={20} className="font-medium">
                                     {notificationGroup.label}
                                 </Text>
-                                <span className='bg-primary w-4.5 h-4.5 rounded-[5px] text-[9px] flex items-center justify-center text-[#fff]'>{notificationGroup.items.length}</span>
+                                <span className="flex h-4.5 w-4.5 items-center justify-center rounded-[5px] bg-primary text-[9px] text-[#fff]">
+                                    {notificationGroup.items.length}
+                                </span>
                             </div>
                         }
                         notifications={notificationGroup.items}

@@ -50,11 +50,7 @@ class NotificationController extends Controller
     {
         $user = auth()->user();
         $this->notificationService->markAllAsRead($user);
-        $notifications = $this->notificationService->getUnreadNotifications($user, 20);
-        return Inertia::render('notifications/index.page', [
-            'notifications' => $notifications,
-            'unread_count' => $this->notificationService->getUnreadCount($user),
-        ]);
+        return redirect()->route('notifications.index');
     }
 
     public function destroy(Notification $notification)

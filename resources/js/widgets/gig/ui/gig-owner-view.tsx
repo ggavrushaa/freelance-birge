@@ -23,10 +23,9 @@ export const GigOwnerView = (props: GigOwnerViewProps) => {
     };
 
     const handleClickPublish = () => {
-        router.get('/dashboard');
+        router.get(`/${ROUTES.dashboard}`);
     };
 
-    console.log(gig);
     return (
         <>
             <section className="flex-1 bg-[#efeff4] p-6 pt-25">

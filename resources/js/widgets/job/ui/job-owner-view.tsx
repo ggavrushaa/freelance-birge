@@ -1,16 +1,14 @@
 import { Job } from '@/entities/job';
+import { ExpandableText } from '@/shared/components/expandable-text';
 import { ROUTES } from '@/shared/config/routes';
 import { usePageProps } from '@/shared/hooks/use-page-props';
-import { useVisibility } from '@/shared/hooks/use-visibility';
 import { Avatar } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { getDayLabel } from '@/shared/utils/get-day-label';
-import { truncateText } from '@/shared/utils/truncate-text';
 import { router } from '@inertiajs/react';
+import classNames from 'classnames';
 import clsx from 'clsx';
-
-const MAX_DESCRIPTION_LENGTH = 140;
 
 interface JobOwnerViewProps {
     job: Job;
@@ -23,7 +21,6 @@ export const JobOwnerView = (props: JobOwnerViewProps) => {
         auth: { user },
         categories,
     } = usePageProps();
-    const description = useVisibility();
 
     const handleClickEdit = () => {
         router.visit(ROUTES.customer.job.edit(job.id));
@@ -36,6 +33,8 @@ export const JobOwnerView = (props: JobOwnerViewProps) => {
     const getCategoryName = (categoryId: number) => {
         return categories.find((category) => category.id === categoryId)?.name;
     };
+
+    const isActiveJob = job.is_active;
     return (
         <>
             <section className="flex-1 bg-[#efeff4] p-6 pt-25">
@@ -81,17 +80,7 @@ export const JobOwnerView = (props: JobOwnerViewProps) => {
                     <img className="ml-auto" src="/icons/arrow-right.svg" />
                 </div>
                 <div className="mb-4 border-input bg-white px-4 py-3">
-                    <p className="mb-2.5" onClick={description.toggle}>
-                        {description.isVisible
-                            ? job.description
-                            : truncateText(job.description, MAX_DESCRIPTION_LENGTH)}
-                        &nbsp;
-                        {MAX_DESCRIPTION_LENGTH < job.description.length && (
-                            <span className="text-15 text-500 text-accent">
-                                {description.isVisible ? 'Скрыть' : 'Еще'}
-                            </span>
-                        )}
-                    </p>
+                    <ExpandableText text={job.description} />
                     <div className="flex items-center justify-between">
                         <p className="text-15 text-500 text-gray">Срок</p>
                         <span className="text-17 text-accent">
@@ -106,9 +95,13 @@ export const JobOwnerView = (props: JobOwnerViewProps) => {
                     </div>
                 </div>
             </section>
-            <div className="mt-auto grid grid-cols-2 gap-2 bg-white px-6 pt-6 pb-12">
+            <div
+                className={classNames('mt-auto grid grid-cols-2 gap-2 bg-white px-6 pt-6 pb-12', {
+                    'grid-cols-1!': isActiveJob,
+                })}
+            >
                 <Button onClick={handleClickEdit}>Изменить</Button>
-                <Button onClick={handleClickPublish}>Опубликовать</Button>
+                {!isActiveJob && <Button onClick={handleClickPublish}>Опубликовать</Button>}
             </div>
         </>
     );
