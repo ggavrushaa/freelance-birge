@@ -1,9 +1,12 @@
+import { JobSimilarCard } from '@/entities/job';
+import { ReviewList } from '@/entities/review';
 import { ROUTES } from '@/shared/config/routes';
 import { usePageProps } from '@/shared/hooks/use-page-props';
 import { useVisibility } from '@/shared/hooks/use-visibility';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
+import { Title } from '@/shared/ui/title';
 import { getDayLabel } from '@/shared/utils/get-day-label';
 import { truncateText } from '@/shared/utils/truncate-text';
 import { CustomerJob, SharedData } from '@/types';
@@ -25,8 +28,8 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
     const { job, categories } = props;
     const description = useVisibility();
 
-    const getCategoryName = () => {
-        return categories.find((category) => category.id === job.category_id)?.name;
+    const getCategoryName = (categoryId:number) => {
+        return categories.find((category) => category.id === categoryId)?.name;
     };
 
     const handleClickEdit = () => {
@@ -37,9 +40,13 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
         router.post(ROUTES.customer.job.publish(job.id));
     };
 
+    const isMyJob = job.author_id === user.id;
+
+    console.log(getCategoryName(job.category_id));
+
     return (
         <>
-            <section className="flex-1 p-6 pt-25 bg-[#efeff4]">
+            <section className="flex-1 bg-[#efeff4] p-6 pt-25">
                 <div className="mb-4">
                     {job.photo && (
                         <div className="relative">
@@ -81,7 +88,7 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
                     </div>
                     <img className="ml-auto" src="/icons/arrow-right.svg" />
                 </div>
-                <div className="border-input bg-white px-4 py-3">
+                <div className="mb-4 border-input bg-white px-4 py-3">
                     <p className="mb-2.5" onClick={description.toggle}>
                         {description.isVisible
                             ? job.description
@@ -101,13 +108,57 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
                     </div>
                     <div className="flex items-center justify-between">
                         <p className="text-15 text-500 text-gray">Категории</p>
-                        <span className="text-17 text-accent">{getCategoryName()}</span>
+                        <span className="text-17 text-accent">{getCategoryName(job.category_id)}</span>
                     </div>
                 </div>
+                {!isMyJob && <ReviewList className="mb-3" />}
+                {!isMyJob && (
+                    <>
+                        <Title className="font-medium mb-3">Похожие</Title>
+                        <div className="scrollbar-hide flex flex-row gap-2 overflow-auto">
+                            <JobSimilarCard
+                                title="Draw furry discord or telegtam stickers pack"
+                                price={35}
+                                isPremium={true}
+                                categoryLable={getCategoryName(job.category_id)}
+                                className="min-w-[310px]"
+                            />
+                            <JobSimilarCard
+                                title="Draw furry discord or telegtam stickers pack"
+                                price={35}
+                                isPremium={true}
+                                categoryLable={getCategoryName(job.category_id)}
+                                className="min-w-[310px]"
+                            />
+                            <JobSimilarCard
+                                title="Draw furry discord or telegtam stickers pack"
+                                price={35}
+                                isPremium={true}
+                                categoryLable={getCategoryName(job.category_id)}
+                                className="min-w-[310px]"
+                            />
+                        </div>
+                    </>
+                )}
             </section>
-            <div className="grid grid-cols-2 gap-2 bg-white px-6 pt-6 pb-12 mt-auto">
-                <Button onClick={handleClickEdit}>Изменить</Button>
-                <Button onClick={handleClickPublish}>Опубликовать</Button>
+            <div className="mt-auto grid grid-cols-2 gap-2 bg-white px-6 pt-6 pb-12">
+                {isMyJob ? (
+                    <>
+                        <Button onClick={handleClickEdit}>Изменить</Button>
+                        <Button onClick={handleClickPublish}>Опубликовать</Button>
+                    </>
+                ) : (
+                    <>
+                        <Button>
+                            <img src="/icons/chat.svg" />
+                            Чат
+                        </Button>
+                        <Button>
+                            <img src="/icons/arrow-up.svg" />
+                            Откликнуться
+                        </Button>
+                    </>
+                )}
             </div>
         </>
     );

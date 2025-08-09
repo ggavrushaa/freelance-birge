@@ -18,7 +18,7 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $notifications = $this->notificationService->getUserNotifications($user, 20);
+        $notifications = $this->notificationService->getUnreadNotifications($user, 20);
 
         return Inertia::render('notifications/index.page', [
             'notifications' => $notifications,
@@ -49,11 +49,11 @@ class NotificationController extends Controller
     public function markAllAsRead(Request $request)
     {
         $user = auth()->user();
-        $count = $this->notificationService->markAllAsRead($user);
-
-        return Inertia::render('notifications/mark-all-read.page', [
-            'message' => "Пометить {$count} уведомлений как прочитанные",
-            'count' => $count,
+        $this->notificationService->markAllAsRead($user);
+        $notifications = $this->notificationService->getUnreadNotifications($user, 20);
+        return Inertia::render('notifications/index.page', [
+            'notifications' => $notifications,
+            'unread_count' => $this->notificationService->getUnreadCount($user),
         ]);
     }
 

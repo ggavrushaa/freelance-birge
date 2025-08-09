@@ -1,13 +1,13 @@
-
+import WebApp from "@twa-dev/sdk";
 
 export const useWebApp = () => {
-  const data = window.Telegram.WebApp.initDataUnsafe;
+  const data = WebApp.initDataUnsafe;
   const user = data.user ? {
     telegram_id: data.user.id,
     username: data.user.username,
   } : {
-    telegram_id: "123",
-    username: "Bohdan",
+    telegram_id: "12312312312321312acs",
+    username: "Bohdan123",
   };
   return {
     user,

@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('photo')->nullable();
 
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
             $table->boolean('express_mode')->default(false);
             $table->boolean('premium_mode')->default(false);
 

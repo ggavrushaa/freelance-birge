@@ -10,9 +10,7 @@ interface JobCardProps {
 
 export const JobCard = (props: JobCardProps) => {
     const { imageUrl, categoryName, price } = props;
-
     const image = imageUrl ? imageUrl : '/images/photo-404.png';
-
     return (
         <Card className="relative flex flex-row gap-3 overflow-hidden rounded-xl p-0 h-28">
             <img src={image} className="h-full w-30 object-cover" />

@@ -11,6 +11,7 @@ const badgeVariants = cva(
             variant: {
                 default:
                     'border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90 bg-badge text-primary',
+                violet: 'bg-[rgba(147,127,245,0.3)] text-[violet] bg-[linear-gradient(225deg,#a043ea_0%,#4b7aff_100%)] bg-clip-text text-transparent',
                 gray: 'bg-grey border-transparent text-8 text-white',
                 secondary:
                     'border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90',
@@ -32,6 +33,24 @@ function Badge({
     ...props
 }: React.ComponentProps<'span'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
     const Comp = asChild ? Slot : 'span';
+
+    if (variant === 'violet') {
+        return (
+            <Comp
+                data-slot="badge"
+                className={cn(
+                    'bg-[rgba(147,127,245,0.3)]',
+                    badgeVariants({ variant: 'default' }),
+                    className,
+                )}
+                {...props}
+            >
+                <span className="bg-[linear-gradient(225deg,#a043ea_0%,#4b7aff_100%)] bg-clip-text text-transparent">
+                    {props.children}
+                </span>
+            </Comp>
+        );
+    }
 
     return (
         <Comp data-slot="badge" className={cn(badgeVariants({ variant }), className)} {...props} />

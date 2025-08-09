@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerJob;
 use Inertia\Inertia;
 use App\Http\Requests\CustomerJob\StoreRequest;
 use App\Http\Requests\CustomerJob\UpdateRequest;
@@ -22,7 +23,7 @@ class CustomerJobController extends Controller
     public function index(Request $request)
     {
         return Inertia::render('customer/job/index.page', [
-            'jobs' => $this->searchService->searchJobs( $request->get('search', '')),
+            'jobs' => $this->searchService->searchJobs($request->get('search', ''), 10, $request->get('category_id')),
         ]);
     }
 
@@ -45,12 +46,12 @@ class CustomerJobController extends Controller
 
         $job = auth()->user()->customerJobs()->create($data);
 
-        return redirect()->route( 'customer-job.show', $job);
+        return redirect()->route('customer-job.show', $job);
     }
 
     public function show($id)
     {
-        $job = auth()->user()->customerJobs()->findOrFail($id);
+        $job = CustomerJob::findOrFail($id);
 
         return Inertia::render('customer/job/show.page', [
             'job' => $job,
@@ -81,7 +82,7 @@ class CustomerJobController extends Controller
             );
         }
 
-         $job->update($data);
+        $job->update($data);
 
         return redirect()->route('customer-job.show', $job)->with('success', 'Работа успешно обновлена.');
     }

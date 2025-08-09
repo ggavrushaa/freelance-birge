@@ -30,6 +30,7 @@ export interface CustomerJob {
     category_id: number;
     sub_category_id: number;
     user_id: number;
+    author_id: number;
     created_at: string;
     updated_at: string;
 }
