@@ -32,7 +32,7 @@ export const DashboardFreelance = (props: DashboardFreelanceProps) => {
     const visibleGigs = gigs.slice(0, 3);
 
     return (
-        <main className="flex-1 bg-[#efeff4] pt-20">
+        <section className="flex-1 bg-[#efeff4] pt-20">
             <DashboardHeader
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
@@ -93,6 +93,6 @@ export const DashboardFreelance = (props: DashboardFreelanceProps) => {
                     )}
                 />
             )}
-        </main>
+        </section>
     );
 };

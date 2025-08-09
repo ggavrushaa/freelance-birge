@@ -34,17 +34,17 @@ export const LayoutWithNavbar = ({ children }: { children: ReactNode }) => {
         };
     }, [url, isMobile]);
     return (
-        <main className="flex flex-col">
+        <main className="flex flex-col h-[100vh]">
             <div
-                className={classNames('flex min-h-[calc(100svh-83px)] flex-col', {
+                className={classNames('flex flex-1 flex-col overflow-auto', {
                     'min-h-[100vh]!': isFocused,
                 })}
             >
                 {children}
             </div>
-            {!isFocused && <div className="h-[83px]" />}
+            {/* {!isFocused && <div className="h-[83px]" />} */}
             <footer
-                className={classNames('fixed bottom-0 left-0 z-10 w-full', {
+                className={classNames('w-full', {
                     hidden: isFocused,
                 })}
             >

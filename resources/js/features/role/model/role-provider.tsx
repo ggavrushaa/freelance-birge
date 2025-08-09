@@ -46,7 +46,7 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
             };
         };
         initApp();
-    }, []);
+    }, [backButton,onBackButtonClick,url]);
 
     const switchRole = async () => {
         const newRole = role === 'freelancer' ? 'customer' : 'freelancer';

@@ -31,7 +31,7 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
     const visibleJobs = jobs.slice(0, 3);
 
     return (
-        <main className="flex-1 bg-[#efeff4] pt-20">
+        <section className="flex-1 bg-[#efeff4] pt-20">
             <DashboardHeader
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
@@ -88,6 +88,6 @@ export const DashboardCustomer = (props: DashboardCustomerProps) => {
                     )}
                 />
             )}
-        </main>
+        </section>
     );
 };
