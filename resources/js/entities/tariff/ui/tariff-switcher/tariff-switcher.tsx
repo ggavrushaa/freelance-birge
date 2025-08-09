@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { ComponentProps, useState } from 'react';
 import { Tariff } from '../../model/types';
 import { TariffSwitcherInfo } from './tariff-switcher-info';
 import { TariffSwitcherTabs } from './tariff-switcher-tabs';
 
-interface TariffTabsProps {
+interface TariffTabsProps extends ComponentProps<"div"> {
     tariffs: Tariff[];
 }
 

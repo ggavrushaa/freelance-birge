@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TariffAdditionalOptionsEnum;
+use App\Models\FreelanceGig;
 use Inertia\Inertia;
 use App\Services\JobAttachmentService;
 use App\Repositories\FreelanceGigRepository;
@@ -52,7 +53,7 @@ class FreelanceGigController extends Controller
 
     public function show($id)
     {
-        $gig = auth()->user()->freelanceGigs()->with('tariffs')->findOrFail($id);
+        $gig = FreelanceGig::with('tariffs')->findOrFail($id);
 
         return Inertia::render('freelance/gig/show.page', [
             'gig' => $gig,
