@@ -22,14 +22,15 @@ class SearchController extends Controller
 
     public function index()
     {
-        return Inertia::render('Search/Index');
+        return Inertia::render('search/index.page');
     }
 
     public function show(int $categoryId)
     {
         $category = Category::findOrFail($categoryId);
 
-        return Inertia::render('Search/Show', [
+        return Inertia::render('search/show.page', [
+            'category' => $category,
             'subCategories' => $category->subCategories()->get(),
         ]);
     }

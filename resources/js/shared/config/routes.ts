@@ -42,7 +42,9 @@ export const ROUTES = {
         update: (id: number) => `/tariff/${id}`,
         delete: (id: number) => `/tariff/${id}`,
     },
-    notifications : "notifications",
-    notificationsMarkAllRead: "notifications/mark-all-read",
-    dashboard: "dashboard"
+    notifications: 'notifications',
+    notificationsMarkAllRead: 'notifications/mark-all-read',
+    dashboard: 'dashboard',
+    search: 'search',
+    searchShow: (categoryId: number) => `search/${categoryId}`,
 };

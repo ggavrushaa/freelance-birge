@@ -3,8 +3,8 @@ import { Job, jobIconsUrls } from '@/entities/job';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
 import { SharedData } from '@/types';
-import { Link, router } from '@inertiajs/react';
-import { ReactNode, useState } from 'react';
+import { Link } from '@inertiajs/react';
+import { ReactNode } from 'react';
 import { DashboardBalance } from './dashboard-balance';
 import { DashboardHeader } from './dashboard-header';
 import { DashboardOrder } from './dashboard-order';
@@ -19,23 +19,23 @@ interface DashboardCustomerProps {
 
 export const DashboardCustomer = (props: DashboardCustomerProps) => {
     const { categories = [], jobs = [], buttons } = props;
-    const params = new URLSearchParams(window.location.search);
-    const [searchQuery, setSearchQuery] = useState(params.get('search') ?? '');
+    // const params = new URLSearchParams(window.location.search);
+    // const [searchQuery, setSearchQuery] = useState(params.get('search') ?? '');
 
-    const redirectToJobsPage = () => {
-        router.get('/freelance-gig', {
-            search: searchQuery,
-        });
-    };
+    // const redirectToJobsPage = () => {
+    //     router.get('/freelance-gig', {
+    //         search: searchQuery,
+    //     });
+    // };
 
     const visibleJobs = jobs.slice(0, 3);
 
     return (
         <section className="flex-1 bg-[#efeff4] pt-20">
             <DashboardHeader
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                onEnter={redirectToJobsPage}
+                // searchQuery={searchQuery}
+                // setSearchQuery={setSearchQuery}
+                // onEnter={redirectToJobsPage}
             />
             <ul className="scrollbar-hide mb-3 flex gap-3 overflow-auto px-6">
                 <div className="h-[100px] rounded-[12px] border-2 border-[#007aff] p-[2px]">
