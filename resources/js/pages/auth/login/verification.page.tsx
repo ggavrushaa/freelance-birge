@@ -50,7 +50,7 @@ const LoginVerificationPage = (props: LoginVerificationPageProps) => {
             router.post(ROUTES.auth.loginVerification, {
                 words: phrase,
                 indices: indices,
-                telegram_id: telegramId,
+                telegram_id: String(telegramId),
             },{
                 preserveScroll: true,
                 preserveState: true,
