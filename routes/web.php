@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SearchController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
@@ -54,6 +55,18 @@ Route::resource('profile', ProfileController::class);
 
 // Portfolio routes
 Route::resource('portfolio', PortfolioController::class);
+
+// Search routes
+Route::middleware('auth')->group(function () {
+    Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+    Route::get('/search/{categoryId}', [SearchController::class, 'show'])->name('search.show');
+    Route::post('/search/suggestions', [SearchController::class, 'search'])->name('search.suggestions');
+    Route::post('/search/jobs', [SearchController::class, 'searchJobs'])->name('search.jobs');
+    Route::post('/search/gigs', [SearchController::class, 'searchGigs'])->name('search.gigs');
+    Route::get('/search/filter-options', [SearchController::class, 'getFilterOptions'])->name('search.filter-options');
+    Route::get('/search/similar-jobs', [SearchController::class, 'getSimilarJobSuggestions'])->name('search.similar-jobs');
+    Route::get('/search/similar-gigs', [SearchController::class, 'getSimilarGigSuggestions'])->name('search.similar-gigs');
+});
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
