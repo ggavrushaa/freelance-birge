@@ -77,7 +77,10 @@ const LoginVerificationPage = (props: LoginVerificationPageProps) => {
                         value={word}
                         onChange={(e) => onChangePhrase(index,e.target.value)}
                         onKeyDown={(e) => handleKeyDown(e,index)}
-                        onPaste={setPhraseFromClipboard}
+                        onPaste={(e) => {
+                            e.preventDefault();
+                            setPhraseFromClipboard();
+                        }}
                         ref={(el) => {
                             inputRefs.current[index] = el;
                         }}
