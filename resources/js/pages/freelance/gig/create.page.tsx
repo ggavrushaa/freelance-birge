@@ -5,9 +5,9 @@ import { ReactNode } from 'react';
 
 const FreelanceGigCreatePage = () => {
     return (
-        <main className="min-h-[100svh] bg-[#efeff4] px-6 pt-25 pb-12">
+        <section className="bg-[#efeff4] px-6 pt-25 pb-12 flex-1">
             <CreateGigForm />
-        </main>
+        </section>
     );
 };
 

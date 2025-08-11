@@ -1,35 +1,22 @@
-import { AuthInfoCard, AuthLayout, PasswordKeyPad } from '@/features/auth';
-import { getHiddenPassword } from '@/features/auth/utils/get-hidden-password';
+import { AuthInfoCard, AuthLayout, PasswordKeyPad, usePasswordDigits } from '@/features/auth';
 import { ROUTES } from '@/shared/config/routes';
 import { PASSWORD_LENGTH } from '@/shared/consts';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/shared/ui/input-otp';
 import { Head, router } from '@inertiajs/react';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 
 interface ConfirmPasswordPageProps {
-    errors: {
+    errors: Partial<{
         pin_code: string;
-    };
+    }>;
 }
 
 const ConfirmPasswordPage = (props: ConfirmPasswordPageProps) => {
     const { errors } = props;
-    const [password, setPassword] = useState('');
-
-    const handleDigitClick = (digit: number) => {
-        if (password.length < PASSWORD_LENGTH) {
-            const newPassword = password + digit;
-            setPassword(newPassword);
-        }
-    };
-
-    const handleClearClick = () => {
-        const newPassword = password.slice(0, -1);
-        setPassword(newPassword);
-    };
+    const password = usePasswordDigits();
 
     const onComplete = () => {
-        router.post(ROUTES.auth.confirmPassword, { pin_code: password });
+        router.post(ROUTES.auth.confirmPassword, { pin_code: password.normalDigits });
     };
 
     return (
@@ -42,7 +29,7 @@ const ConfirmPasswordPage = (props: ConfirmPasswordPageProps) => {
             />
             <div className="relative mb-18">
                 <InputOTP
-                    value={getHiddenPassword(password)}
+                    value={password.hiddenDigits}
                     maxLength={PASSWORD_LENGTH}
                     onComplete={onComplete}
                     disabled
@@ -64,7 +51,10 @@ const ConfirmPasswordPage = (props: ConfirmPasswordPageProps) => {
                     </p>
                 )}
             </div>
-            <PasswordKeyPad onDigitClick={handleDigitClick} onClearClick={handleClearClick} />
+            <PasswordKeyPad
+                onDigitClick={password.addDigit}
+                onClearClick={password.remoweLastDigit}
+            />
         </>
     );
 };

@@ -18,7 +18,7 @@ class VerifySeedPhraseRequest extends FormRequest
             'words.*' => ['required', 'string'],
             'indices' => ['required', 'array', 'size:12'],
             'indices.*' => ['required', 'integer', 'min:1', 'max:12'],
-            'telegram_id' => ['required', 'integer'],
+            'telegram_id' => ['required', 'string'],
         ];
     }
 }

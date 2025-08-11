@@ -45,6 +45,7 @@ class AuthController extends Controller
             if (!$this->registrationService->verifyPinCode($user, $request->input('pin_code'))) {
                 throw ValidationException::withMessages([
                     'pin_code' => 'Неверный ПИН-код или аккаунт заблокирован',
+                    'pin_code_blocked_until' => $user->pin_code_blocked_until,
                 ]);
             }
             Auth::login($user);
@@ -130,6 +131,4 @@ class AuthController extends Controller
 
         return redirect()->route('dashboard');
     }
-
-
 }

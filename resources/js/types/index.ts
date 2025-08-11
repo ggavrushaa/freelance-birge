@@ -4,6 +4,7 @@ import { User as UserType } from './user';
 export { type User } from './user';
 
 export interface Auth {
+    notifications: [];
     user: UserType;
 }
 

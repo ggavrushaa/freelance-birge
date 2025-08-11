@@ -3,16 +3,34 @@ import { ROUTES } from '@/shared/config/routes';
 import { SEED_PHRASE_LENGTH } from '@/shared/consts';
 import { useWebApp } from '@/shared/hooks/use-web-app';
 import { Button } from '@/shared/ui/button';
+import { SharedData } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 
-const LoginVerificationPage = () => {
+type LoginVerificationPageProps = SharedData & {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    errors: Record<string, any>;
+};
+
+const LoginVerificationPage = (props: LoginVerificationPageProps) => {
+    const { errors } = props;
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+    const [localError, setLocalError] = useState<null | string>(null);
+    const { user } = useWebApp();
     const { phrase, onChangePhrase, setPhraseFromClipboard, isPhraseFilled } = useSeedPhrase({
         length: SEED_PHRASE_LENGTH,
     });
-    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-    const { user } = useWebApp();
     const telegramId = user.telegram_id;
+
+    const isValidForm = () => {
+        if (!isPhraseFilled()) {
+            setLocalError('Вы не заполнили сид фразу');
+            return false;
+        }
+        setLocalError(null);
+        return true;
+    };
+
     const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -24,20 +42,24 @@ const LoginVerificationPage = () => {
                 currentInput?.blur();
             }
         }
-        if (e.key === ' ') {
-            e.preventDefault();
-            setPhraseFromClipboard();
-        }
     };
 
     const handleClickContinue = () => {
-        const indices = Array.from({ length: 12 }, (_, i) => i + 1);
-        router.post(ROUTES.auth.loginVerification, {
-            words: phrase,
-            indices: indices,
-            telegram_id: telegramId,
-        });
+        if (isValidForm()) {
+            const indices = Array.from({ length: 12 }, (_, i) => i + 1);
+            router.post(ROUTES.auth.loginVerification, {
+                words: phrase,
+                indices: indices,
+                telegram_id: telegramId,
+            },{
+                preserveScroll: true,
+                preserveState: true,
+            });
+        }
     };
+
+    const error = localError ? localError : (errors.error ?? errors.error);
+
     return (
         <>
             <AuthInfoCard
@@ -53,13 +75,16 @@ const LoginVerificationPage = () => {
                         key={index}
                         index={index}
                         value={word}
-                        onChange={onChangePhrase}
-                        onKeyDown={handleKeyDown}
+                        onChange={(e) => onChangePhrase(index,e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e,index)}
+                        onPaste={setPhraseFromClipboard}
                         ref={(el) => {
                             inputRefs.current[index] = el;
                         }}
+                        className={error ? 'border border-red' : ''}
                     />
                 )}
+                error={error}
                 className="mb-18"
             />
             <Button onClick={handleClickContinue} disabled={!isPhraseFilled} className="w-full">

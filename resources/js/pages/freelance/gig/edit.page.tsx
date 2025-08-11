@@ -34,9 +34,9 @@ const FreelanceGigEditPage = (props: FreelanceGigEditPageProps) => {
         });
     };
     return (
-        <main className="bg-[#efeff4] px-6 pt-25 pb-12">
+        <section className="bg-[#efeff4] px-6 pt-25 pb-12">
             <EditGigForm formValues={formValues} tariffs={gig.tariffs} onSubmit={onSubmit} gigId={gig.id} />
-        </main>
+        </section>
     );
 };
 

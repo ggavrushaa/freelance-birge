@@ -34,7 +34,7 @@ export const LayoutWithNavbar = ({ children }: { children: ReactNode }) => {
         };
     }, [url, isMobile]);
     return (
-        <main className="flex flex-col h-[100vh]">
+        <main className="flex flex-col h-[100vh] overflow-hidden">
             <div
                 className={classNames('flex flex-1 flex-col overflow-auto', {
                     'min-h-[100vh]!': isFocused,

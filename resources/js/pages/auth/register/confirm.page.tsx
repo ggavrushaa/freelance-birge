@@ -80,8 +80,8 @@ const RegisterConfirmPage = (props: RegisterConfirmPageProps) => {
                             inputRefs.current[index] = el;
                         }}
                         value={word}
-                        onChange={onChangePhrase}
-                        onKeyDown={handleKeyDown}
+                        onChange={(e) => onChangePhrase(index,e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e,index)}
                         className={error ? 'border border-red' : ''}
                     />
                 )}

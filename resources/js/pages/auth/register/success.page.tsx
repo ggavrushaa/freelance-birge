@@ -10,7 +10,6 @@ const RegisterSuccessPage = () => {
     const {
         auth: { user },
     } = usePageProps();
-
     return (
         <>
             <AuthInfoCard

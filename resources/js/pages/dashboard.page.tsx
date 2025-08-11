@@ -14,7 +14,11 @@ type DashboardPageProps = SharedData & {
 };
 
 const DashboardPage = (props: DashboardPageProps) => {
-    const { categories, jobs, gigs } = props;
+    const {
+        categories,
+        jobs,
+        gigs,
+    } = props;
     const { role } = useRoleContext();
     const renderBoard = () => {
         switch (role) {
@@ -68,7 +72,6 @@ const DashboardPage = (props: DashboardPageProps) => {
                 return <div className="flex-1 bg-[#efeff4]"></div>;
         }
     };
-
     return <LayoutWithNavbar>{renderBoard()}</LayoutWithNavbar>;
 };
 

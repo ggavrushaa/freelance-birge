@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { forwardRef } from 'react';
+import React, { ComponentProps, forwardRef } from 'react';
 
 interface SeedPhraseProps {
     seedPhrase: string[];
@@ -8,15 +8,11 @@ interface SeedPhraseProps {
     className?: string;
 }
 
-interface SeedPhraseInputProps {
+interface SeedPhraseInputProps extends ComponentProps<"input"> {
     index: number;
     orderNumber?: number;
-    onKeyDown: (e: React.KeyboardEvent, idx: number) => void;
     value: string;
     error?: string;
-    disabled?: boolean;
-    onChange?: (index: number, newValue: string) => void;
-    className?: string;
 }
 
 export const SeedPhrase = (props: SeedPhraseProps) => {
@@ -34,16 +30,15 @@ SeedPhrase.Input = forwardRef<HTMLInputElement, SeedPhraseInputProps>((props, re
         index,
         orderNumber,
         value,
-        onChange,
         error,
         disabled = false,
         className,
-        onKeyDown,
+        ...rest
     } = props;
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange?.(index, event.target.value);
-    };
+    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     onChange?.(index, event.target.value);
+    // };
 
     return (
         <div
@@ -60,10 +55,9 @@ SeedPhrase.Input = forwardRef<HTMLInputElement, SeedPhraseInputProps>((props, re
                 ref={ref}
                 disabled={disabled}
                 value={value ?? ''}
-                onChange={handleChange}
-                onKeyDown={(e) => onKeyDown?.(e, index)}
-                className="ml-5 focus:outline-none"
                 type="text"
+                className="ml-5 focus:outline-none"
+                {...rest}
             />
         </div>
     );

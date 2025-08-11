@@ -86,7 +86,7 @@ export const CreateGigForm = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(handleSave)}>
+            <div>
                 <FormImagePreview preview={photoFile.preview} className="mb-3" />
                 <Button type="button" onClick={photoFile.onClick} className="mb-6 w-full">
                     Выбрать
@@ -219,10 +219,10 @@ export const CreateGigForm = () => {
                     </p>
                 </div>
 
-                <Button type="submit" disabled={!isValid} className="w-full">
+                <Button onClick={handleSubmit(handleSave)} type="submit" disabled={!isValid} className="w-full">
                     Продолжить
                 </Button>
-            </form>
+            </div>
             {tariffModal.isOpen && (
                 <CreateTariffForm
                     tariffValues={{

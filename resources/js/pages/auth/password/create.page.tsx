@@ -1,27 +1,14 @@
-import { AuthInfoCard, AuthLayout, PasswordKeyPad } from '@/features/auth';
-import { getHiddenPassword } from '@/features/auth/utils/get-hidden-password';
+import { AuthInfoCard, AuthLayout, PasswordKeyPad, usePasswordDigits } from '@/features/auth';
 import { PASSWORD_LENGTH } from '@/shared/consts';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/shared/ui/input-otp';
 import { Head, router } from '@inertiajs/react';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 
 const CreatePasswordPage = () => {
-    const [password, setPassword] = useState('');
-
-    const handleDigitClick = (digit: number) => {
-        if (password.length < PASSWORD_LENGTH) {
-            const newPassword = password + digit;
-            setPassword(newPassword);
-        }
-    };
-
-    const handleClearClick = () => {
-        const newPassword = password.slice(0, -1);
-        setPassword(newPassword);
-    };
+    const password = usePasswordDigits();
 
     const onComplete = () => {
-        router.post('create-password', { pin_code: password });
+        router.post('create-password', { pin_code: password.normalDigits });
     };
 
     return (
@@ -34,7 +21,7 @@ const CreatePasswordPage = () => {
             />
             <div className="mb-18">
                 <InputOTP
-                    value={getHiddenPassword(password)}
+                    value={password.hiddenDigits}
                     maxLength={PASSWORD_LENGTH}
                     onComplete={onComplete}
                     disabled
@@ -51,7 +38,7 @@ const CreatePasswordPage = () => {
                     </InputOTPGroup>
                 </InputOTP>
             </div>
-            <PasswordKeyPad onDigitClick={handleDigitClick} onClearClick={handleClearClick} />
+            <PasswordKeyPad onDigitClick={password.addDigit} onClearClick={password.remoweLastDigit} />
         </>
     );
 };

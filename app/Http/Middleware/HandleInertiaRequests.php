@@ -46,7 +46,7 @@ class HandleInertiaRequests extends Middleware
             'categories' => \App\Models\Category::with('subCategories')->get(),
             'auth' => [
                 'user' => $request->user(),
-                'notifications' => $request->user()->notifications,
+                'notifications' => $request->user()->notifications ?? [],
             ],
             'csrf_token' => csrf_token(),
             'ziggy' => fn (): array => [

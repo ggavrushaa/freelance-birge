@@ -1,6 +1,7 @@
 import { NotificationBadge } from '@/entities/notification';
 import { ROUTES } from '@/shared/config/routes';
 import { useFocus } from '@/shared/hooks/use-focus';
+import { usePageProps } from '@/shared/hooks/use-page-props';
 import { InputWithIcon } from '@/shared/ui/input-with-icon';
 import { Logo } from '@/shared/ui/logo';
 import { router } from '@inertiajs/react';
@@ -16,6 +17,9 @@ interface DashboardHeaderProps {
 export const DashboardHeader = (props: DashboardHeaderProps) => {
     const { searchQuery, setSearchQuery, onEnter } = props;
     const searchInput = useFocus();
+     const {
+        auth: { notifications },
+    } = usePageProps();
 
     const handleChangeSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -47,7 +51,7 @@ export const DashboardHeader = (props: DashboardHeaderProps) => {
                         searchInput.isFocused && 'pl-3',
                     )}
                 />
-                <NotificationBadge onClick={handleClickNotificationBadge} notificationsCount={0} className="shrink-0" />
+                <NotificationBadge onClick={handleClickNotificationBadge} notificationsCount={notifications.length} className="shrink-0" />
             </div>
         </>
     );

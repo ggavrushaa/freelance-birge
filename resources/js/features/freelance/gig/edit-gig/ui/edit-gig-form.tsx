@@ -63,7 +63,7 @@ export const EditGigForm = (props: EditGigFormProps) => {
     const photoFilePreview = photoFile.preview ?? formValues.photo ?? '';
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
             <FormImagePreview preview={photoFilePreview} className="mb-3" />
             <Button type="button" onClick={photoFile.onClick} className="mb-6 w-full">
                 Выбрать
@@ -189,9 +189,9 @@ export const EditGigForm = (props: EditGigFormProps) => {
                 </p>
             </div>
 
-            <Button type="submit" disabled={!isValid} className="w-full">
+            <Button onClick={handleSubmit(onSubmit)} type="submit" disabled={!isValid} className="w-full">
                 Продолжить
             </Button>
-        </form>
+        </div>
     );
 };
