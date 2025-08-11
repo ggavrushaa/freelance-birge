@@ -51,7 +51,7 @@ class CustomerJobController extends Controller
 
     public function show($id)
     {
-        $job = CustomerJob::findOrFail($id);
+        $job = CustomerJob::findOrFail($id)->with('author')->first();
 
         return Inertia::render('customer/job/show.page', [
             'job' => $job,
