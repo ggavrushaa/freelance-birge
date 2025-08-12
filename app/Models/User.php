@@ -91,6 +91,10 @@ class User extends Authenticatable
 
     public function isPinCodeBlocked(): bool
     {
+        if ($this->pin_code_blocked_until && now()->greaterThan($this->pin_code_blocked_until)) {
+            $this->pin_code_blocked_until = null;
+            $this->save();
+        }
         return $this->pin_code_blocked_until && now()->lessThan($this->pin_code_blocked_until);
     }
 
