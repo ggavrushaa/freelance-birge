@@ -46,7 +46,7 @@ class SearchController extends Controller
                 ->where('is_active', true)
                 ->get();
         } else {
-            $suggestions = FreelanceGig::where('title', 'like', '%' . $search . '%')->get();
+            $suggestions = FreelanceGig::where('name', 'like', '%' . $search . '%')->get();
         }
 
         return response()->json($suggestions);
