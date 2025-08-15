@@ -114,7 +114,10 @@ class SearchController extends Controller
         $query = FreelanceGig::query();
 
         if (!empty($search)) {
-            $query->where('name', 'like', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
         }
 
         $this->filterService->applyGigFilters($query, $filters);
