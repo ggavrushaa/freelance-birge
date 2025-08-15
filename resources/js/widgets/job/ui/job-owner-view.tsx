@@ -18,7 +18,6 @@ export const JobOwnerView = (props: JobOwnerViewProps) => {
     const { job } = props;
 
     const {
-        auth: { user },
         categories,
     } = usePageProps();
 
@@ -67,9 +66,9 @@ export const JobOwnerView = (props: JobOwnerViewProps) => {
                     <Avatar className="bg-avatar mr-2.5 h-10 w-10 rounded-full"></Avatar>
                     <div className="flex flex-col">
                         <div className="mb-[2px] flex items-center">
-                            <p className="mr-2.5">{user.username}</p>
+                            <p className="mr-2.5">{job.author.username}</p>
                             <img src="/icons/star2.svg" />
-                            <span className="text-14 font-medium">{user.rating}</span>
+                            <span className="text-14 font-medium">{job.author.rating}</span>
                             <span className="text-8 mt-1 ml-1 text-gray">(777)</span>
                         </div>
                         <div className="flex items-center gap-1">

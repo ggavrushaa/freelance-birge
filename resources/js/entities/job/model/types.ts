@@ -1,4 +1,5 @@
 import { Category } from "@/entities/category";
+import { User } from "@/types";
 
 export interface Job {
     id: number;
@@ -18,6 +19,7 @@ export interface Job {
     express_mode: boolean;
     created_at: string;
     updated_at: string;
+    author:User;
 }
 
 export interface PaginatedJobs {

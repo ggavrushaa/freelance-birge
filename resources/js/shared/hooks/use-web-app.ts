@@ -6,8 +6,8 @@ export const useWebApp = () => {
     telegram_id: data.user.id,
     username: data.user.username,
   } : {
-    telegram_id: "12312312312321312acs",
-    username: "Bohdan123",
+    telegram_id: "525234234",
+    username: "Misha",
   };
   return {
     user,
