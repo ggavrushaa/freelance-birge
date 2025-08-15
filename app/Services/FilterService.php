@@ -78,13 +78,13 @@ class FilterService
         $query->whereHas('tariffs', function ($tariffQuery) use ($completionTime) {
             switch ($completionTime) {
                 case '1-2':
-                    $tariffQuery->where('terms', '<=', 2);
+                    $tariffQuery->where('term', '<=', 2);
                     break;
                 case '3-5':
-                    $tariffQuery->whereBetween('terms', [3, 5]);
+                    $tariffQuery->whereBetween('term', [3, 5]);
                     break;
                 case '7+':
-                    $tariffQuery->where('terms', '>=', 7);
+                    $tariffQuery->where('term', '>=', 7);
                     break;
             }
         });
