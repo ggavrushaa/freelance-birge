@@ -19,6 +19,10 @@ export const DashboardHeader = () => {
         router.get(ROUTES.search);
     };
 
+    console.log(notifications);
+
+    const newNotifications = notifications.filter(notification => notification.read_at === null);
+
     return (
         <>
             <Logo className="mx-auto mb-7 h-12.5 w-28" />
@@ -33,7 +37,7 @@ export const DashboardHeader = () => {
                 />
                 <NotificationBadge
                     onClick={handleClickNotificationBadge}
-                    notificationsCount={notifications.length}
+                    notificationsCount={newNotifications.length}
                     className="shrink-0"
                 />
             </div>

@@ -22,7 +22,9 @@ class SearchController extends Controller
 
     public function index()
     {
-        return Inertia::render('search/index.page');
+        return Inertia::render('search/index.page', [
+            'filters' => $this->filterService->getFilterOptions()
+        ]);
     }
 
     public function show(int $categoryId)
@@ -114,7 +116,7 @@ class SearchController extends Controller
         if (!empty($search)) {
             $query->where('name', 'like', "%{$search}%");
         }
-        
+
         $this->filterService->applyGigFilters($query, $filters);
 
         if (isset($filters['category_id'])) {

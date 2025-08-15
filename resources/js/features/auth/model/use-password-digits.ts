@@ -12,7 +12,7 @@ export const usePasswordDigits = () => {
                 setDigits((prev) =>
                     prev.map((d, i) => (i === newDigits.length - 1 ? { ...d, visible: false } : d)),
                 );
-            }, 1500);
+            }, 700);
         }
     };
 

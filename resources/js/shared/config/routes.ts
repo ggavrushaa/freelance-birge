@@ -47,4 +47,5 @@ export const ROUTES = {
     dashboard: 'dashboard',
     search: 'search',
     searchShow: (categoryId: number) => `search/${categoryId}`,
+    searchSuggestions: 'search/suggestions',
 };

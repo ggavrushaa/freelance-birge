@@ -16,6 +16,11 @@ export interface SharedData {
     sidebarOpen: boolean;
     categories: Category[];
     csrf_token: string;
+    filters: {
+        [key: string]: {
+            [key: string]: string;
+        };
+    };
 }
 
 export interface CustomerJob {
@@ -35,7 +40,6 @@ export interface CustomerJob {
     created_at: string;
     updated_at: string;
 }
-
 
 export interface AdditionalOption {
     value: string;

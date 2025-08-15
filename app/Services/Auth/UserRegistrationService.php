@@ -79,7 +79,7 @@ class UserRegistrationService
 
         if ($user->pin_code_attempts >= 3) {
             $user->update([
-                'pin_code_blocked_until' => now()->addMinutes(15),
+                'pin_code_blocked_until' => now()->addMinutes(.1),
                 'pin_code_attempts' => 0,
             ]);
         }

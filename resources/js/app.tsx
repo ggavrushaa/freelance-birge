@@ -5,6 +5,10 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import { RoleProvider } from './features/role';
+import {
+    QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 // const noInsets = {
 //   left: 0,
@@ -67,6 +71,8 @@ import { RoleProvider } from './features/role';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+const queryClient = new QueryClient()
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: async (name) => {
@@ -75,7 +81,11 @@ createInertiaApp({
         const originalLayout = page.default.layout;
         page.default.layout = (pageElement: any) => {
             const content = originalLayout ? originalLayout(pageElement) : pageElement;
-            return <RoleProvider>{content}</RoleProvider>;
+            return (
+                <QueryClientProvider client={queryClient}>
+                    <RoleProvider>{content}</RoleProvider>
+                </QueryClientProvider>
+            );
         };
         return page;
     },

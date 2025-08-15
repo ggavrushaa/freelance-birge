@@ -46,6 +46,7 @@ class AuthController extends Controller
                 throw ValidationException::withMessages([
                     'pin_code' => 'Неверный ПИН-код или аккаунт заблокирован',
                     'pin_code_blocked_until' => $user->pin_code_blocked_until,
+                    "pin_code_attempts" => $user->pin_code_attempts,
                 ]);
             }
             Auth::login($user);

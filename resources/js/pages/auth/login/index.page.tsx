@@ -1,4 +1,10 @@
-import { AuthInfoCard, AuthLayout, PasswordCountdown, PasswordKeyPad, usePasswordDigits } from '@/features/auth';
+import {
+    AuthInfoCard,
+    AuthLayout,
+    PasswordCountdown,
+    PasswordKeyPad,
+    usePasswordDigits,
+} from '@/features/auth';
 import { ROUTES } from '@/shared/config/routes';
 import { PASSWORD_LENGTH } from '@/shared/consts';
 import { useWebApp } from '@/shared/hooks/use-web-app';
@@ -6,19 +12,21 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/shared/ui/input-otp';
 import { Text } from '@/shared/ui/text';
 import { Head, router } from '@inertiajs/react';
 import classNames from 'classnames';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 interface LoginIndexPageProps {
-    errors: Partial<{
+    errors: {
         pin_code: string;
         pin_code_blocked_until: string;
-    }>;
+        pin_code_attempts: number;
+    };
 }
 
 const LoginIndexPage = (props: LoginIndexPageProps) => {
     const { errors } = props;
     const { user } = useWebApp();
     const password = usePasswordDigits();
+    const [isBlocked, setIsBlocked] = useState(Boolean(errors.pin_code_blocked_until));
 
     const handleClickForgetPassword = () => {
         router.get(ROUTES.auth.loginVerification);
@@ -62,9 +70,10 @@ const LoginIndexPage = (props: LoginIndexPageProps) => {
                         ))}
                     </InputOTPGroup>
                 </InputOTP>
-                {errors.pin_code_blocked_until && (
+                {isBlocked && (
                     <PasswordCountdown
-                        targetDate={errors.pin_code_blocked_until}
+                        targetDate={errors.pin_code_blocked_until as string}
+                        onEnd={() => setIsBlocked(false)}
                         className="absolute bottom-[-30px] left-[50%] w-full -translate-x-1/2 text-center"
                     />
                 )}
@@ -74,7 +83,11 @@ const LoginIndexPage = (props: LoginIndexPageProps) => {
                     </p>
                 )}
             </div>
-            <PasswordKeyPad onDigitClick={password.addDigit} onClearClick={password.remoweLastDigit} />
+            <PasswordKeyPad
+                disabled={isBlocked}
+                onDigitClick={password.addDigit}
+                onClearClick={password.remoweLastDigit}
+            />
             <Text
                 onClick={handleClickForgetPassword}
                 fontColor="primary"
