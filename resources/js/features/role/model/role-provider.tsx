@@ -2,9 +2,9 @@ import { useFetch } from '@/shared/hooks/use-fetch';
 import { usePageProps } from '@/shared/hooks/use-page-props';
 import { usePage } from '@inertiajs/react';
 import { init, viewport } from '@telegram-apps/sdk';
+import WebApp from '@twa-dev/sdk';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { Role } from './types';
-import WebApp from "@twa-dev/sdk";
 
 type RoleContext = {
     role: Role;
@@ -29,25 +29,27 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
     const role = localRole ?? data?.role ?? 'customer';
 
     useEffect(() => {
-        const initApp = async () => {
-            init();
-            viewport.mount();
-            WebApp.ready();
-            WebApp.isVerticalSwipesEnabled = false;
-            await viewport.requestFullscreen();
-            if (url === '/' && backButton.isVisible) {
-                backButton.hide();
-            } else if (url !== '/' && !backButton.isVisible) {
-                backButton.show();
-            }
+        init();
+        viewport.mount();
+        WebApp.ready();
+        WebApp.isVerticalSwipesEnabled = false;
 
-            backButton.onClick(onBackButtonClick);
-            return () => {
-                backButton.offClick(onBackButtonClick);
-            };
+        viewport.requestFullscreen();
+
+        backButton.onClick(onBackButtonClick);
+
+        return () => {
+            backButton.offClick(onBackButtonClick);
         };
-        initApp();
-    }, [backButton,onBackButtonClick,url]);
+    }, [backButton, onBackButtonClick]);
+
+    useEffect(() => {
+        if (url === '/') {
+            backButton.hide();
+        } else {
+            backButton.show();
+        }
+    }, [url, backButton]);
 
     const switchRole = async () => {
         const newRole = role === 'freelancer' ? 'customer' : 'freelancer';
