@@ -53,7 +53,7 @@ class FreelanceGigController extends Controller
 
     public function show($id)
     {
-        $gig = FreelanceGig::with('tariffs', 'author')->findOrFail($id);
+        $gig = FreelanceGig::with('tariffs', 'freelancer')->findOrFail($id);
 
         return Inertia::render('freelance/gig/show.page', [
             'gig' => $gig,
