@@ -33,6 +33,7 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
             init();
             viewport.mount();
             WebApp.ready();
+            WebApp.isVerticalSwipesEnabled = false;
             await viewport.requestFullscreen();
             if (url === '/' && backButton.isVisible) {
                 backButton.hide();
