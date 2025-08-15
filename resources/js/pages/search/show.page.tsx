@@ -13,7 +13,7 @@ const SearchShowPage = (props: SearchShowPageProps) => {
     const { category, subCategories = [] } = props;
     return (
         <section className="flex-1 bg-[#efeff4] px-6 pt-20">
-            {category.icon && <img src={category.icon} className="mx-auto mb-4.5 w-[140px]" />}
+            {category.icon && <img src={`/${category.icon}`} className="mx-auto mb-4.5 w-[140px]" />}
             <Title fontSize={20} className='text-center font-semibold mb-3'>{category.name}</Title>
             <div className="flex flex-col gap-2">
                 {subCategories.map((subCategory) => (
