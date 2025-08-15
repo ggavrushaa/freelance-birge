@@ -27,7 +27,7 @@ class FreelanceGig extends Model
 
     public function freelancer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function category()
