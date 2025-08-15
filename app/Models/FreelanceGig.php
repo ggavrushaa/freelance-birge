@@ -44,4 +44,10 @@ class FreelanceGig extends Model
     {
         return $this->hasMany(Tariff::class);
     }
+
+    public function activate()
+    {
+        $this->is_active = true;
+        $this->save();
+    }
 }

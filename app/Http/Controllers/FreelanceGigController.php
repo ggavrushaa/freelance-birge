@@ -78,6 +78,14 @@ class FreelanceGigController extends Controller
         return redirect()->route('freelance-gig.show', $gig)->with('success', 'Работа успешно обновлена.');
     }
 
+    public function published($id)
+    {
+        $gig = auth()->user()->freelanceGigs()->findOrFail($id);
+        $gig->activate();
+
+        return redirect()->route('freelance-gig.show', $gig)->with('success', 'Работа успешно опубликована.');
+    }
+
     public function destroy($id)
     {
         $gig = auth()->user()->freelanceGigs()->findOrFail($id);
