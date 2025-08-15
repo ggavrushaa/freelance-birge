@@ -1,5 +1,6 @@
 import { Category } from '@/entities/category';
 import { Tariff } from '@/entities/tariff/model/types';
+import { User } from '@/types';
 
 export interface Gig {
     id: number;
@@ -16,6 +17,7 @@ export interface Gig {
     premium_mode: boolean;
     created_at: string;
     updated_at: string;
+    freelancer: User;
 }
 
 export interface PaginatedGigs {

@@ -32,4 +32,28 @@ export const searchApi: SearchApi = {
             return [];
         }
     },
+    getJobsSuggestions: async (searchText: string) => {
+        try {
+            const resp = await api.get('search/similar-jobs', {
+                params: {
+                    search: searchText,
+                },
+            });
+            return resp.data.suggestions;
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    getGigsSuggestions: async (searchText: string) => {
+        try {
+            const resp = await api.get('search/similar-gigs', {
+                params: {
+                    search: searchText,
+                },
+            });
+            return resp.data.suggestions;
+        } catch (error) {
+            console.error(error);
+        }
+    },
 };

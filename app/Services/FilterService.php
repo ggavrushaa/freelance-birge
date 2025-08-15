@@ -140,14 +140,12 @@ class FilterService
             'express_mode' => [
                 'label' => 'Экспресс-проекты',
                 'options' => [
-                    'all' => 'Все',
                     'true' => 'Экспресс-проекты',
                 ],
             ],
             'premium_mode' => [
                 'label' => 'Premium',
                 'options' => [
-                    'all' => 'Все',
                     'true' => 'Premium',
                 ],
             ],
@@ -172,7 +170,6 @@ class FilterService
             'similar' => [
                 'label' => 'Похожие',
                 'options' => [
-                    'all' => 'Все',
                     'true' => 'Похожие',
                 ],
             ],

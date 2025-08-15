@@ -1,7 +1,8 @@
 import { Card } from '@/shared/ui/card';
 import { Text } from '@/shared/ui/text';
 import classNames from 'classnames';
-import { ComponentProps, memo, ReactNode, useState } from 'react';
+import { ComponentProps, ReactNode } from 'react';
+import { useSearchFilters } from '../model/hooks/use-search-filters';
 import { SearchFilters as SearchFiltersType } from '../model/types/search-filters';
 
 interface SearchFiltersItemProps extends ComponentProps<'div'> {
@@ -13,43 +14,7 @@ interface SearchFiltersProps {
     refetch: (filters: Record<string, unknown>) => void;
 }
 
-const useSearchFilters = (refetch: (filters: Record<string, unknown>) => void) => {
-    const [filtersState, setFiltersState] = useState<Record<string, string>>({});
-    const [activeFilter, setActiveFilter] = useState<string>('');
-    const handleClickMainFilter = (filterKey: string) => {
-        const filtersStateKeys = Object.keys(filtersState);
-        if (filtersStateKeys.includes(filterKey)) {
-            const updatedState = Object.entries(filtersState).filter(([key]) => key !== filterKey);
-            setFiltersState(Object.fromEntries(updatedState));
-            setActiveFilter('');
-        } else {
-            setFiltersState((prev) => ({
-                ...prev,
-                [filterKey]: 'all',
-            }));
-            setActiveFilter(filterKey);
-        }
-    };
-
-    const handleClickSubFilter = (newValue: string) => {
-        setFiltersState((prev) => {
-            const updated = {
-                ...prev,
-                [activeFilter]: newValue,
-            };
-            refetch(updated);
-            return updated;
-        });
-    };
-    return {
-        filtersState,
-        activeFilter,
-        handleClickMainFilter,
-        handleClickSubFilter,
-    };
-};
-
-export const SearchFiltersItem = memo((props: SearchFiltersItemProps) => {
+export const SearchFiltersItem = (props: SearchFiltersItemProps) => {
     const { text, icon = null, ...rest } = props;
     return (
         <Card
@@ -62,12 +27,11 @@ export const SearchFiltersItem = memo((props: SearchFiltersItemProps) => {
             </Text>
         </Card>
     );
-});
-export const SearchFilters = (props: SearchFiltersProps) => {
+};
 
+export const SearchFilters = (props: SearchFiltersProps) => {
     const { filters = {}, refetch } = props;
-    console.log(filters);
-    const { filtersState, activeFilter, handleClickMainFilter, handleClickSubFilter } =
+    const { filtersState, activeFilter, toggleMainFilter, handleClickSubFilter } =
         useSearchFilters(refetch);
 
     const isActiveMainFilter = (filterKey: string) => {
@@ -87,7 +51,9 @@ export const SearchFilters = (props: SearchFiltersProps) => {
                         key={filterKey}
                         text={filters[filterKey].label}
                         icon={isActiveMainFilter(filterKey) && <img src="/icons/check.svg" />}
-                        onClick={() => handleClickMainFilter(filterKey)}
+                        onClick={() => {
+                            toggleMainFilter(filterKey);
+                        }}
                         className={classNames('shrink-0 border border-transparent', {
                             'border-primary': isActiveMainFilter(filterKey),
                         })}
@@ -96,6 +62,7 @@ export const SearchFilters = (props: SearchFiltersProps) => {
             </div>
             <div className="mb-3 flex flex-wrap gap-3">
                 {subFilters &&
+                    Object.keys(subFilters).length > 1 &&
                     Object.entries(subFilters).map(([key, value], index) => (
                         <SearchFiltersItem
                             key={index}

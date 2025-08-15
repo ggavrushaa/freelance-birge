@@ -1,6 +1,6 @@
-import { Job, PaginatedJobs } from "@/entities/job";
-import { SearchFilters } from "./search-filters";
-import { Gig } from "@/entities/gig";
+import { Gig, PaginatedGigs } from '@/entities/gig';
+import { Job, PaginatedJobs } from '@/entities/job';
+import { SearchFilters } from './search-filters';
 
 interface GetJobsParams {
     search: string;
@@ -14,12 +14,17 @@ interface GetJobsResponce {
 
 interface GetGigsResponce {
     filters: SearchFilters;
-    jobs: PaginatedJobs;
+    gigs: PaginatedGigs;
 }
 
 export interface SearchApi {
-    getJobs: (params:GetJobsParams) => Promise<GetJobsResponce | null>;
-    getGigs : (params:GetJobsParams) => Promise<GetGigsResponce | null>;
+    getJobs: (params: GetJobsParams) => Promise<GetJobsResponce | null>;
+    getGigs: (params: GetJobsParams) => Promise<GetGigsResponce | null>;
     getSuggestions: (searchText: string) => Promise<(Job | Gig)[]>;
-
+    getJobsSuggestions: (searchText: string) => Promise<{
+        suggestions: [];
+    }>;
+    getGigsSuggestions: (searchText: string) => Promise<{
+        suggestions: [];
+    }>;
 }
