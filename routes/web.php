@@ -46,6 +46,7 @@ Route::post('customer-job/{id}/published', [CustomerJobController::class, 'publi
 
 // Freelance gig routes
 Route::resource('freelance-gig', FreelanceGigController::class);
+Route::post('freelance-gig/{id}/published',[FreelanceGigController::class,'published'])->name('freelance-gig.published');
 
 // Tariff routes
 Route::resource('tariff', TariffController::class);

@@ -6,6 +6,7 @@ import { Avatar } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Link, router } from '@inertiajs/react';
+import classNames from 'classnames';
 import clsx from 'clsx';
 
 interface GigOwnerViewProps {
@@ -23,8 +24,11 @@ export const GigOwnerView = (props: GigOwnerViewProps) => {
     };
 
     const handleClickPublish = () => {
-        router.get(`/${ROUTES.dashboard}`);
+        router.post(`/freelance-gig/${gig.id}/published`);
+        // router.get(`/${ROUTES.dashboard}`);
     };
+
+    const isActiveGig = gig.is_active;
 
     return (
         <>
@@ -68,9 +72,13 @@ export const GigOwnerView = (props: GigOwnerViewProps) => {
                 </Link>
                 {gig.tariffs.length > 0 && <TariffSwitcher tariffs={gig.tariffs} />}
             </section>
-            <div className="grid grid-cols-2 gap-2 bg-white px-6 pt-6 pb-12">
+            <div
+                className={classNames('grid grid-cols-2 gap-2 bg-white px-6 pt-6 pb-12', {
+                    'grid-cols-1!': isActiveGig,
+                })}
+            >
                 <Button onClick={handleClickEdit}>Изменить</Button>
-                <Button onClick={handleClickPublish}>Опубликовать</Button>
+                {!isActiveGig && <Button onClick={handleClickPublish}>Опубликовать</Button>}
             </div>
         </>
     );
