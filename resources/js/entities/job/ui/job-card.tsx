@@ -1,40 +1,36 @@
+import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
 import { Text } from '@/shared/ui/text';
-import { User } from '@/types';
-import { LikeIcon } from '../icons/like';
+import { Title } from '@/shared/ui/title';
 
 interface JobCardProps {
-    imageUrl: string | null;
     title: string;
+    isPremium: boolean;
+    description: string;
     price: string;
-    freelancer: User;
+    terms: string;
 }
 
 export const JobCard = (props: JobCardProps) => {
-    const { imageUrl, title, price, freelancer } = props;
-    const image = imageUrl ? imageUrl : '/images/photo-404.png';
+    const { title, isPremium, description, price ,terms} = props;
     return (
-        <Card className="relative flex h-28 flex-row gap-3 overflow-hidden rounded-xl p-0">
-            <img src={image} className="h-full w-30 object-cover" />
-            <div className="flex flex-1 flex-col pt-3 pr-4 pb-1">
-                <div className="flex items-center">
-                    <img src="/icons/star2.svg" />
-                    <span className="text-14 font-medium">{freelancer.rating}</span>
-                    <span className="mt-1 ml-1 text-gray">(777)</span>
-                </div>
-                <Text fontSize={15} fontColor="black">
+        <Card className="relative gap-0 overflow-hidden rounded-xl p-0 px-4 py-3">
+            <div className="mb-1.5 flex flex-row gap-2">
+                <Title fontSize={17} className="font-medium">
                     {title}
+                </Title>
+                {isPremium && <Badge>Premium</Badge>}
+            </div>
+            <div className="flex justify-between">
+                <Text fontSize={11} className="max-w-[196px]">
+                    {description}
                 </Text>
-                <div className="mt-auto ml-auto">
-                    <Text fontSize={11} as={'span'}>
-                        От
+                <div className="flex items-end gap-1.5">
+                    <Text fontSize={11} className="shrink-0 self-end">
+                        {terms}
                     </Text>
-                    &nbsp;
-                    <Text fontColor="black" fontSize={15} as={'span'} className="font-medium">
-                        US${price}
-                    </Text>
+                    <p>US${price}</p>
                 </div>
-                <LikeIcon className="absolute top-3 right-4" />
             </div>
         </Card>
     );

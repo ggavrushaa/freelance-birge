@@ -1,4 +1,5 @@
-import { JobCard } from '@/entities/job';
+import { GigCard } from '@/entities/gig';
+import { Tariff } from '@/entities/tariff/model/types';
 import {
     searchApi,
     SearchServicesList,
@@ -63,6 +64,18 @@ export const SearchCustomerPage = () => {
     const isCategoriesVisible = view === 'categories';
     const isFiltersVisible = view === 'filters';
 
+    const findLowestTarrifPrice = (tariffs: Tariff[]) => {
+        let minimal = 0;
+
+        tariffs.forEach((tariff) => {
+            if (minimal < tariff.price) {
+                minimal = tariff.price;
+            }
+        });
+
+        return String(minimal);
+    };
+
     return (
         <section className="flex-1 bg-[#efeff4] px-6 pt-25">
             <InputWithIcon
@@ -84,15 +97,15 @@ export const SearchCustomerPage = () => {
             )}
             {isFiltersVisible && <SearchFilters refetch={handleClickSubFilter} filters={filters} />}
             {isFiltersVisible && (
-                <div className='flex flex-col gap-2'>
+                <div className="flex flex-col gap-2">
                     {searchGigs.data?.gigs.data.map((searchGig) => (
                         <Link href={`freelance-gig/${searchGig.id}`}>
-                        <JobCard
-                            imageUrl={searchGig.photo}
-                            title={searchGig.name}
-                            price={"35"}
-                            freelancer={searchGig.freelancer}
-                        />
+                            <GigCard
+                                imageUrl={searchGig.photo}
+                                title={searchGig.name}
+                                price={findLowestTarrifPrice(searchGig.tariffs)}
+                                freelancer={searchGig.freelancer}
+                            />
                         </Link>
                     ))}
                 </div>

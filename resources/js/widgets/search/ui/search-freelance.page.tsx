@@ -1,4 +1,4 @@
-import { GigCard } from '@/entities/gig';
+import { JobCard } from '@/entities/job';
 import {
     searchApi,
     SearchServicesList,
@@ -9,6 +9,7 @@ import { SearchFilters } from '@/features/search/ui/search-filters';
 import { ROUTES } from '@/shared/config/routes';
 import { usePageProps } from '@/shared/hooks/use-page-props';
 import { InputWithIcon } from '@/shared/ui/input-with-icon';
+import { getDayLabel } from '@/shared/utils/get-day-label';
 import { Link, router } from '@inertiajs/react';
 import { useMutation } from '@tanstack/react-query';
 import classNames from 'classnames';
@@ -87,13 +88,13 @@ export const SearchFreelancePage = () => {
                 <div>
                     {searchJobs.data?.jobs.data.map((searchJob) => (
                         <Link href={`customer-job/${searchJob.id}`}>
-                            <GigCard
+                            <JobCard
                                 key={searchJob.id}
                                 title={searchJob.name}
                                 isPremium={searchJob.premium_mode}
                                 price={searchJob.price}
                                 description={searchJob.description}
-                                createdAt={searchJob.created_at}
+                                terms={getDayLabel(searchJob.terms)}
                             />
                         </Link>
                     ))}
