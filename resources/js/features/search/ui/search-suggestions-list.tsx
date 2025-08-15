@@ -12,7 +12,7 @@ interface SearchSuggestionsListProps {
 export const SearchSuggestionsList = (props: SearchSuggestionsListProps) => {
     const { suggestions = [], onClickSuggestion } = props;
 
-    // if (suggestions.length === 0) return null;
+    if (suggestions.length === 0) return null;
 
     return (
         <Card className="gap-0 px-4 py-3">
