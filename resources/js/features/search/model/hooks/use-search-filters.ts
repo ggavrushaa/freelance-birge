@@ -19,7 +19,7 @@ export const useSearchFilters = (refetch: (filters: Record<string, unknown>) => 
         setFiltersState((prev) => {
             const updatedState = {
                 ...prev,
-                [filterKey]: 'all',
+                [filterKey]: booleanFilters.includes(filterKey) ? "true" : "all",
             };
             if (booleanFilters.includes(filterKey)) {
                 refetch(updatedState);
