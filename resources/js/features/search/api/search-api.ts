@@ -5,7 +5,7 @@ import { SearchApi } from '../model/types/search-api';
 export const searchApi: SearchApi = {
     getJobs: async (params) => {
         try {
-            const resp = await api.post('search/jobs', params);
+            const resp = await api.post('/search/jobs', params);
             return resp.data;
         } catch (error) {
             console.error(error);
@@ -23,7 +23,7 @@ export const searchApi: SearchApi = {
     },
     getSuggestions: async (searchText: string) => {
         try {
-            const resp = await api.post(ROUTES.searchSuggestions, {
+            const resp = await api.post(`/${ROUTES.searchSuggestions}`, {
                 search: searchText,
             });
             return resp.data;

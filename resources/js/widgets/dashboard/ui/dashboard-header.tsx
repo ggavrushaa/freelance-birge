@@ -6,8 +6,7 @@ import { InputWithIcon } from '@/shared/ui/input-with-icon';
 import { Logo } from '@/shared/ui/logo';
 import { router } from '@inertiajs/react';
 import cls from 'classnames';
-import { useMemo } from 'react';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useMemo } from 'react';
 
 interface DashboardHeaderProps {
     query: string;
@@ -18,7 +17,6 @@ interface DashboardHeaderProps {
         blur: () => void;
     };
 }
-
 
 export const DashboardHeader = (props: DashboardHeaderProps) => {
     const { query, onChangeQuery, searhInput } = props;
@@ -32,12 +30,13 @@ export const DashboardHeader = (props: DashboardHeaderProps) => {
     };
 
     const newNotifications = useMemo(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         () => notifications.filter((n: any) => n.read_at === null),
         [notifications],
     );
 
     const handleClickSuggestion = (text: string) => {
-        router.get("/search/suggestions",{
+        router.get('/search/suggestions', {
             query: text,
         });
     };
