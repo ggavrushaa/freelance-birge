@@ -14,7 +14,7 @@ export const searchApi: SearchApi = {
     },
     getGigs: async (params) => {
         try {
-            const resp = await api.post('search/gigs', params);
+            const resp = await api.post('/search/gigs', params);
             return resp.data;
         } catch (error) {
             console.error(error);

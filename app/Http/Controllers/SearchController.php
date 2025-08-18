@@ -27,6 +27,12 @@ class SearchController extends Controller
         ]);
     }
 
+    public function suggestions() {
+        return Inertia::render('search/suggestions.page', [
+            'filters' => $this->filterService->getFilterOptions()
+        ]);
+    }
+
     public function show(int $categoryId)
     {
         $category = Category::findOrFail($categoryId);

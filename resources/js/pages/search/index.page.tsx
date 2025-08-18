@@ -5,7 +5,6 @@ import { ReactNode } from 'react';
 
 const SearchIndexPage = () => {
     const { role } = useRoleContext();
-    console.log(role,"role");
     if (role === 'customer') {
         return <SearchCustomerPage />;
     }

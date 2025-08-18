@@ -64,9 +64,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/search/jobs', [SearchController::class, 'searchJobs'])->name('search.jobs');
     Route::post('/search/gigs', [SearchController::class, 'searchGigs'])->name('search.gigs');
     Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+    Route::get('/search/suggestions', [SearchController::class, 'suggestions'])->name('search.index');
     Route::get('/search/{categoryId}', [SearchController::class, 'show'])->name('search.show');
     Route::post('/search/suggestions', [SearchController::class, 'search'])->name('search.suggestions');
-    
     Route::get('/search/filter-options', [SearchController::class, 'getFilterOptions'])->name('search.filter-options');
 });
 
