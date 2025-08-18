@@ -79,9 +79,8 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(handleSave)}
-            className="flex min-h-[100vh] flex-col gap-3 bg-[#efeff4] p-6 pb-12"
+        <div
+            className="flex flex-1 flex-col gap-3 bg-[#efeff4] p-6 pb-12"
         >
             <div className="flex flex-col items-center gap-2">
                 <FormImagePreview preview={photoFile.preview} />
@@ -226,10 +225,10 @@ const CustomerJobCreatePage = (props: CustomerJobCreateProps) => {
                     <a href="">RIKI Premium</a>
                 </p>
             </div>
-            <Button type="submit" disabled={!isValid}>
+            <Button onClick={handleSubmit(handleSave)} type="submit" disabled={!isValid}>
                 Продолжить
             </Button>
-        </form>
+        </div>
     );
 };
 
