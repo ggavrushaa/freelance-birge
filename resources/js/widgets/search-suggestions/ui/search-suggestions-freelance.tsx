@@ -43,8 +43,6 @@ export const SearchSuggestionsFreelance = () => {
         setSearchQuery(suggestionText);
     };
 
-    console.log("asca")
-
     const handleClickSubFilter = (filters: Record<string, unknown>) => {
         searchJobs.mutate({
             search: searchQuery,
@@ -86,9 +84,8 @@ export const SearchSuggestionsFreelance = () => {
             {isFiltersVisible && (
                 <div className="flex flex-col gap-2">
                     {searchJobs.data?.jobs.data.map((searchJob) => (
-                        <Link href={`/customer-job/${searchJob.id}`}>
+                        <Link key={searchJob.id} href={`/customer-job/${searchJob.id}`}>
                             <JobCard
-                                key={searchJob.id}
                                 title={searchJob.name}
                                 isPremium={searchJob.premium_mode}
                                 price={searchJob.price}
