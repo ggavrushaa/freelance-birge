@@ -9,6 +9,7 @@ import {
 import { SearchFilters } from '@/features/search/ui/search-filters';
 import { ROUTES } from '@/shared/config/routes';
 import { usePageProps } from '@/shared/hooks/use-page-props';
+import { useSearchParams } from '@/shared/hooks/use-search-params';
 import { InputWithIcon } from '@/shared/ui/input-with-icon';
 import { Link, router } from '@inertiajs/react';
 import { useMutation } from '@tanstack/react-query';
@@ -21,15 +22,20 @@ export const SearchCustomerPage = () => {
     const { categories, filters } = usePageProps();
     const [searchQuery, setSearchQuery] = useState('');
     const [view, setView] = useState<View>('categories');
+    const searchParams = useSearchParams();
 
     const searchSuggestions = useSearchSuggestions(searchQuery);
 
     const searchGigs = useMutation({
-        mutationFn: (args: { search: string; filters?: Record<string, unknown> }) =>
-            searchApi.getGigs({
+        mutationFn: (args: { search: string; filters?: Record<string, unknown> }) => {
+            const subCategoryId = searchParams.params.get('subCategoryId');
+            console.log(subCategoryId);
+
+            return searchApi.getGigs({
                 search: args.search,
                 ...(args.filters || {}),
-            }),
+            });
+        },
     });
 
     const handleClickCategory = (categoryId: number) => {

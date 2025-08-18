@@ -1,14 +1,15 @@
 import { GigCard } from '@/entities/gig';
 import { Tariff } from '@/entities/tariff/model/types';
-import { searchApi, SearchSuggestionsList, useSearchSuggestions } from '@/features/search';
+import { SearchSuggestionsList, useSearchSuggestions } from '@/features/search';
+import { useSearchGigs } from '@/features/search/model/hooks/use-search-gigs';
 import { SearchFilters } from '@/features/search/ui/search-filters';
 import { usePageProps } from '@/shared/hooks/use-page-props';
 import { useSearchParams } from '@/shared/hooks/use-search-params';
 import { InputWithIcon } from '@/shared/ui/input-with-icon';
 import { Link } from '@inertiajs/react';
-import { useMutation } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { ChangeEvent, useEffect, useState } from 'react';
+
 type View = 'suggestions' | 'filters';
 
 export const SearchSuggestionsCustomer = () => {
@@ -20,13 +21,7 @@ export const SearchSuggestionsCustomer = () => {
 
     const searchSuggestions = useSearchSuggestions(searchQuery);
 
-    const searchGigs = useMutation({
-        mutationFn: (args: { search: string; filters?: Record<string, unknown> }) =>
-            searchApi.getGigs({
-                search: args.search,
-                ...(args.filters || {}),
-            }),
-    });
+    const searchGigs = useSearchGigs();
 
     useEffect(() => {
         searchGigs.mutate({

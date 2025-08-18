@@ -1,12 +1,12 @@
 import { JobCard } from '@/entities/job';
-import { searchApi, SearchSuggestionsList, useSearchSuggestions } from '@/features/search';
+import { SearchSuggestionsList, useSearchSuggestions } from '@/features/search';
+import { useSearchJobs } from '@/features/search/model/hooks/use-search-jobs';
 import { SearchFilters } from '@/features/search/ui/search-filters';
 import { usePageProps } from '@/shared/hooks/use-page-props';
 import { useSearchParams } from '@/shared/hooks/use-search-params';
 import { InputWithIcon } from '@/shared/ui/input-with-icon';
 import { getDayLabel } from '@/shared/utils/get-day-label';
 import { Link } from '@inertiajs/react';
-import { useMutation } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { ChangeEvent, useEffect, useState } from 'react';
 
@@ -21,13 +21,7 @@ export const SearchSuggestionsFreelance = () => {
 
     const searchSuggestions = useSearchSuggestions(searchQuery);
 
-    const searchJobs = useMutation({
-        mutationFn: (args: { search: string; filters?: Record<string, unknown> }) =>
-            searchApi.getJobs({
-                search: args.search,
-                ...(args.filters || {}),
-            }),
-    });
+    const searchJobs = useSearchJobs();
 
     useEffect(() => {
         searchJobs.mutate({
