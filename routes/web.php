@@ -12,6 +12,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TariffController;
 use App\Http\Controllers\NotificationController;
 
+// MOCKS
+
+Route::get('/orders', function () {
+    return Inertia::render('order/index.page');
+})->name('orders');
+
+
 
 Route::get('/', function () {
     return Inertia::render('welcome.page');

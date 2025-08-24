@@ -17,7 +17,7 @@ export const useNavbarTabs = () => {
             key: 'order',
             label: 'Заказы',
             Icon: OrderIcon,
-            href: role === 'customer' ? '/freelance-gig' : '/customer-job',
+            href: '/orders',
         },
         { key: 'profile', label: 'Профиль', Icon: ProfileIcon, href: '/profile' },
     ];
