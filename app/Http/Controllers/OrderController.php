@@ -34,5 +34,9 @@ class OrderController extends Controller
         } else {
             $order = $user->freelanceGigs()->findOrFail($id);
         }
+
+        return response()->json([
+            'order' => $order,
+        ]);
     }
 }
