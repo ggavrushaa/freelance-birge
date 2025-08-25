@@ -11,13 +11,13 @@ export const useNavbarTabs = () => {
             key: 'create',
             label: 'Создать',
             Icon: CreateIcon,
-            href: role === 'customer' ? `/${ROUTES.customer.job.index}/create` : `${ROUTES.freelance.gig.index}/create`,
+            href: role === 'customer' ? `/${ROUTES.customer.job.index}/create` : `/${ROUTES.freelance.gig.index}/create`,
         },
         {
             key: 'order',
             label: 'Заказы',
             Icon: OrderIcon,
-            href: '/orders',
+            href: '/orders/page',
         },
         { key: 'profile', label: 'Профиль', Icon: ProfileIcon, href: '/profile' },
     ];

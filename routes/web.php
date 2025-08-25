@@ -13,12 +13,6 @@ use App\Http\Controllers\TariffController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 
-// MOCKS
-
-Route::get('/orders', function () {
-    return Inertia::render('order/index.page');
-})->name('orders');
-
 
 
 Route::get('/', function () {
@@ -79,6 +73,8 @@ Route::middleware('auth')->group(function () {
 });
 
 // Order routes
+Route::get('/orders/page', [OrderController::class, 'page'])->name('orders.customer.page');
+Route::get('/orders/archive', [OrderController::class, 'archive'])->name('orders.archive');
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.customer.index');
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.customer.show');
 

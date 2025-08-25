@@ -4,11 +4,12 @@ import { Title } from '@/shared/ui/title';
 import classNames from 'classnames';
 import { ComponentProps } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface OrderArchiveCardProps extends ComponentProps<'div'> {}
+interface OrderArchiveCardProps extends ComponentProps<'div'> {
+    count: number | string;
+}
 
 export const OrderArchiveCard = (props: OrderArchiveCardProps) => {
-    const { ...rest } = props;
+    const { count,...rest } = props;
     return (
         <Card
             {...rest}
@@ -24,7 +25,7 @@ export const OrderArchiveCard = (props: OrderArchiveCardProps) => {
                 fontSize={9}
                 className={classNames('w-fit rounded-[5px] bg-primary px-1.5 py-1 ml-auto self-baseline')}
             >
-                99+
+                {count}
             </Text>
         </Card>
     );

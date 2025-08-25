@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
+
+    public function page() {
+        return Inertia::render('order/index.page');
+    }
+
+     public function archive() {
+        return Inertia::render('order/archive.page');
+    }
+
     public function index()
     {
         $user = auth()->user();
