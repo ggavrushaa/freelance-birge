@@ -11,6 +11,7 @@ use App\Http\Controllers\FreelanceGigController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TariffController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OrderController;
 
 // MOCKS
 
@@ -76,6 +77,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/search/suggestions', [SearchController::class, 'search'])->name('search.suggestions');
     Route::get('/search/filter-options', [SearchController::class, 'getFilterOptions'])->name('search.filter-options');
 });
+
+// Order routes
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.customer.index');
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.customer.show');
+
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
