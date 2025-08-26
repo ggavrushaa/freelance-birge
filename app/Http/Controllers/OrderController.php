@@ -8,11 +8,13 @@ use Inertia\Inertia;
 class OrderController extends Controller
 {
 
-    public function page() {
+    public function page()
+    {
         return Inertia::render('order/index.page');
     }
 
-     public function archive() {
+    public function archive()
+    {
         return Inertia::render('order/archive.page');
     }
 
@@ -40,12 +42,12 @@ class OrderController extends Controller
         $role = $user->role;
 
         if ($role === 'customer') {
-            $order = $user->customerJobs()->findOrFail($id);
+            $order = $user->customerJobs()->with('author')->findOrFail($id);
         } else {
-            $order = $user->freelanceGigs()->findOrFail($id);
+            $order = $user->freelanceGigs()->with("tariffs", "freelancer")->findOrFail($id);
         }
 
-        return response()->json([
+        return Inertia::render('order/show.page', [
             'order' => $order,
         ]);
     }

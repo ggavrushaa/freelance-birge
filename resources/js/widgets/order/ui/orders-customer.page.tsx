@@ -1,6 +1,7 @@
 import { Job } from '@/entities/job';
 import { OrderArchiveCard, OrderCard, OrderTab, useGetOrders } from '@/entities/order';
 import { withExpand } from '@/shared/components/hoc/with-expand';
+import { ROUTES } from '@/shared/config/routes';
 import { statusIcons } from '@/shared/consts';
 import { Card } from '@/shared/ui/card';
 import { Link } from '@inertiajs/react';
@@ -46,14 +47,16 @@ export const OrdersCustomerPage = () => {
             {activeTab === 'service' && (
                 <div className="flex flex-col gap-2">
                     {orders.map((order) => (
-                        <OrderCard
-                            icon={<img src={statusIcons[order.status]} className="w-7" />}
-                            title={order.name}
-                            status={order.status}
-                            terms={order.terms}
-                            price={parseFloat(order.price)}
-                            count={0}
-                        />
+                        <Link href={ROUTES.orderShow(order.id)} key={order.id}>
+                            <OrderCard
+                                icon={<img src={statusIcons[order.status]} className="w-7" />}
+                                title={order.name}
+                                status={order.status}
+                                terms={order.terms}
+                                price={parseFloat(order.price)}
+                                count={0}
+                            />
+                        </Link>
                     ))}
                 </div>
             )}

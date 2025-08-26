@@ -21,7 +21,6 @@ export const GigOwnerView = (props: GigOwnerViewProps) => {
 
     const handleClickPublish = () => {
         router.post(`/freelance-gig/${gig.id}/published`);
-        // router.get(`/${ROUTES.dashboard}`);
     };
 
     const isActiveGig = gig.is_active;

@@ -1,37 +1,37 @@
-import { Gig } from "@/entities/gig";
-import { OrderArchiveCard, OrderCard, OrderTab, useGetOrders } from "@/entities/order";
-import { findLowestTarrifPrice } from "@/entities/tariff";
-import { Tariff } from "@/entities/tariff/model/types";
-import { withExpand } from "@/shared/components/hoc/with-expand";
-import { statusIcons } from "@/shared/consts";
-import { Card } from "@/shared/ui/card";
-import { Link } from "@inertiajs/react";
-import { useState } from "react";
+import { Gig } from '@/entities/gig';
+import { OrderArchiveCard, OrderCard, OrderTab, useGetOrders } from '@/entities/order';
+import { findLowestTarrifPrice } from '@/entities/tariff';
+import { Tariff } from '@/entities/tariff/model/types';
+import { withExpand } from '@/shared/components/hoc/with-expand';
+import { ROUTES } from '@/shared/config/routes';
+import { statusIcons } from '@/shared/consts';
+import { Card } from '@/shared/ui/card';
+import { Link } from '@inertiajs/react';
+import { useState } from 'react';
 
 const ExpandableOrderArchiveCard = withExpand(OrderArchiveCard);
 
 export const OrdersFreelancePage = () => {
-  const { data } = useGetOrders();
-    
+    const { data } = useGetOrders();
+
     const [activeTab, setActiveTab] = useState<'orders' | 'service'>('orders');
 
     const handleClickTab = (name: 'orders' | 'service') => {
         setActiveTab(name);
     };
 
-
     const orders = (data?.orders ?? []) as Gig[];
     const archive = (data?.archive ?? []) as Gig[];
 
     const findLowestTarrifTerm = (tariffs: Tariff[]) => {
         let minimal = 0;
-    
+
         tariffs.forEach((tariff) => {
             if (minimal < tariff.term) {
                 minimal = tariff.term;
             }
         });
-    
+
         return String(minimal);
     };
 
@@ -60,17 +60,19 @@ export const OrdersFreelancePage = () => {
             {activeTab === 'service' && (
                 <div className="flex flex-col gap-2">
                     {orders.map((order) => (
-                        <OrderCard
-                            icon={<img src={statusIcons[order.status]} className="w-7" />}
-                            title={order.name}
-                            status={order.status}
-                            terms={findLowestTarrifTerm(order.tariffs)}
-                            price={findLowestTarrifPrice(order.tariffs)}
-                            count={0}
-                        />
+                        <Link href={ROUTES.orderShow(order.id)} key={order.id}>
+                            <OrderCard
+                                icon={<img src={statusIcons[order.status]} className="w-7" />}
+                                title={order.name}
+                                status={order.status}
+                                terms={findLowestTarrifTerm(order.tariffs)}
+                                price={findLowestTarrifPrice(order.tariffs)}
+                                count={0}
+                            />
+                        </Link>
                     ))}
                 </div>
             )}
         </section>
     );
-}
+};

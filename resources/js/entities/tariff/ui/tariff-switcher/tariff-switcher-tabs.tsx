@@ -19,7 +19,7 @@ export const TariffSwitcherTabs = (props: TariffSwitcherTabsProps) => {
                         'text-primary': activeIndex === index,
                     })}
                 >
-                    {tariff.price}
+                    {tariff.price}$
                 </div>
             ))}
             <div

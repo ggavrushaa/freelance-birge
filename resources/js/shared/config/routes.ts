@@ -22,8 +22,6 @@ export const ROUTES = {
             index: 'freelance-gig',
             create: '/freelance-gig',
             edit: (id: number) => `/freelance-gig/${id}/edit`,
-            // update: (id:number) => `/freelance-gig/${id}/update`,
-            // publish: (id:number) => `/freelance-gig/${id}/published`,
         },
     },
     profile: {
@@ -48,4 +46,5 @@ export const ROUTES = {
     search: 'search',
     searchShow: (categoryId: number) => `search/${categoryId}`,
     searchSuggestions: 'search/suggestions',
+    orderShow:(orderId:number) =>  `/orders/${orderId}`,
 };
