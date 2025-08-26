@@ -22,7 +22,7 @@ class OrderController extends Controller
         $role = $user->role;
 
         if ($role === 'customer') {
-            $orders = $user->customerJobs()->get();
+            $orders = $user->customerJobs()->where('is_active', true)->get();
             $archive = $user->customerJobs()->where('is_active', false)->get();
         } else {
             $orders = $user->freelanceGigs()->where('is_active', true)->with('tariffs')->get();
