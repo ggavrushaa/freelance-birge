@@ -1,15 +1,15 @@
-import { Job } from '@/entities/job';
-import { OrderArchiveCard, OrderCard, OrderTab, useGetOrders } from '@/entities/order';
-import { withExpand } from '@/shared/components/hoc/with-expand';
-import { statusIcons } from '@/shared/consts';
-import { Card } from '@/shared/ui/card';
-import { Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { Gig } from "@/entities/gig";
+import { OrderArchiveCard, OrderCard, OrderTab, useGetOrders } from "@/entities/order";
+import { withExpand } from "@/shared/components/hoc/with-expand";
+import { statusIcons } from "@/shared/consts";
+import { Card } from "@/shared/ui/card";
+import { Link } from "@inertiajs/react";
+import { useState } from "react";
 
 const ExpandableOrderArchiveCard = withExpand(OrderArchiveCard);
 
-export const OrdersCustomerPage = () => {
-    const { data } = useGetOrders();
+export const OrdersFreelancePage = () => {
+  const { data } = useGetOrders();
     
     const [activeTab, setActiveTab] = useState<'orders' | 'service'>('orders');
 
@@ -18,8 +18,8 @@ export const OrdersCustomerPage = () => {
     };
 
 
-    const orders = (data?.orders ?? []) as Job[];
-    const archive = (data?.archive ?? []) as Job[];
+    const orders = (data?.orders ?? []) as Gig[];
+    const archive = (data?.archive ?? []) as Gig[];
 
     return (
         <section className="flex-1 flex-col bg-[#efeff4] p-6 pt-25">
@@ -33,7 +33,7 @@ export const OrdersCustomerPage = () => {
                 <OrderTab
                     onClick={() => handleClickTab('service')}
                     isActive={activeTab === 'service'}
-                    title="Публикации"
+                    title="Услуги"
                     count={orders.length}
                 />
             </Card>
@@ -59,4 +59,4 @@ export const OrdersCustomerPage = () => {
             )}
         </section>
     );
-};
+}
