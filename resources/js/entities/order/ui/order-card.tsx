@@ -1,14 +1,15 @@
 import { Card } from '@/shared/ui/card';
 import { Text } from '@/shared/ui/text';
 import { Title } from '@/shared/ui/title';
+import { getDayLabel } from '@/shared/utils/get-day-label';
 import classNames from 'classnames';
 import { ComponentProps, ReactNode } from 'react';
 
 interface OrderCardProps extends ComponentProps<'div'> {
     title: string;
     status: string;
-    terms: number;
-    price: number;
+    terms: number | string;
+    price: number | string;
     count: number | null;
     icon: ReactNode;
 }
@@ -24,7 +25,7 @@ export const OrderCard = (props: OrderCardProps) => {
             </div>
             <div className="ml-auto flex flex-col items-end justify-between gap-1.5">
                 <Text fontColor="primary" fontSize={13} className="font-medium">
-                    {terms} дней
+                    {getDayLabel(Number(terms))}
                 </Text>
                 <Text fontSize={13}>{price} USD</Text>
             </div>

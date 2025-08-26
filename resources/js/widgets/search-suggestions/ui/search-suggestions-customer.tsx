@@ -1,5 +1,5 @@
 import { GigCard } from '@/entities/gig';
-import { Tariff } from '@/entities/tariff/model/types';
+import { findLowestTarrifPrice } from '@/entities/tariff';
 import { SearchSuggestionsList, useSearchSuggestions } from '@/features/search';
 import { useSearchGigs } from '@/features/search/model/hooks/use-search-gigs';
 import { SearchFilters } from '@/features/search/ui/search-filters';
@@ -58,17 +58,6 @@ export const SearchSuggestionsCustomer = () => {
     const isSuggestionsVisible = view === 'suggestions';
     const isFiltersVisible = view === 'filters';
 
-    const findLowestTarrifPrice = (tariffs: Tariff[]) => {
-        let minimal = 0;
-
-        tariffs.forEach((tariff) => {
-            if (minimal < tariff.price) {
-                minimal = tariff.price;
-            }
-        });
-
-        return String(minimal);
-    };
 
     return (
         <section className="flex-1 bg-[#efeff4] px-6 pt-25">

@@ -1,5 +1,7 @@
 import { Gig } from "@/entities/gig";
 import { OrderArchiveCard, OrderCard, OrderTab, useGetOrders } from "@/entities/order";
+import { findLowestTarrifPrice } from "@/entities/tariff";
+import { Tariff } from "@/entities/tariff/model/types";
 import { withExpand } from "@/shared/components/hoc/with-expand";
 import { statusIcons } from "@/shared/consts";
 import { Card } from "@/shared/ui/card";
@@ -20,6 +22,18 @@ export const OrdersFreelancePage = () => {
 
     const orders = (data?.orders ?? []) as Gig[];
     const archive = (data?.archive ?? []) as Gig[];
+
+    const findLowestTarrifTerm = (tariffs: Tariff[]) => {
+        let minimal = 0;
+    
+        tariffs.forEach((tariff) => {
+            if (minimal < tariff.term) {
+                minimal = tariff.term;
+            }
+        });
+    
+        return String(minimal);
+    };
 
     return (
         <section className="flex-1 flex-col bg-[#efeff4] p-6 pt-25">
@@ -50,8 +64,8 @@ export const OrdersFreelancePage = () => {
                             icon={<img src={statusIcons[order.status]} className="w-7" />}
                             title={order.name}
                             status={order.status}
-                            terms={order.terms}
-                            price={parseFloat(order.price)}
+                            terms={findLowestTarrifTerm(order.tariffs)}
+                            price={findLowestTarrifPrice(order.tariffs)}
                             count={0}
                         />
                     ))}
