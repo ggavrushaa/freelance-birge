@@ -33,7 +33,7 @@ const LoginIndexPage = (props: LoginIndexPageProps) => {
     };
 
     const handleComplete = () => {
-        router.post('login', {
+        router.post(ROUTES.auth.login, {
             pin_code: password.normalDigits,
             telegram_id: String(user.telegram_id),
         });

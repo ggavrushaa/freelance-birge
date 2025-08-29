@@ -1,6 +1,7 @@
 import { Gig } from '@/entities/gig';
 import { EditGigForm } from '@/features/freelance/gig/edit-gig';
 import { editFreelanceGigSchema } from '@/features/freelance/gig/edit-gig/model/validation/edit-freelance-gig-schema';
+import { ROUTES } from '@/shared/config/routes';
 import { LayoutWithNavbar } from '@/shared/layouts/layout-with-navbar';
 import { SharedData } from '@/types';
 import { router } from '@inertiajs/react';
@@ -27,7 +28,7 @@ const FreelanceGigEditPage = (props: FreelanceGigEditPageProps) => {
     const onSubmit = (data: z.infer<typeof editFreelanceGigSchema>) => {
         const { photo , ...rest} = data;
         const isNewPhoto = typeof photo !== 'string';
-        router.put(`/freelance-gig/${gig.id}`, {
+        router.put(ROUTES.freelance.gig.update(gig.id), {
             ...rest,
             ...(isNewPhoto && { photo }),
             user_id: user.id,

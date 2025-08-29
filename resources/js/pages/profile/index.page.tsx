@@ -20,9 +20,10 @@ const ProfileIndexPage = (props: ProfileShowPageProps) => {
         auth: { user },
     } = props;
     const { role, switchRole } = useRoleContext();
+
     const handleClickArrow = () => {
         if (profile) {
-            router.get(`/profile/${profile.id}`);
+            router.get(ROUTES.profile.getById(profile.id));
         } else {
             router.get(ROUTES.profile.create);
         }

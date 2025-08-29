@@ -16,8 +16,6 @@ const CustomerJobShowPage = (props: CustomerJobShowPageProps) => {
     } = usePageProps();
     const { job } = props;
 
-    console.log(job);
-
     const isMyJob = job.author_id === user.id;
 
     if (isMyJob) {

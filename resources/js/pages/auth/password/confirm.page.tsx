@@ -54,6 +54,7 @@ const ConfirmPasswordPage = (props: ConfirmPasswordPageProps) => {
             <PasswordKeyPad
                 onDigitClick={password.addDigit}
                 onClearClick={password.remoweLastDigit}
+                disabled={false}
             />
         </>
     );

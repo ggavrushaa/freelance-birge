@@ -81,7 +81,6 @@ export const CreateGigForm = () => {
     };
 
     const selectedTariff = tariffs.items.find((tariff) => tariff.id === selectedTariffId) as Tariff;
-
     const currentCategory = categories.find(category => category.id === watchedCategoryId) || null;
 
     return (

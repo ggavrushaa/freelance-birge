@@ -1,8 +1,7 @@
 import { Gig } from '@/entities/gig';
 import { TariffSwitcher } from '@/entities/tariff';
+import { UserPreviewCard } from '@/entities/user';
 import { ROUTES } from '@/shared/config/routes';
-import { Avatar } from '@/shared/ui/avatar';
-import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Link, router } from '@inertiajs/react';
 import classNames from 'classnames';
@@ -20,7 +19,7 @@ export const GigOwnerView = (props: GigOwnerViewProps) => {
     };
 
     const handleClickPublish = () => {
-        router.post(`/freelance-gig/${gig.id}/published`);
+        router.post(ROUTES.freelance.gig.published(gig.id));
     };
 
     const isActiveGig = gig.is_active;
@@ -46,24 +45,11 @@ export const GigOwnerView = (props: GigOwnerViewProps) => {
                         <h2 className="title-4 text-17 text-500">{gig.name}</h2>
                     </div>
                 </div>
-                <Link
-                    href="/profile"
-                    className="mb-4 flex items-center rounded-xl bg-white px-4 py-3"
-                >
-                    <Avatar className="bg-avatar mr-2.5 h-10 w-10 rounded-full"></Avatar>
-                    <div className="flex flex-col">
-                        <div className="mb-[2px] flex items-center">
-                            <p className="mr-2.5">{gig.freelancer.username}</p>
-                            <img src="/icons/star2.svg" />
-                            <span className="text-14 font-medium">{gig.freelancer.rating}</span>
-                            <span className="text-8 mt-1 ml-1 text-gray">(777)</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <Badge>Premium</Badge>
-                            <Badge>Top Ratted</Badge>
-                        </div>
-                    </div>
-                    <img className="ml-auto" src="/icons/arrow-right.svg" />
+                <Link href="/profile" className="mb-4 flex items-center rounded-xl bg-white">
+                    <UserPreviewCard
+                        user={gig.freelancer}
+                        rightAddon={<img className="ml-auto" src="/icons/arrow-right.svg" />}
+                    />
                 </Link>
                 {gig.tariffs.length > 0 && <TariffSwitcher tariffs={gig.tariffs} />}
             </section>

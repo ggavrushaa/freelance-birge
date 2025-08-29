@@ -1,4 +1,5 @@
 import { AuthInfoCard, AuthLayout, PasswordKeyPad, usePasswordDigits } from '@/features/auth';
+import { ROUTES } from '@/shared/config/routes';
 import { PASSWORD_LENGTH } from '@/shared/consts';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/shared/ui/input-otp';
 import { Head, router } from '@inertiajs/react';
@@ -8,7 +9,7 @@ const CreatePasswordPage = () => {
     const password = usePasswordDigits();
 
     const onComplete = () => {
-        router.post('create-password', { pin_code: password.normalDigits });
+        router.post(ROUTES.auth.createPassword, { pin_code: password.normalDigits });
     };
 
     return (
@@ -38,7 +39,11 @@ const CreatePasswordPage = () => {
                     </InputOTPGroup>
                 </InputOTP>
             </div>
-            <PasswordKeyPad onDigitClick={password.addDigit} onClearClick={password.remoweLastDigit} />
+            <PasswordKeyPad
+                onDigitClick={password.addDigit}
+                onClearClick={password.remoweLastDigit}
+                disabled={false}
+            />
         </>
     );
 };

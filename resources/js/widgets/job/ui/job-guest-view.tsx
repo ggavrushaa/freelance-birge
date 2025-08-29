@@ -1,8 +1,8 @@
 import { Job, JobSimilarCard } from '@/entities/job';
 import { ReviewList } from '@/entities/review';
+import { UserPreviewCard } from '@/entities/user';
 import { ExpandableText } from '@/shared/components/expandable-text';
 import { usePageProps } from '@/shared/hooks/use-page-props';
-import { Avatar } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Title } from '@/shared/ui/title';
@@ -15,9 +15,7 @@ interface JobGuestViewProps {
 
 export const JobGuestView = (props: JobGuestViewProps) => {
     const { job } = props;
-    const {
-        categories,
-    } = usePageProps();
+    const { categories } = usePageProps();
     const getCategoryName = (categoryId: number) => {
         return categories.find((category) => category.id === categoryId)?.name;
     };
@@ -49,22 +47,11 @@ export const JobGuestView = (props: JobGuestViewProps) => {
                         <span className="title-4 text-17 text-500 text-accent">{job.price}$</span>
                     </div>
                 </div>
-                <div className="mb-4 flex items-center rounded-xl bg-white px-4 py-3">
-                    <Avatar className="bg-avatar mr-2.5 h-10 w-10 rounded-full"></Avatar>
-                    <div className="flex flex-col">
-                        <div className="mb-[2px] flex items-center">
-                            <p className="mr-2.5">{job.author.username}</p>
-                            <img src="/icons/star2.svg" />
-                            <span className="text-14 font-medium">{job.author.rating}</span>
-                            <span className="text-8 mt-1 ml-1 text-gray">(777)</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <Badge>Premium</Badge>
-                            <Badge>Top Ratted</Badge>
-                        </div>
-                    </div>
-                    <img className="ml-auto" src="/icons/arrow-right.svg" />
-                </div>
+                <UserPreviewCard
+                    user={job.author}
+                    rightAddon={<img className="ml-auto" src="/icons/arrow-right.svg" />}
+                    className="mb-4"
+                />
                 <div className="mb-4 border-input bg-white px-4 py-3">
                     <ExpandableText text={job.description} />
                     <div className="flex items-center justify-between">

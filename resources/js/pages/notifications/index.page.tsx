@@ -23,7 +23,7 @@ const NotificationsIndexPage = (props: NotificationsIndexPageProps) => {
     const groupedNotifications = groupNotificationsByDate(notifications);
 
     const handleClickClear = () => {
-        router.patch(`${ROUTES.notificationsMarkAllRead}`);
+        router.patch(ROUTES.notificationsMarkAllRead);
     };
 
     return (

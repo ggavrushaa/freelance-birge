@@ -21,12 +21,15 @@ export const ROUTES = {
         gig: {
             index: 'freelance-gig',
             create: '/freelance-gig',
+            update: (id: number) => `/freelance-gig/${id}`,
             edit: (id: number) => `/freelance-gig/${id}/edit`,
+            published: (id: number) => `/freelance-gig/${id}/published`,
         },
     },
     profile: {
         index: `profile`,
         create: '/profile/create',
+        getById: (id: number) => `/profile/${id}`,
         edit: (id: number) => `/profile/${id}/edit`,
     },
     portfolio: {

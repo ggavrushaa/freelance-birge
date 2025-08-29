@@ -8,8 +8,7 @@ import { Head, router } from '@inertiajs/react';
 import { ReactNode, useRef, useState } from 'react';
 
 type LoginVerificationPageProps = SharedData & {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    errors: Record<string, any>;
+    errors: Record<string, string>;
 };
 
 const LoginVerificationPage = (props: LoginVerificationPageProps) => {

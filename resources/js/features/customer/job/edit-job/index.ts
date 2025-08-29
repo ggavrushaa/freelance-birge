@@ -1,1 +1,1 @@
-export { type EditCustomerJobFormValues, type EditCustomerJobRequest } from './model/types';
+export { EditJobForm } from './ui/edit-job-form';
