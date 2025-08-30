@@ -21,7 +21,8 @@ class CustomerJob extends Model
 
         'category_id',
         'sub_category_id',
-        'user_id', 'author_id',
+        'user_id',
+        'author_id',
         'status',
     ];
 
@@ -68,5 +69,19 @@ class CustomerJob extends Model
     public function scopePremium($query)
     {
         return $query->where('premium_mode', true);
+    }
+
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favorable');
+    }
+
+    public function isFavoritedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $this->favorites()->where('user_id', $user->id)->exists();
     }
 }

@@ -12,6 +12,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TariffController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\CanceledProjectController;
+use App\Http\Controllers\DisputController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\FavoriteController;
 
 
 
@@ -48,7 +53,7 @@ Route::post('customer-job/{id}/published', [CustomerJobController::class, 'publi
 
 // Freelance gig routes
 Route::resource('freelance-gig', FreelanceGigController::class);
-Route::post('freelance-gig/{id}/published',[FreelanceGigController::class,'published'])->name('freelance-gig.published');
+Route::post('freelance-gig/{id}/published', [FreelanceGigController::class, 'published'])->name('freelance-gig.published');
 
 // Tariff routes
 Route::resource('tariff', TariffController::class);
@@ -77,6 +82,34 @@ Route::get('/orders/page', [OrderController::class, 'page'])->name('orders.custo
 Route::get('/orders/archive', [OrderController::class, 'archive'])->name('orders.archive');
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.customer.index');
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.customer.show');
+
+// Project routes
+Route::resource('project', ProjectController::class);
+Route::post('project/{id}/archive', [ProjectController::class, 'archive'])->name('project.archive');
+Route::post('project/{id}/activate', [ProjectController::class, 'activate'])->name('project.activate');
+Route::post('project/{id}/status/{status}', [ProjectController::class, 'status'])->name('project.status');
+
+// Canceled project routes
+Route::resource('canceled-project', CanceledProjectController::class);
+
+// Disput routes
+Route::resource('disput', DisputController::class);
+
+// Review routes
+Route::resource('review', ReviewController::class);
+
+// Favorite routes
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+Route::post('/favorites/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+Route::get('/favorites/check', [FavoriteController::class, 'check'])->name('favorites.check');
+Route::get('/favorites/customer-jobs', [FavoriteController::class, 'customerJobs'])->name('favorites.customer-jobs');
+Route::get('/favorites/freelance-gigs', [FavoriteController::class, 'freelanceGigs'])->name('favorites.freelance-gigs');
+Route::get('/favorites/tariffs', [FavoriteController::class, 'tariffs'])->name('favorites.tariffs');
+Route::get('/favorites/customer-jobs/{jobId}/liked', [FavoriteController::class, 'customerJobsLiked'])->name('favorites.customer-jobs.liked');
+Route::get('/favorites/freelance-gigs/{gigId}/liked', [FavoriteController::class, 'freelanceGigsLiked'])->name('favorites.freelance-gigs.liked');
+Route::get('/favorites/tariffs/{tariffId}/liked', [FavoriteController::class, 'tariffsLiked'])->name('favorites.tariffs.liked');
+
+
 
 
 require __DIR__ . '/settings.php';

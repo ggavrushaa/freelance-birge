@@ -69,6 +69,25 @@ class User extends Authenticatable
         return $this->hasMany(FreelanceGig::class, 'user_id');
     }
 
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+    public function canceledProjects()
+    {
+        return $this->hasMany(CanceledProject::class);
+    }
+
+    public function disputes()
+    {
+        return $this->hasMany(Disput::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function hasRole($slug)
     {
         return $this->roles()->where('slug', $slug)->exists();
@@ -106,6 +125,11 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 
     public function getRoleAttribute()

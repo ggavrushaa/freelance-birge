@@ -50,4 +50,18 @@ class FreelanceGig extends Model
         $this->is_active = true;
         $this->save();
     }
+
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favorable');
+    }
+
+    public function isFavoritedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $this->favorites()->where('user_id', $user->id)->exists();
+    }
 }

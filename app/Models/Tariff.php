@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Favorite;
 class Tariff extends Model
 {
     protected $fillable = [
@@ -26,6 +26,19 @@ class Tariff extends Model
     public function freelanceGig()
     {
         return $this->belongsTo(FreelanceGig::class);
+    }
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favorable');
+    }
+    
+    public function isFavoritedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $this->favorites()->where('user_id', $user->id)->exists();
     }
 
     public function getAdditionalOptionsLabels(): array
